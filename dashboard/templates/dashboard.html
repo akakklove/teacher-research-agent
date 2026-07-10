@@ -2,12 +2,13 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, initial-scale=1.0">
     <title>{{ title }} - 教师科研查询器</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            width: 1920px; height: 1080px; overflow: hidden;
+        html, body {
+            width: 100vw; height: 100vh; overflow: hidden;
             background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1535 100%);
             font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", sans-serif;
             color: #e2e8f0;
@@ -143,8 +144,8 @@
         var chartsData = {{ charts_json|safe }};
         if (!chartsData || chartsData.length === 0) return;
 
-        // 基础色板
         var colors = ["#3B82F6","#10B981","#F59E0B","#EF4444","#8B5CF6","#EC4899","#06B6D4","#84CC16"];
+        var instances = [];
 
         chartsData.forEach(function(cfg) {
             if (cfg.chart_type === "table") return;
@@ -157,10 +158,14 @@
             try { option = JSON.parse(cfg.option); }
             catch(e) { option = cfg.option; }
 
-            // 统一设置颜色
             if (!option.color) option.color = colors;
-
             chart.setOption(option);
+            instances.push(chart);
+        });
+
+        // 窗口缩放时自适应
+        window.addEventListener('resize', function() {
+            instances.forEach(function(c) { c.resize(); });
         });
     })();
     </script>
