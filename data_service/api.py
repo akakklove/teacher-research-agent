@@ -12,6 +12,7 @@ from metric_engine import MetricEngine
 from intent_router import IntentRouter
 from insight_engine import InsightEngine
 from dashboard_composer import DashboardComposer
+from conversation_memory import ConversationMemory, get_memory
 from llm import create_chat_model
 
 # 初始化 LLM（首次启动时创建，后续复用）
@@ -30,8 +31,8 @@ def get_llm():
 
 app = FastAPI(
     title="教师个人科研查询器",
-    version="0.3.0",
-    description="输入教师工号，返回个人科研全景数据"
+    version="0.4.0",
+    description="输入教师工号，返回个人科研全景数据 — 支持多轮对话"
 )
 
 # ── 数据库配置 ──
@@ -65,6 +66,23 @@ class TeacherOverview(BaseModel):
     teacher: dict
     metrics: list[MetricValue]
     category_summary: dict  # 各模块摘要
+
+
+# v0.4: 聊天请求/响应模型
+class ChatRequest(BaseModel):
+    message: str
+    session_id: Optional[str] = None      # 继续已有会话
+    teacher_id: Optional[str] = None       # 首次对话必须提供
+
+
+class ChatResponse(BaseModel):
+    session_id: str
+    reply: str                             # AI 文本回复
+    intent: str                            # 识别的意图
+    is_followup: bool                      # 是否为追问
+    metrics: list[dict]                    # 指标数据
+    insights: list[str]                    # AI 洞察
+    teacher: dict                          # 教师信息
 
 
 # ── API 路由 ──
@@ -227,7 +245,11 @@ def chat_query(
     start_date: str = "2022-01-01",
     end_date: str = "2025-12-31",
 ):
-    """对话式查询 — 输入自然语言，返回 JSON（供前端 Chat UI 调用）"""
+    """
+    旧版对话式查询 — 输入自然语言，返回 JSON（供前端 Chat UI 调用）
+    无状态模式，每次调用独立。
+    新版请使用 POST /api/chat/send（支持多轮对话）
+    """
     engine = MetricEngine(DB_CONFIG)
     router = IntentRouter(llm=get_llm())
     insight_engine = InsightEngine(llm=get_llm())
@@ -262,3 +284,250 @@ def chat_query(
 
     finally:
         engine.close()
+
+
+# ── v0.4: 多轮对话 API ──
+
+@app.post("/api/chat/send", response_model=ChatResponse)
+def chat_send(req: ChatRequest):
+    """
+    多轮对话入口 — 发送消息，获取 AI 回复。
+
+    请求：
+    ```json
+    {
+        "message": "那论文情况呢？",
+        "session_id": "abc123",     // 可选：继续已有会话
+        "teacher_id": "GH20200001"  // 首次对话时必须提供
+    }
+    ```
+
+    首次对话流程：
+    1. 用户提供 teacher_id → 系统创建 session → 执行意图路由 → 返回数据
+
+    追问流程：
+    2. 用户只发消息 + session_id → 系统检测追问 → 继承上下文 → 自动关联教师和时间范围
+    """
+    memory = get_memory()
+    engine = MetricEngine(DB_CONFIG)
+    router = IntentRouter(llm=get_llm())
+    insight_engine = InsightEngine(llm=get_llm())
+
+    try:
+        session_id = req.session_id
+        teacher_id = req.teacher_id
+        teacher_info = None
+
+        # ── Step 1: 解析会话上下文 ──
+        if session_id:
+            session = memory.get(session_id)
+            if session:
+                teacher_id = session.teacher_id
+                teacher_info = session.teacher_info
+
+        if not teacher_id:
+            raise HTTPException(
+                status_code=400,
+                detail="首次对话需要提供 teacher_id 字段"
+            )
+
+        # 获取教师信息
+        if not teacher_info:
+            teacher_info = engine.get_teacher_info(teacher_id)
+            if not teacher_info:
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"教师 {teacher_id} 不存在"
+                )
+
+        # 创建或获取会话
+        session = memory.get_or_create(
+            teacher_id=teacher_id,
+            teacher_info=teacher_info,
+            session_id=session_id,
+        )
+
+        # ── Step 2: 意图识别 ──
+        context = memory.build_context(session.session_id, req.message)
+        intent = router.route_with_context(req.message, context=context)
+
+        # ── Step 3: 执行指标查询 ──
+        start_date, end_date = session.time_range
+        results = engine.execute(teacher_id, intent.recommended_metrics, {
+            "start_date": start_date,
+            "end_date": end_date,
+            "start_year": start_date[:4],
+            "end_year": end_date[:4],
+        })
+
+        summary = {r.metric_id: r.value or len(r.rows) for r in results if r.success}
+        insights = insight_engine.generate(teacher_info, summary, start_date, end_date)
+
+        # ── Step 4: 记录对话轮次 ──
+        memory.add_turn(
+            session.session_id,
+            role="user",
+            content=req.message,
+            intent=intent.intent,
+        )
+        memory.add_turn(
+            session.session_id,
+            role="assistant",
+            content=f"查询了{intent.intent}，返回 {len([r for r in results if r.success])} 个指标",
+            intent=intent.intent,
+            metric_ids=intent.recommended_metrics,
+        )
+
+        # ── Step 5: 生成自然语言回复 ──
+        reply = _build_natural_reply(
+            teacher_info, intent, results, insights, context.get("is_followup", False)
+        )
+
+        return ChatResponse(
+            session_id=session.session_id,
+            reply=reply,
+            intent=intent.intent,
+            is_followup=context.get("is_followup", False),
+            metrics=[
+                {"metric_id": r.metric_id, "name": r.name,
+                 "category": r.category, "chart_type": r.chart_type,
+                 "unit": r.unit, "value": r.value, "rows": r.rows}
+                for r in results if r.success
+            ],
+            insights=insights,
+            teacher=teacher_info,
+        )
+
+    finally:
+        engine.close()
+
+
+@app.get("/api/chat/sessions")
+def list_sessions():
+    """列出当前活跃会话数（调试用）"""
+    memory = get_memory()
+    memory.cleanup_expired()
+    return {"active_sessions": memory.active_count}
+
+
+@app.get("/api/chat/debug/{session_id}")
+def debug_session(session_id: str, test_input: str = None):
+    """调试端点：查看会话内部状态 + 追问检测"""
+    memory = get_memory()
+    s = memory.get(session_id)
+    if not s:
+        return {"error": "session not found"}
+    result = {
+        "session_id": s.session_id,
+        "teacher_id": s.teacher_id,
+        "time_range": s.time_range,
+        "history_count": len(s.history),
+        "history": [
+            {"role": t.role, "content": t.content[:60],
+             "intent": t.intent, "metric_count": len(t.metric_ids)}
+            for t in s.history
+        ],
+        "last_intent": s.last_user_intent,
+        "last_metric_ids": s.last_metric_ids,
+    }
+    if test_input:
+        result["is_followup"] = memory.is_followup(session_id, test_input)
+        result["inferred_intent"] = memory.infer_followup_intent(session_id, test_input)
+        ctx = memory.build_context(session_id, test_input)
+        result["context"] = {
+            "is_followup": ctx.get("is_followup"),
+            "suggested_intent": ctx.get("suggested_intent"),
+        }
+    return result
+
+
+@app.get("/api/chat", response_class=HTMLResponse)
+def chat_page():
+    """聊天对话界面"""
+    template_path = Path(__file__).parent.parent / "dashboard" / "templates" / "chat.html"
+    return HTMLResponse(content=template_path.read_text(encoding="utf-8"))
+
+
+# ── 自然语言回复构建 ──
+
+def _build_natural_reply(
+    teacher: dict,
+    intent_result,
+    results: list,
+    insights: list[str],
+    is_followup: bool,
+) -> str:
+    """根据意图和查询结果生成简短的自然语言回复"""
+    name = teacher.get("xm", "老师")
+    intent = intent_result.intent if hasattr(intent_result, 'intent') else str(intent_result)
+
+    # 获取 KPI 值
+    kpi_values = {}
+    for r in results:
+        if r.success and r.chart_type == "kpi_card":
+            kpi_values[r.metric_id] = r.value
+
+    intent_replies = {
+        "personal_overview": (
+            f"{name}老师好！这是您的个人科研全景：\n"
+            f"· 主持项目 {int(kpi_values.get('project_count_leader', 0))} 个"
+            f"（共参与 {int(kpi_values.get('project_count_total', 0))} 个）\n"
+            f"· 到账经费 {kpi_values.get('fund_total_arrived', 0):.0f} 元\n"
+            f"· 发表论文 {int(kpi_values.get('paper_count_total', 0))} 篇"
+            f"（一作 {int(kpi_values.get('paper_first_author_count', 0))} 篇）\n"
+            f"· 专利 {int(kpi_values.get('patent_count', 0))} 项"
+            f" | 著作 {int(kpi_values.get('book_count', 0))} 部"
+            f" | 软著 {int(kpi_values.get('software_count', 0))} 项\n"
+            f"· 获奖 {int(kpi_values.get('award_count', 0))} 项"
+            f" | 学术会议 {int(kpi_values.get('conference_hosted', 0))} 次"
+        ),
+        "funding_detail": (
+            f"{name}老师的科研经费概况：\n"
+            f"· 到账总额 {kpi_values.get('fund_total_arrived', 0):.0f} 元\n"
+            f"· 支出总额 {kpi_values.get('fund_total_spent', 0):.0f} 元\n"
+            f"· 经费执行率 {kpi_values.get('fund_execution_rate', 0):.1f}%"
+        ),
+        "paper_analysis": (
+            f"{name}老师的论文成果：\n"
+            f"· 共发表 {int(kpi_values.get('paper_count_total', 0))} 篇"
+            f"（一作 {int(kpi_values.get('paper_first_author_count', 0))} 篇）"
+        ),
+        "patent_analysis": (
+            f"{name}老师的专利成果：共 {int(kpi_values.get('patent_count', 0))} 项"
+        ),
+        "project_query": (
+            f"{name}老师的科研项目："
+            f"主持 {int(kpi_values.get('project_count_leader', 0))} 个，"
+            f"共参与 {int(kpi_values.get('project_count_total', 0))} 个"
+        ),
+        "award_query": (
+            f"{name}老师的获奖情况：共 {int(kpi_values.get('award_count', 0))} 项"
+        ),
+        "book_analysis": (
+            f"{name}老师的著作：共 {int(kpi_values.get('book_count', 0))} 部"
+        ),
+        "software_analysis": (
+            f"{name}老师的软著：共 {int(kpi_values.get('software_count', 0))} 项"
+        ),
+        "conference_analysis": (
+            f"{name}老师的学术活动：参与学术会议 {int(kpi_values.get('conference_hosted', 0))} 次"
+        ),
+        "annual_summary": (
+            f"{name}老师的年度科研总结已生成。"
+        ),
+        "title_evaluation": (
+            f"{name}老师的职称评审材料已汇总。"
+        ),
+    }
+
+    base = intent_replies.get(intent, f"{name}老师，查询完成。")
+
+    # 拼接 AI 洞察
+    if insights:
+        base += "\n\n💡 **AI 洞察：**\n" + "\n".join(insights)
+
+    # 追问时加提示
+    if is_followup:
+        base += "\n\n_💬 您可以继续追问，比如「那经费呢？」「只看2024年的」等。_"
+
+    return base

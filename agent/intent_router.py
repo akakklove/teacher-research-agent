@@ -4,6 +4,8 @@
 双模式：
 1. LangChain + LLM（有 API Key 时）：语义理解准
 2. 规则引擎兜底（无 API Key 时）：关键词匹配，零延迟
+
+v0.4 新增：route_with_context() 支持多轮对话上下文
 """
 import json
 import re
@@ -19,15 +21,20 @@ class IntentResult:
     time_range: str       # last_3_years / last_year / all
     confidence: float     # 0.0-1.0
     recommended_metrics: list[str] = field(default_factory=list)
+    is_followup: bool = False   # v0.4: 是否为追问
 
 
 class IntentRouter:
     """
     意图路由
     用法：
-        router = IntentRouter(llm_api_key=None)  # 纯规则模式
+        router = IntentRouter(llm=None)  # 纯规则模式
         result = router.route("帮我查查近两年的科研情况")
         print(result.intent)  # "personal_overview"
+
+        # v0.4 多轮对话：
+        context = memory.build_context(session_id, "那论文呢？")
+        result = router.route_with_context("那论文呢？", context=context)
     """
 
     # 意图 → 推荐指标组合
@@ -80,6 +87,19 @@ class IntentRouter:
             "book_count", "software_count",
             "award_count", "award_by_level",
         ],
+        # v0.4 追问专用意图
+        "patent_analysis": [
+            "patent_count", "patent_by_type", "patent_yearly_trend",
+        ],
+        "book_analysis": [
+            "book_count", "book_by_type",
+        ],
+        "software_analysis": [
+            "software_count", "software_yearly_trend",
+        ],
+        "conference_analysis": [
+            "conference_hosted",
+        ],
     }
 
     # 时间范围映射
@@ -110,6 +130,91 @@ class IntentRouter:
             self.INTENT_METRICS_MAP["personal_overview"]
         )
         return result
+
+    def route_with_context(self, user_input: str, context: dict = None) -> IntentResult:
+        """
+        v0.4 新增：带上下文感知的意图路由。
+
+        context 来自 ConversationMemory.build_context()，包含：
+        - is_followup: 是否为追问
+        - suggested_intent: 追问时推断的意图
+        - conversation_history: 最近几轮对话摘要
+        - time_range: 继承的时间范围
+        """
+        if context is None or not context.get("is_followup"):
+            # 无上下文 → 普通路由
+            return self.route(user_input)
+
+        # ── 追问模式：优先用上下文推断 ──
+        suggested = context.get("suggested_intent")
+
+        if suggested:
+            # 上下文已推断出意图 → 高置信度
+            result = IntentResult(
+                intent=suggested,
+                time_range=context.get("time_range", "last_3_years"),
+                confidence=0.85,
+                is_followup=True,
+            )
+        elif self.llm:
+            # LLM 模式：传入对话历史做上下文理解
+            result = self._route_with_llm_and_history(user_input, context)
+        else:
+            # 规则引擎兜底
+            result = self._route_with_rules(user_input)
+
+        # 补充推荐指标
+        result.recommended_metrics = self.INTENT_METRICS_MAP.get(
+            result.intent,
+            self.INTENT_METRICS_MAP["personal_overview"]
+        )
+        return result
+
+    # ── LLM 模式（含上下文） ──
+    def _route_with_llm_and_history(self, user_input: str, context: dict) -> IntentResult:
+        """带对话历史的 LLM 意图识别"""
+        from langchain_core.prompts import ChatPromptTemplate
+        from langchain_core.output_parsers import PydanticOutputParser
+        from pydantic import BaseModel
+
+        class IntentSchema(BaseModel):
+            intent: str
+            time_range: str = "last_3_years"
+            confidence: float = 0.8
+
+        parser = PydanticOutputParser(pydantic_object=IntentSchema)
+
+        prompt_path = Path(__file__).parent / "prompts" / "intent_classifier_followup.txt"
+        if not prompt_path.exists():
+            # 兼容：没有追问专用 prompt 则用原始 + 拼接历史
+            prompt_path = Path(__file__).parent / "prompts" / "intent_classifier.txt"
+
+        system_prompt = prompt_path.read_text(encoding="utf-8")
+
+        # 拼接对话历史
+        history_text = "\n".join(context.get("conversation_history", []))
+
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", system_prompt + "\n{format_instructions}"),
+            ("human", "对话历史：\n{history}\n\n用户当前问题：{user_input}")
+        ])
+
+        chain = prompt | self.llm | parser
+
+        try:
+            result = chain.invoke({
+                "user_input": user_input,
+                "history": history_text,
+                "format_instructions": parser.get_format_instructions(),
+            })
+            return IntentResult(
+                intent=result.intent,
+                time_range=result.time_range,
+                confidence=result.confidence,
+                is_followup=True,
+            )
+        except Exception:
+            return self._route_with_rules(user_input)
 
     # ── LLM 模式 ──
     def _route_with_llm(self, user_input: str) -> IntentResult:
@@ -157,13 +262,17 @@ class IntentRouter:
 
         # 意图识别
         scores = {
-            "personal_overview": self._score(text, ["科研","情况","全貌","全景","总览","整体","综合","帮我看","查一下"]),
-            "funding_detail":    self._score(text, ["经费","到账","支出","财务","钱","花了","预算"]),
-            "paper_analysis":    self._score(text, ["论文","文章","发表","期刊","SCI","EI","核心"]),
-            "award_query":       self._score(text, ["获奖","奖项","奖励","荣誉","评奖"]),
-            "project_query":     self._score(text, ["项目","课题","在研","结题","立项"]),
-            "annual_summary":    self._score(text, ["年度","年终","总结","考核","汇报","报告","PPT"]),
-            "title_evaluation":  self._score(text, ["职称","评审","评职称","材料","副教授","教授","升职"]),
+            "personal_overview":   self._score(text, ["科研","情况","全貌","全景","总览","整体","综合","帮我看","查一下"]),
+            "funding_detail":      self._score(text, ["经费","到账","支出","财务","钱","花了","预算"]),
+            "paper_analysis":      self._score(text, ["论文","文章","发表","期刊","SCI","EI","核心"]),
+            "patent_analysis":     self._score(text, ["专利","发明","实用新型","外观"]),
+            "award_query":         self._score(text, ["获奖","奖项","奖励","荣誉","评奖"]),
+            "project_query":       self._score(text, ["项目","课题","在研","结题","立项"]),
+            "book_analysis":       self._score(text, ["著作","专著","教材","编著","出版"]),
+            "software_analysis":   self._score(text, ["软著","软件","著作权","程序"]),
+            "conference_analysis": self._score(text, ["会议","学术会议","报告","交流"]),
+            "annual_summary":      self._score(text, ["年度","年终","总结","考核","汇报","报告","PPT"]),
+            "title_evaluation":    self._score(text, ["职称","评审","评职称","材料","副教授","教授","升职"]),
         }
 
         # 取最高分

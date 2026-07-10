@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>教师科研助手 — 智能对话</title>
+<style>
+  :root {
+    --bg: #f5f6fa;
+    --card: #fff;
+    --text: #2d3436;
+    --text-light: #636e72;
+    --primary: #0984e3;
+    --primary-light: #dfe6fd;
+    --border: #e0e3eb;
+    --user-bubble: #0984e3;
+    --bot-bubble: #f0f2f5;
+    --success: #00b894;
+    --warning: #fdcb6e;
+    --error: #e17055;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ── 顶部导航 ── */
+  .header {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .header .logo { font-size: 20px; }
+  .header .title { font-size: 16px; font-weight: 600; }
+  .header .subtitle { font-size: 12px; color: var(--text-light); margin-left: auto; }
+  .header .session-badge {
+    font-size: 11px;
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 3px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .header .session-badge:hover { opacity: 0.8; }
+
+  /* ── 会话区 ── */
+  .chat-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* 消息气泡 */
+  .message {
+    display: flex;
+    gap: 10px;
+    max-width: 80%;
+    animation: fadeIn 0.3s ease;
+  }
+  .message.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+  }
+  .message.assistant {
+    align-self: flex-start;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .user .avatar { background: var(--primary); color: #fff; }
+  .assistant .avatar { background: var(--primary-light); }
+
+  .bubble {
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .user .bubble {
+    background: var(--user-bubble);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+  }
+  .assistant .bubble {
+    background: var(--bot-bubble);
+    color: var(--text);
+    border-bottom-left-radius: 4px;
+  }
+
+  /* ── 数据卡片（嵌入在助手消息中） ── */
+  .metric-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .metric-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+  .metric-card .val {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+  .metric-card .lbl {
+    font-size: 11px;
+    color: var(--text-light);
+    margin-top: 2px;
+  }
+
+  /* ── 洞察卡片 ── */
+  .insight-box {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: #fff8e1;
+    border-left: 3px solid var(--warning);
+    border-radius: 6px;
+    font-size: 13px;
+    color: #6d5c00;
+  }
+
+  /* 追问提示 */
+  .followup-hint {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text-light);
+    font-style: italic;
+  }
+
+  /* 意图标签 */
+  .intent-tag {
+    display: inline-block;
+    font-size: 10px;
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+  }
+
+  /* ── 输入区 ── */
+  .input-area {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    flex-shrink: 0;
+  }
+  .input-area textarea {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: none;
+    outline: none;
+    min-height: 40px;
+    max-height: 120px;
+    line-height: 1.5;
+  }
+  .input-area textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(9,132,227,0.1);
+  }
+  .input-area button {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .input-area button:hover { background: #0773c5; }
+  .input-area button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* ── 登录遮罩 ── */
+  .login-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+  .login-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 32px;
+    width: 360px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  }
+  .login-card h2 { margin-bottom: 8px; }
+  .login-card p { color: var(--text-light); font-size: 13px; margin-bottom: 20px; }
+  .login-card select {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    outline: none;
+  }
+  .login-card button {
+    width: 100%;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  /* ── 加载动画 ── */
+  .typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 8px 0;
+  }
+  .typing-indicator span {
+    width: 8px; height: 8px;
+    background: var(--text-light);
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both;
+  }
+  .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+  .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+  }
+
+  /* 快捷问题 */
+  .quick-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .quick-btn {
+    font-size: 12px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid transparent;
+    padding: 6px 14px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .quick-btn:hover {
+    background: var(--primary);
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="logo">🏫</span>
+  <span class="title">教师科研助手</span>
+  <span id="teacher-label" class="subtitle">请先选择教师</span>
+  <span id="session-badge" class="session-badge" style="display:none" title="会话ID，点击复制">💬 <span id="sid"></span></span>
+</div>
+
+<div class="chat-container" id="chat-container">
+  <!-- 消息动态插入 -->
+</div>
+
+<div class="input-area">
+  <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+    <div class="quick-actions" id="quick-actions">
+      <button class="quick-btn" onclick="sendQuick('帮我看看整体科研情况')">📊 科研全景</button>
+      <button class="quick-btn" onclick="sendQuick('那论文情况呢？')">📄 论文分析</button>
+      <button class="quick-btn" onclick="sendQuick('经费到账和支出详情')">💰 经费详情</button>
+      <button class="quick-btn" onclick="sendQuick('帮我做年度总结')">📝 年度总结</button>
+      <button class="quick-btn" onclick="sendQuick('我够评职称了吗？')">🏅 职称评审</button>
+    </div>
+    <textarea id="user-input" rows="1" placeholder="输入问题，如「帮我看看整体科研情况」..." onkeydown="onKeyDown(event)"></textarea>
+  </div>
+  <button id="send-btn" onclick="sendMessage()" disabled>发送</button>
+</div>
+
+<!-- 登录遮罩 -->
+<div class="login-overlay" id="login-overlay">
+  <div class="login-card">
+    <h2>🏫 选择教师</h2>
+    <p>请选择要查询的教师工号以开始对话</p>
+    <select id="teacher-select">
+      <option value="">— 加载中 —</option>
+    </select>
+    <button onclick="startChat()">开始对话</button>
+  </div>
+</div>
+
+<script>
+// ── 全局状态 ──
+let state = {
+  sessionId: null,
+  teacherId: null,
+  teacherName: '',
+  isLoading: false,
+};
+
+// ── 初始化 ──
+async function init() {
+  // 加载教师列表
+  try {
+    const res = await fetch('/api/chat/sessions');
+    if (!res.ok) throw new Error('服务未启动');
+  } catch (e) {
+    document.getElementById('chat-container').innerHTML =
+      '<div style="text-align:center;padding:40px;color:#e17055;">⚠️ 服务未启动，请先运行 <code>python main.py</code></div>';
+    return;
+  }
+  loadTeacherList();
+}
+
+async function loadTeacherList() {
+  // 从已知工号加载（也可以新增 API）
+  const ids = [];
+  for (let i = 0; i < 50; i++) {
+    ids.push(`GH2020${String(i).padStart(4, '0')}`);
+  }
+
+  const select = document.getElementById('teacher-select');
+  select.innerHTML = ids.map(id => `<option value="${id}">${id}</option>`).join('');
+}
+
+// ── 开始对话 ──
+async function startChat() {
+  const teacherId = document.getElementById('teacher-select').value;
+  if (!teacherId) return;
+
+  try {
+    const infoRes = await fetch(`/api/teacher/${teacherId}`);
+    if (!infoRes.ok) { alert('教师不存在'); return; }
+    const info = await infoRes.json();
+
+    state.teacherId = teacherId;
+    state.teacherName = info.xm;
+
+    document.getElementById('login-overlay').style.display = 'none';
+    document.getElementById('teacher-label').textContent = `👤 ${info.xm} · ${info.dw_mc} · ${info.zc}`;
+    document.getElementById('send-btn').disabled = false;
+
+    addMessage('assistant',
+      `👋 您好，${info.xm}老师！我是您的科研助手。\n\n` +
+      `您可以问我：\n• 帮我看看整体科研情况\n• 论文发表情况\n• 经费到账了多少\n• 能帮我做年度总结吗`
+    );
+  } catch (e) {
+    alert('连接失败：' + e.message);
+  }
+}
+
+// ── 发送消息 ──
+async function sendMessage() {
+  const input = document.getElementById('user-input');
+  const text = input.value.trim();
+  if (!text || state.isLoading) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  addMessage('user', text);
+  setLoading(true);
+
+  try {
+    const body = { message: text };
+    if (state.sessionId) body.session_id = state.sessionId;
+    if (state.teacherId) body.teacher_id = state.teacherId;
+
+    const res = await fetch('/api/chat/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || '请求失败');
+    }
+
+    const data = await res.json();
+    state.sessionId = data.session_id;
+
+    // 更新会话标签
+    const badge = document.getElementById('session-badge');
+    badge.style.display = 'inline-block';
+    document.getElementById('sid').textContent = data.session_id;
+    badge.onclick = () => navigator.clipboard.writeText(data.session_id);
+
+    // 渲染回复
+    renderAssistantReply(data);
+  } catch (e) {
+    addMessage('assistant', `❌ ${e.message}`);
+  } finally {
+    setLoading(false);
+  }
+}
+
+function sendQuick(text) {
+  document.getElementById('user-input').value = text;
+  sendMessage();
+}
+
+function onKeyDown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+// ── 渲染助手回复 ──
+function renderAssistantReply(data) {
+  const container = document.getElementById('chat-container');
+
+  // 创建消息容器
+  const msgDiv = document.createElement('div');
+  msgDiv.className = 'message assistant';
+  msgDiv.style.flexDirection = 'column';
+  msgDiv.style.alignItems = 'flex-start';
+
+  // 气泡
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+
+  // 意图标签
+  if (data.intent) {
+    const tag = document.createElement('span');
+    tag.className = 'intent-tag';
+    tag.textContent = intentLabel(data.intent) + (data.is_followup ? ' ↺ 追问' : '');
+    bubble.appendChild(tag);
+    bubble.appendChild(document.createElement('br'));
+  }
+
+  // 文本回复
+  const textSpan = document.createElement('span');
+  textSpan.textContent = data.reply;
+  bubble.appendChild(textSpan);
+
+  // KPI 小卡片（取前 6 个 KPI）
+  const kpiMetrics = (data.metrics || []).filter(m => m.chart_type === 'kpi_card' && m.value != null).slice(0, 6);
+  if (kpiMetrics.length > 0) {
+    const cards = document.createElement('div');
+    cards.className = 'metric-cards';
+    kpiMetrics.forEach(m => {
+      const card = document.createElement('div');
+      card.className = 'metric-card';
+      card.innerHTML = `<div class="val">${formatValue(m.value, m.unit)}</div><div class="lbl">${m.name}</div>`;
+      cards.appendChild(card);
+    });
+    bubble.appendChild(cards);
+  }
+
+  // 洞察
+  if (data.insights && data.insights.length > 0) {
+    const box = document.createElement('div');
+    box.className = 'insight-box';
+    box.innerHTML = '💡 ' + data.insights.join('<br>');
+    bubble.appendChild(box);
+  }
+
+  // 追问提示
+  if (!data.is_followup) {
+    const hint = document.createElement('div');
+    hint.className = 'followup-hint';
+    hint.textContent = '💬 可以继续追问：论文情况？经费详情？年度总结？';
+    bubble.appendChild(hint);
+  }
+
+  msgDiv.appendChild(bubble);
+  container.appendChild(msgDiv);
+  container.scrollTop = container.scrollHeight;
+}
+
+// ── 添加简单消息 ──
+function addMessage(role, text) {
+  const container = document.getElementById('chat-container');
+  const div = document.createElement('div');
+  div.className = `message ${role}`;
+  div.innerHTML = `
+    <div class="avatar">${role === 'user' ? '🧑' : '🤖'}</div>
+    <div class="bubble">${text.replace(/\n/g, '<br>')}</div>
+  `;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function setLoading(loading) {
+  state.isLoading = loading;
+  document.getElementById('send-btn').disabled = loading;
+  if (loading) {
+    const container = document.getElementById('chat-container');
+    const typing = document.createElement('div');
+    typing.className = 'message assistant';
+    typing.id = 'typing-indicator';
+    typing.innerHTML = `
+      <div class="avatar">🤖</div>
+      <div class="bubble">
+        <div class="typing-indicator">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    `;
+    container.appendChild(typing);
+    container.scrollTop = container.scrollHeight;
+  } else {
+    const typing = document.getElementById('typing-indicator');
+    if (typing) typing.remove();
+  }
+}
+
+// ── 工具函数 ──
+function formatValue(val, unit) {
+  if (val == null) return '-';
+  if (unit === '元' && Math.abs(val) >= 10000) {
+    return (val / 10000).toFixed(1) + '万';
+  }
+  if (Number.isInteger(val)) return val.toString();
+  return Number(val).toFixed(2);
+}
+
+function intentLabel(intent) {
+  const map = {
+    personal_overview: '科研全景',
+    funding_detail: '经费详情',
+    paper_analysis: '论文分析',
+    patent_analysis: '专利分析',
+    award_query: '获奖查询',
+    project_query: '项目查询',
+    book_analysis: '著作分析',
+    software_analysis: '软著分析',
+    conference_analysis: '学术活动',
+    annual_summary: '年度总结',
+    title_evaluation: '职称评审',
+  };
+  return map[intent] || intent;
+}
+
+// ── 自动调整输入框高度 ──
+document.getElementById('user-input').addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+});
+
+// 启动
+init();
+</script>
+</body>
+</html>
