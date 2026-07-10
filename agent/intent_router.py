@@ -39,6 +39,7 @@ class IntentRouter:
 
     # 意图 → 推荐指标组合
     INTENT_METRICS_MAP = {
+        "chitchat": [],   # 闲聊/问候：不查询任何指标
         "personal_overview": [
             # KPI 卡片（顶行）
             "project_count_leader", "project_count_total",
@@ -265,6 +266,28 @@ class IntentRouter:
     def _route_with_rules(self, user_input: str) -> IntentResult:
         """基于关键词的规则匹配"""
         text = user_input.lower()
+
+        # 1. 先识别闲聊/问候（优先级最高）
+        # 强信号：直接问候/感谢/告别/身份询问，只要不含科研主题词就判定闲聊
+        strong_chitchat = ["你好", "您好", "哈喽", "hi", "hello",
+                           "早上好", "下午好", "晚上好", "谢谢", "感谢",
+                           "再见", "拜拜", "bye", "你是谁", "你能做什么",
+                           "介绍一下", "干嘛的", "在吗", "在不在"]
+        # 弱信号：寒暄式问句，需要句子很短且不含科研/数据词才判定闲聊
+        weak_chitchat = ["吃了吗", "忙吗", "最近好吗", "最近如何"]
+
+        research_terms = ["科研", "论文", "项目", "经费", "专利", "获奖",
+                          "著作", "软著", "会议", "职称", "年度", "情况",
+                          "数据", "结果", "分析", "查询", "查一下", "看看"]
+        data_words = any(t in text for t in research_terms)
+
+        has_strong = any(kw in text for kw in strong_chitchat)
+        has_weak = any(kw in text for kw in weak_chitchat)
+
+        if has_strong and len(user_input) <= 25 and not data_words:
+            return IntentResult(intent="chitchat", time_range="all", confidence=0.9)
+        if has_weak and len(user_input) <= 12 and not data_words:
+            return IntentResult(intent="chitchat", time_range="all", confidence=0.75)
 
         # 意图识别
         scores = {

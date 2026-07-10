@@ -370,6 +370,22 @@ def chat_send(req: ChatRequest):
         context = memory.build_context(session.session_id, req.message)
         intent = router.route_with_context(req.message, context=context)
 
+        # ── Step 2.5: 闲聊/问候直接返回 ──
+        if intent.intent == "chitchat":
+            memory.add_turn(session.session_id, role="user", content=req.message, intent="chitchat")
+            reply = _build_chitchat_reply(req.message, teacher_info)
+            memory.add_turn(session.session_id, role="assistant", content=reply, intent="chitchat")
+            return ChatResponse(
+                session_id=session.session_id,
+                reply=reply,
+                intent="chitchat",
+                is_followup=context.get("is_followup", False),
+                metrics=[],
+                insights=[],
+                teacher=teacher_info,
+                metric_ids=[],
+            )
+
         # ── Step 3: 执行指标查询 ──
         start_date, end_date = session.time_range
         results = engine.execute(teacher_id, intent.recommended_metrics, {
@@ -1029,6 +1045,30 @@ def chat_page():
 
 
 # ── 自然语言回复构建 ──
+
+def _build_chitchat_reply(message: str, teacher: dict) -> str:
+    """构建闲聊/问候回复"""
+    text = message.lower()
+    name = teacher.get("xm", "老师") if teacher else "老师"
+
+    if any(kw in text for kw in ["你好", "您好", "哈喽", "hi", "hello", "早上好", "下午好", "晚上好"]):
+        return f"{name}老师好！我是您的科研助手，可以帮您查询科研数据、生成年度总结或职称评审材料。请问有什么可以帮您？"
+    if any(kw in text for kw in ["谢谢", "感谢"]):
+        return "不客气！有任何科研相关问题随时问我。"
+    if any(kw in text for kw in ["再见", "拜拜", "bye"]):
+        return "再见！有需要随时回来找我。"
+    if any(kw in text for kw in ["你是谁", "你能做什么", "介绍一下", "干嘛的", "能做什么"]):
+        return ("我是教师科研助手，专门帮助您查询和分析个人科研数据。\n"
+                "我可以：\n· 查看科研全景、论文、经费、项目、专利等数据\n"
+                "· 生成年度科研总结\n· 生成职称评审材料\n"
+                "· 探索新的科研指标\n· 导出 PPT 或 Markdown 报告")
+    if any(kw in text for kw in ["在吗", "在不在", "忙吗"]):
+        return "在的，随时为您服务。请直接说出您想查询的科研数据。"
+    if any(kw in text for kw in ["吃了吗", "怎么样", "最近好吗", "最近如何"]):
+        return "谢谢关心！我随时准备好帮您分析科研数据。今天想查点什么？"
+
+    return f"{name}老师，我理解了。如果有科研相关的问题，请随时告诉我。"
+
 
 def _build_natural_reply(
     teacher: dict,
