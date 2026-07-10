@@ -50,52 +50,51 @@
 
 ### 环境要求
 
-- Docker Desktop（运行 MySQL）
-- Python 3.11+
-- 通义千问 API Key（可选，无 Key 时使用规则引擎）
+- Docker Desktop
+- 通义千问 API Key（可选，无 Key 使用规则引擎）
 
-### 1. 克隆项目
+### Docker 一键启动（推荐）
 
 ```bash
 git clone https://github.com/akakklove/teacher-research-agent.git
 cd teacher-research-agent
-```
 
-### 2. 启动 MySQL + 灌入数据
+# 设置 API Key（可选，不设则使用规则引擎）
+# Linux/Mac: export DASHSCOPE_API_KEY=sk-your-key
+# Windows PS: $env:DASHSCOPE_API_KEY="sk-your-key"
 
-```bash
-cd docker
+# 一键启动 MySQL + FastAPI
 docker compose up -d
 
-cd ../data_governance/mock_generator
-pip install pymysql
-python seeder.py
+# 灌入 Mock 数据
+docker exec tr_app python data_governance/mock_generator/seeder.py
 ```
 
-### 3. 配置 API Key（可选）
+### 本地开发模式
 
 ```bash
-# 编辑 .env 文件
-DASHSCOPE_API_KEY=sk-your-key-here
-```
+# 1. 启动 MySQL
+cd docker && docker compose up -d
 
-### 4. 启动服务
+# 2. 灌入数据
+cd ../data_governance/mock_generator && pip install pymysql && python seeder.py
 
-```bash
-# 安装依赖
-pip install fastapi uvicorn pymysql pyyaml langchain langchain-community python-dotenv
+# 3. 安装依赖
+pip install -r requirements.txt
 
-# 启动
+# 4. 启动服务
 python main.py
 ```
 
-### 5. 打开界面
+### 访问
 
 | 界面 | URL |
 |------|-----|
-| 大屏报告 | `http://127.0.0.1:8000/api/teacher/GH20200001/report` |
 | 聊天对话 | `http://127.0.0.1:8000/api/chat` |
+| 大屏报告 | `http://127.0.0.1:8000/api/teacher/GH20200001/report` |
 | API 文档 | `http://127.0.0.1:8000/docs` |
+
+**登录密码**：工号后 6 位（如 `GH20200001` → `200001`）
 
 ---
 
