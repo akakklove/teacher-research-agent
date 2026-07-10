@@ -316,6 +316,7 @@
       <button class="quick-btn" onclick="sendQuick('帮我看看整体科研情况')">📊 科研全景</button>
       <button class="quick-btn" onclick="sendQuick('那论文情况呢？')">📄 论文分析</button>
       <button class="quick-btn" onclick="sendQuick('经费到账和支出详情')">💰 经费详情</button>
+      <button class="quick-btn" onclick="promptDiscover()" style="background:#f3e5f5;color:#7b1fa2;border-color:#e1bee7;">🔍 探索新指标</button>
     </div>
     <div class="quick-actions" id="scenario-actions">
       <button class="quick-btn" onclick="runScenario('annual_summary')" style="background:#fff3e0;color:#e65100;border-color:#ffe0b2;">📝 场景：年度总结</button>
@@ -644,6 +645,71 @@ async function deleteTemplate(id) {
     loadTemplateList();
   } catch (e) {
     addMessage('assistant', `❌ 删除失败: ${e.message}`);
+  }
+}
+
+// ── v0.4: 指标自动发现 ──
+function promptDiscover() {
+  if (!state.teacherId) { alert('请先选择教师'); return; }
+  const q = prompt('请输入你想探索的问题（如"论文被引次数分布"）：', '');
+  if (!q) return;
+  discoverMetric(q);
+}
+
+async function discoverMetric(question) {
+  if (!state.teacherId || state.isLoading) return;
+  setLoading(true);
+  addMessage('user', `🔍 ${question}`);
+
+  try {
+    const res = await fetch('/api/chat/discover', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question, teacher_id: state.teacherId }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      addMessage('assistant', `❌ ${data.detail || '探索失败'}`);
+      return;
+    }
+
+    const container = document.getElementById('chat-container');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'message assistant';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.style.maxWidth = '90%';
+
+    let html = `
+      <div style="font-weight:600;margin-bottom:4px;">🔍 ${data.name}</div>
+      <div style="font-size:12px;color:#636e72;margin-bottom:8px;">${data.explanation || ''}</div>
+      ${data.error ? `<div style="color:#e17055;font-size:12px;">⚠ ${data.error}</div>` : ''}
+      ${data.sql ? `<div style="background:#f5f6fa;padding:8px;border-radius:6px;font-size:11px;font-family:monospace;margin-bottom:8px;word-break:break-all;">${data.sql}</div>` : ''}
+    `;
+
+    if (data.row_count > 0 && data.rows.length > 0) {
+      html += `<div style="font-size:12px;color:#636e72;">共 ${data.row_count} 行</div>
+        <div style="max-height:200px;overflow-y:auto;font-size:11px;margin-top:4px;">
+          <table style="width:100%;border-collapse:collapse;">
+            <thead><tr>${Object.keys(data.rows[0]).map(k => `<th style="padding:4px 6px;border-bottom:1px solid #e0e3eb;text-align:left;">${k}</th>`).join('')}</tr></thead>
+            <tbody>${data.rows.slice(0, 10).map(r => `<tr>${Object.values(r).map(v => `<td style="padding:3px 6px;">${v == null ? '-' : v}</td>`).join('')}</tr>`).join('')}</tbody>
+          </table>
+          ${data.row_count > 10 ? '<div style="text-align:center;color:#b2bec3;padding:4px;">... 仅显示前 10 行</div>' : ''}
+        </div>`;
+    } else if (!data.error) {
+      html += '<div style="color:#b2bec3;font-size:12px;">无数据</div>';
+    }
+
+    bubble.innerHTML = html;
+    msgDiv.appendChild(bubble);
+    container.appendChild(msgDiv);
+    container.scrollTop = container.scrollHeight;
+  } catch (e) {
+    addMessage('assistant', `❌ 探索失败: ${e.message}`);
+  } finally {
+    setLoading(false);
   }
 }
 

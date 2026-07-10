@@ -15,6 +15,7 @@ from dashboard_composer import DashboardComposer
 from conversation_memory import ConversationMemory, get_memory
 from scenario_templates import ScenarioEngine
 from template_store import TemplateStore
+from metric_discovery import MetricDiscovery
 from llm import create_chat_model
 
 # 初始化 LLM（首次启动时创建，后续复用）
@@ -579,6 +580,63 @@ def rename_template(template_id: int, req: TemplateRenameRequest):
     if store.rename(template_id, req.name):
         return {"message": f"已重命名为「{req.name}」"}
     raise HTTPException(status_code=404, detail="模板不存在")
+
+
+# ── v0.4: 指标自动发现 API ──
+
+class DiscoverRequest(BaseModel):
+    question: str
+    teacher_id: str
+
+
+@app.post("/api/chat/discover")
+def discover_metric(req: DiscoverRequest):
+    """
+    指标自动发现 — 当注册表中没有匹配指标时，自动探索 Schema 生成 SQL。
+
+    请求：
+    ```json
+    {
+        "question": "查一下论文的被引次数分布",
+        "teacher_id": "GH20200001"
+    }
+    ```
+    """
+    discovery = MetricDiscovery(llm=get_llm())
+    result = discovery.discover(
+        user_question=req.question,
+        db_config=DB_CONFIG,
+        teacher_id=req.teacher_id,
+    )
+
+    if result.error and not result.sql:
+        raise HTTPException(status_code=400, detail=result.error)
+
+    # 执行 SQL 获取数据
+    rows = []
+    if result.sql and not result.error:
+        try:
+            import pymysql
+            conn = pymysql.connect(**DB_CONFIG)
+            with conn.cursor() as cursor:
+                cursor.execute(result.sql)
+                rows_raw = cursor.fetchall()
+                cols = [d[0] for d in cursor.description]
+                rows = [dict(zip(cols, row)) for row in rows_raw]
+            conn.close()
+        except Exception as e:
+            result.error = str(e)
+
+    return {
+        "name": result.name,
+        "sql": result.sql,
+        "chart_type": result.chart_type,
+        "explanation": result.explanation,
+        "tables_used": result.tables_used,
+        "rows": rows,
+        "row_count": len(rows),
+        "error": result.error,
+    }
 
 
 @app.get("/api/chat", response_class=HTMLResponse)
