@@ -26,7 +26,7 @@ class DashboardLayout:
 # ── 布局定义 ──
 
 LAYOUTS = {
-    # ── 类型 A：科研全景（14 指标）──
+    # ── 类型 A：科研全景（20+ 指标）──
     "personal_overview": DashboardLayout(
         layout_id="A",
         title_suffix="个人科研全景",
@@ -39,6 +39,8 @@ LAYOUTS = {
         chart_metrics=[
             "project_by_level", "fund_monthly_trend", "paper_by_level",
             "paper_yearly_trend", "patent_by_type", "award_by_level",
+            "paper_rank_dept", "project_rank_dept", "fund_rank_dept",
+            "composite_output_score", "achievement_yearly_table",
         ],
         kpi_class="kpi-8",
         chart_grid="grid-3x2",
@@ -46,83 +48,87 @@ LAYOUTS = {
         chart_height="340px",
     ),
 
-    # ── 类型 B：论文分析（5 指标）──
+    # ── 论文分析（10 指标）──
     "paper_analysis": DashboardLayout(
         layout_id="B",
         title_suffix="论文成果分析",
         kpi_metrics=[
             "paper_count_total", "paper_first_author_count",
+            "paper_rank_dept", "paper_rank_school",
         ],
         chart_metrics=[
             "paper_by_level", "paper_yearly_trend", "paper_author_role",
-            "paper_journal_source", "paper_author_ranking",
+            "paper_journal_source", "paper_by_year_level",
         ],
-        kpi_class="kpi-2",
+        kpi_class="kpi-4",
         chart_grid="grid-3x2",
         insight_count=2,
         chart_height="340px",
     ),
 
-    # ── 类型 B：经费分析（6 指标）──
+    # ── 经费分析（8 指标）──
     "funding_detail": DashboardLayout(
         layout_id="B",
         title_suffix="经费分析",
         kpi_metrics=[
             "fund_total_arrived", "fund_total_spent", "fund_execution_rate",
+            "fund_rank_dept",
         ],
         chart_metrics=[
             "fund_monthly_trend", "fund_monthly_spent_trend",
-            "fund_expense_structure", "fund_yearly_comparison",
+            "fund_yearly_inout", "fund_yearly_comparison",
         ],
-        kpi_class="kpi-3",
+        kpi_class="kpi-4",
         chart_grid="grid-3x2",
         insight_count=2,
         chart_height="340px",
     ),
 
-    # ── 类型 B：项目查询（4 指标）──
+    # ── 项目查询（8 指标）──
     "project_query": DashboardLayout(
         layout_id="B",
         title_suffix="科研项目概览",
         kpi_metrics=[
             "project_count_total", "project_count_leader",
+            "project_rank_dept",
         ],
         chart_metrics=[
             "project_by_level", "project_by_source",
             "project_status_distribution", "project_yearly_trend",
-            "project_fund_ranking",
+            "project_by_year_level",
         ],
-        kpi_class="kpi-2",
+        kpi_class="kpi-3",
         chart_grid="grid-3x2",
         insight_count=2,
-        chart_height="420px",
+        chart_height="360px",
     ),
 
-    # ── 类型 C：获奖（3 指标）──
+    # ── 获奖（6 指标）──
     "award_query": DashboardLayout(
         layout_id="B",
         title_suffix="获奖荣誉",
         kpi_metrics=["award_count"],
-        chart_metrics=["award_by_level", "award_category", "award_yearly_trend", "award_timeline"],
+        chart_metrics=["award_by_level", "award_category", "award_yearly_trend",
+                       "award_timeline", "award_by_year_category"],
         kpi_class="kpi-1",
         chart_grid="grid-3x2",
         insight_count=2,
         chart_height="340px",
     ),
 
-    # ── 类型 C：专利（3 指标）──
+    # ── 专利（5 指标）──
     "patent_analysis": DashboardLayout(
         layout_id="B",
         title_suffix="专利成果",
-        kpi_metrics=["patent_count"],
+        kpi_metrics=["patent_count", "patent_rank_dept"],
         chart_metrics=["patent_by_type", "patent_yearly_trend"],
-        kpi_class="kpi-1",
+        kpi_class="kpi-2",
         chart_grid="grid-1x2",
         insight_count=2,
-        chart_height="460px",
+        chart_height="420px",
     ),
 
-    # ── 类型 C：著作（2 指标）──
+    # ── 著作（4 指标）──
     "book_analysis": DashboardLayout(
         layout_id="B",
         title_suffix="著作成果",
@@ -134,19 +140,19 @@ LAYOUTS = {
         chart_height="340px",
     ),
 
-    # ── 类型 C：软著（2 指标）──
+    # ── 软著（3 指标）──
     "software_analysis": DashboardLayout(
         layout_id="C",
         title_suffix="软件著作权",
         kpi_metrics=["software_count"],
-        chart_metrics=["software_yearly_trend"],
+        chart_metrics=["software_yearly_trend", "software_by_type"],
         kpi_class="kpi-1",
-        chart_grid="grid-1x1",
+        chart_grid="grid-1x2",
         insight_count=1,
-        chart_height="500px",
+        chart_height="420px",
     ),
 
-    # ── 类型 C：学术活动（1 指标）──
+    # ── 学术活动（3 指标）──
     "conference_analysis": DashboardLayout(
         layout_id="B",
         title_suffix="学术活动",
@@ -158,7 +164,7 @@ LAYOUTS = {
         chart_height="460px",
     ),
 
-    # ── 年度总结：用全景布局 ──
+    # ── 年度总结：全景（10+ 指标）──
     "annual_summary": DashboardLayout(
         layout_id="A",
         title_suffix="年度科研总结",
@@ -166,18 +172,19 @@ LAYOUTS = {
             "project_count_leader", "fund_total_arrived",
             "paper_count_total", "paper_first_author_count",
             "patent_count", "award_count",
+            "composite_output_score",
         ],
         chart_metrics=[
-            "project_yearly_trend", "fund_monthly_trend", "paper_year_trend",
-            "patent_yearly_trend", "award_by_level", "award_timeline",
+            "project_yearly_trend", "fund_yearly_inout", "paper_yearly_trend",
+            "patent_yearly_trend", "award_by_level", "achievement_yearly_table",
         ],
-        kpi_class="kpi-6",
+        kpi_class="kpi-7",
         chart_grid="grid-3x2",
         insight_count=3,
         chart_height="340px",
     ),
 
-    # ── 职称评审：用全景布局 ──
+    # ── 职称评审（12 指标）──
     "title_evaluation": DashboardLayout(
         layout_id="A",
         title_suffix="职称评审材料",
@@ -185,12 +192,13 @@ LAYOUTS = {
             "project_count_leader", "fund_total_arrived",
             "paper_count_total", "patent_count",
             "book_count", "software_count", "award_count",
+            "composite_output_score",
         ],
         chart_metrics=[
             "project_by_level", "paper_by_level", "patent_by_type",
-            "book_by_type", "software_yearly_trend", "award_by_level",
+            "book_by_type", "award_by_level", "paper_rank_school",
         ],
-        kpi_class="kpi-7",
+        kpi_class="kpi-8",
         chart_grid="grid-3x2",
         insight_count=2,
         chart_height="340px",

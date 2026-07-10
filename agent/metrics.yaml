@@ -1017,3 +1017,306 @@ metrics:
       LIMIT 10
     chart_type: "horizontal_bar"
     unit: "篇"
+
+  # ═══════════════════════════════════════════
+  # v0.3 排名指标 — 学院内/全校排名
+  # ═══════════════════════════════════════════
+
+  - id: paper_rank_dept
+    name: "论文数学院排名"
+    category: "排名对比"
+    priority: 50
+    description: "一作论文数量在所属学院的排名（数值越小越靠前）"
+    sql_template: |
+      SELECT 1 + COUNT(*) as value
+      FROM (
+        SELECT a.zzgh, COUNT(DISTINCT a.lwbh) as cnt
+        FROM t_ky_lwzz a
+        JOIN t_ky_lw p ON a.lwbh = p.lwbh
+        WHERE a.smsx = 1 AND p.fbn BETWEEN :start_year AND :end_year
+        GROUP BY a.zzgh
+      ) t
+      JOIN t_jzg_jbxx j ON t.zzgh = j.gh
+      WHERE j.dw_mc = (SELECT dw_mc FROM t_jzg_jbxx WHERE gh = :teacher_id)
+        AND t.cnt > COALESCE(
+          (SELECT COUNT(DISTINCT a.lwbh) FROM t_ky_lwzz a
+           JOIN t_ky_lw p ON a.lwbh = p.lwbh
+           WHERE a.zzgh = :teacher_id AND a.smsx = 1 AND p.fbn BETWEEN :start_year AND :end_year), 0)
+    chart_type: "kpi_card"
+    unit: "名"
+
+  - id: paper_rank_school
+    name: "论文数全校排名"
+    category: "排名对比"
+    priority: 51
+    description: "一作论文数量在全校的排名"
+    sql_template: |
+      SELECT 1 + COUNT(*) as value
+      FROM (
+        SELECT a.zzgh, COUNT(DISTINCT a.lwbh) as cnt
+        FROM t_ky_lwzz a
+        JOIN t_ky_lw p ON a.lwbh = p.lwbh
+        WHERE a.smsx = 1 AND p.fbn BETWEEN :start_year AND :end_year
+        GROUP BY a.zzgh
+      ) t
+      WHERE t.cnt > COALESCE(
+        (SELECT COUNT(DISTINCT a.lwbh) FROM t_ky_lwzz a
+         JOIN t_ky_lw p ON a.lwbh = p.lwbh
+         WHERE a.zzgh = :teacher_id AND a.smsx = 1 AND p.fbn BETWEEN :start_year AND :end_year), 0)
+    chart_type: "kpi_card"
+    unit: "名"
+
+  - id: project_rank_dept
+    name: "项目数学院排名"
+    category: "排名对比"
+    priority: 52
+    description: "主持项目数量在学院的排名"
+    sql_template: |
+      SELECT 1 + COUNT(*) as value
+      FROM (
+        SELECT ry_gh, COUNT(DISTINCT kybh) as cnt
+        FROM t_ky_xmry
+        WHERE smsx = 1
+        GROUP BY ry_gh
+      ) t
+      JOIN t_jzg_jbxx j ON t.ry_gh = j.gh
+      WHERE j.dw_mc = (SELECT dw_mc FROM t_jzg_jbxx WHERE gh = :teacher_id)
+        AND t.cnt > COALESCE(
+          (SELECT COUNT(DISTINCT kybh) FROM t_ky_xmry
+           WHERE ry_gh = :teacher_id AND smsx = 1), 0)
+    chart_type: "kpi_card"
+    unit: "名"
+
+  - id: project_rank_school
+    name: "项目数全校排名"
+    category: "排名对比"
+    priority: 53
+    description: "主持项目数量在全校的排名"
+    sql_template: |
+      SELECT 1 + COUNT(DISTINCT t.ry_gh) as value
+      FROM t_ky_xmry t
+      WHERE t.smsx = 1
+        AND (SELECT COUNT(DISTINCT kybh) FROM t_ky_xmry
+             WHERE ry_gh = t.ry_gh AND smsx = 1) >
+            COALESCE((SELECT COUNT(DISTINCT kybh) FROM t_ky_xmry
+             WHERE ry_gh = :teacher_id AND smsx = 1), 0)
+    chart_type: "kpi_card"
+    unit: "名"
+
+  - id: fund_rank_dept
+    name: "到账经费学院排名"
+    category: "排名对比"
+    priority: 54
+    description: "科研经费到账总额在学院的排名"
+    sql_template: |
+      SELECT 1 + COUNT(*) as value
+      FROM (
+        SELECT r.ry_gh, COALESCE(SUM(f.dz_je), 0) as total
+        FROM t_ky_xmry r
+        LEFT JOIN t_ky_jfdz f ON r.kybh = f.kybh
+        WHERE r.smsx = 1 AND f.pz_rq BETWEEN :start_date AND :end_date
+        GROUP BY r.ry_gh
+      ) t
+      JOIN t_jzg_jbxx j ON t.ry_gh = j.gh
+      WHERE j.dw_mc = (SELECT dw_mc FROM t_jzg_jbxx WHERE gh = :teacher_id)
+        AND t.total > COALESCE(
+          (SELECT SUM(f.dz_je) FROM t_ky_xmry r
+           LEFT JOIN t_ky_jfdz f ON r.kybh = f.kybh
+           WHERE r.ry_gh = :teacher_id AND r.smsx = 1 AND f.pz_rq BETWEEN :start_date AND :end_date), 0)
+    chart_type: "kpi_card"
+    unit: "名"
+
+  - id: patent_rank_dept
+    name: "专利数学院排名"
+    category: "排名对比"
+    priority: 56
+    description: "专利数量在学院的排名"
+    sql_template: |
+      SELECT 1 + COUNT(*) as value
+      FROM (
+        SELECT f.fmr_gh, COUNT(DISTINCT z.zlbh) as cnt
+        FROM t_ky_zlfmr f
+        JOIN t_ky_zl z ON f.zlbh = z.zlbh
+        WHERE f.smsx = 1 AND z.sqrq BETWEEN :start_date AND :end_date
+        GROUP BY f.fmr_gh
+      ) t
+      JOIN t_jzg_jbxx j ON t.fmr_gh = j.gh
+      WHERE j.dw_mc = (SELECT dw_mc FROM t_jzg_jbxx WHERE gh = :teacher_id)
+        AND t.cnt > COALESCE(
+          (SELECT COUNT(DISTINCT z.zlbh) FROM t_ky_zlfmr f
+           JOIN t_ky_zl z ON f.zlbh = z.zlbh
+           WHERE f.fmr_gh = :teacher_id AND f.smsx = 1 AND z.sqrq BETWEEN :start_date AND :end_date), 0)
+    chart_type: "kpi_card"
+    unit: "名"
+
+  # ═══════════════════════════════════════════
+  # v0.3 多维交叉 + 复合 + 汇总表
+  # ═══════════════════════════════════════════
+
+  - id: paper_by_year_level
+    name: "论文年度级别分布"
+    category: "论文成果"
+    priority: 60
+    description: "按年份和期刊级别交叉统计论文产出"
+    sql_template: |
+      SELECT CONCAT(p.fbn, '-', p.kwjb) as label,
+             COUNT(DISTINCT a.lwbh) as value
+      FROM t_ky_lwzz a
+      JOIN t_ky_lw p ON a.lwbh = p.lwbh
+      WHERE a.zzgh = :teacher_id AND a.smsx = 1
+        AND p.fbn BETWEEN :start_year AND :end_year
+      GROUP BY p.fbn, p.kwjb
+      ORDER BY p.fbn, p.kwjb
+    chart_type: "bar_chart"
+    unit: "篇"
+
+  - id: project_by_year_level
+    name: "项目年度级别分布"
+    category: "项目概览"
+    priority: 61
+    description: "按立项年份和项目级别交叉统计"
+    sql_template: |
+      SELECT CONCAT(YEAR(p.lxrq), '-', p.xmjb_bm) as label,
+             COUNT(DISTINCT r.kybh) as value
+      FROM t_ky_xmry r
+      JOIN t_ky_xmjbxx p ON r.kybh = p.kybh
+      WHERE r.ry_gh = :teacher_id AND r.smsx = 1
+        AND p.lxrq BETWEEN :start_date AND :end_date
+      GROUP BY YEAR(p.lxrq), p.xmjb_bm
+      ORDER BY YEAR(p.lxrq), p.xmjb_bm
+    chart_type: "bar_chart"
+    unit: "个"
+
+  - id: award_by_year_category
+    name: "获奖年度类别分布"
+    category: "获奖荣誉"
+    priority: 62
+    description: "按获奖年份和级别交叉统计"
+    sql_template: |
+      SELECT CONCAT(YEAR(h.hjrq), '-', h.hjjb) as label,
+             COUNT(DISTINCT r.hjbh) as value
+      FROM t_ky_hjry r
+      JOIN t_ky_hj h ON r.hjbh = h.hjbh
+      WHERE r.ry_gh = :teacher_id AND r.smsx = 1
+        AND h.hjrq BETWEEN :start_date AND :end_date
+      GROUP BY YEAR(h.hjrq), h.hjjb
+      ORDER BY YEAR(h.hjrq), h.hjjb
+    chart_type: "bar_chart"
+    unit: "项"
+
+  - id: composite_output_score
+    name: "综合产出积分"
+    category: "综合汇总"
+    priority: 63
+    description: "加权计算科研产出总分（论文×3 项目×5 专利×2 著作×2 获奖×4）"
+    sql_template: |
+      SELECT
+        COALESCE(p.cnt, 0) * 3 +
+        COALESCE(j.cnt, 0) * 5 +
+        COALESCE(z.cnt, 0) * 2 +
+        COALESCE(b.cnt, 0) * 2 +
+        COALESCE(a.cnt, 0) * 4 as value
+      FROM
+        (SELECT COUNT(DISTINCT kybh) as cnt FROM t_ky_xmry WHERE ry_gh = :teacher_id AND smsx = 1) j,
+        (SELECT COUNT(DISTINCT a.lwbh) as cnt FROM t_ky_lwzz a JOIN t_ky_lw p ON a.lwbh = p.lwbh WHERE a.zzgh = :teacher_id AND a.smsx = 1 AND p.fbn BETWEEN :start_year AND :end_year) p,
+        (SELECT COUNT(DISTINCT f.zlbh) as cnt FROM t_ky_zlfmr f JOIN t_ky_zl z ON f.zlbh = z.zlbh WHERE f.fmr_gh = :teacher_id AND f.smsx = 1) z,
+        (SELECT COUNT(DISTINCT a.zzbh) as cnt FROM t_ky_zzzz a WHERE a.zzryh = :teacher_id AND a.smsx = 1) b,
+        (SELECT COUNT(DISTINCT r.hjbh) as cnt FROM t_ky_hjry r WHERE r.ry_gh = :teacher_id AND r.smsx = 1) a
+    chart_type: "gauge"
+    unit: "分"
+
+  - id: department_percentile
+    name: "学院内百分位"
+    category: "排名对比"
+    priority: 64
+    description: "主持项目数在学院的百分位排名（越高越好）"
+    sql_template: |
+      SELECT ROUND(
+        100.0 * (1 + COALESCE(below.c, 0)) / NULLIF(total.c, 0), 0
+      ) as value
+      FROM
+        (SELECT COUNT(*) as c FROM t_jzg_jbxx
+         WHERE dw_mc = (SELECT dw_mc FROM t_jzg_jbxx WHERE gh = :teacher_id)) total,
+        (SELECT COUNT(*) as c FROM t_jzg_jbxx j
+         JOIN (SELECT ry_gh, COUNT(DISTINCT kybh) as cnt FROM t_ky_xmry WHERE smsx = 1 GROUP BY ry_gh) s ON j.gh = s.ry_gh
+         WHERE j.dw_mc = (SELECT dw_mc FROM t_jzg_jbxx WHERE gh = :teacher_id)
+           AND s.cnt < COALESCE(
+             (SELECT COUNT(DISTINCT kybh) FROM t_ky_xmry WHERE ry_gh = :teacher_id AND smsx = 1), 0)) below
+    chart_type: "gauge"
+    unit: "%"
+
+  - id: fund_yearly_inout
+    name: "年度收支对比"
+    category: "经费分析"
+    priority: 65
+    description: "按年度对比经费到账金额与支出金额"
+    sql_template: |
+      SELECT CAST(yr.yr AS CHAR) as label,
+             COALESCE(inc.total, 0) as arrive,
+             COALESCE(outv.total, 0) as spend
+      FROM (SELECT DISTINCT YEAR(pz_rq) as yr FROM t_ky_jfdz WHERE pz_rq BETWEEN :start_date AND :end_date
+            UNION SELECT DISTINCT YEAR(pz_rq) as yr FROM t_ky_jfzc WHERE pz_rq BETWEEN :start_date AND :end_date) yr
+      LEFT JOIN (
+        SELECT YEAR(f.pz_rq) as yr, SUM(f.dz_je) as total
+        FROM t_ky_xmry r JOIN t_ky_jfdz f ON r.kybh = f.kybh
+        WHERE r.ry_gh = :teacher_id AND r.smsx = 1 AND f.pz_rq BETWEEN :start_date AND :end_date
+        GROUP BY YEAR(f.pz_rq)
+      ) inc ON yr.yr = inc.yr
+      LEFT JOIN (
+        SELECT YEAR(f.pz_rq) as yr, SUM(f.zc_je) as total
+        FROM t_ky_xmry r JOIN t_ky_jfzc f ON r.kybh = f.kybh
+        WHERE r.ry_gh = :teacher_id AND r.smsx = 1 AND f.pz_rq BETWEEN :start_date AND :end_date
+        GROUP BY YEAR(f.pz_rq)
+      ) outv ON yr.yr = outv.yr
+      WHERE yr.yr BETWEEN :start_year AND :end_year
+      ORDER BY yr.yr
+    chart_type: "bar_chart"
+    unit: "元"
+
+  - id: achievement_yearly_table
+    name: "年度成果汇总表"
+    category: "综合汇总"
+    priority: 66
+    description: "按年度汇总论文/专利/著作/软著/获奖数量"
+    sql_template: |
+      SELECT yr.yr as label,
+             COALESCE(paper.cnt, 0) as papers,
+             COALESCE(patent.cnt, 0) as patents,
+             COALESCE(book.cnt, 0) as books,
+             COALESCE(soft.cnt, 0) as softwares,
+             COALESCE(award.cnt, 0) as awards
+      FROM (SELECT :start_year as yr UNION SELECT :start_year+1 UNION SELECT :start_year+2 UNION SELECT :start_year+3 UNION SELECT :start_year+4) yr
+      LEFT JOIN (
+        SELECT p.fbn as yr, COUNT(DISTINCT a.lwbh) as cnt
+        FROM t_ky_lwzz a JOIN t_ky_lw p ON a.lwbh = p.lwbh
+        WHERE a.zzgh = :teacher_id AND a.smsx = 1
+        GROUP BY p.fbn
+      ) paper ON yr.yr = paper.yr
+      LEFT JOIN (
+        SELECT YEAR(z.sqrq) as yr, COUNT(DISTINCT f.zlbh) as cnt
+        FROM t_ky_zlfmr f JOIN t_ky_zl z ON f.zlbh = z.zlbh
+        WHERE f.fmr_gh = :teacher_id AND f.smsx = 1
+        GROUP BY YEAR(z.sqrq)
+      ) patent ON yr.yr = patent.yr
+      LEFT JOIN (
+        SELECT YEAR(z.cbrq) as yr, COUNT(DISTINCT a.zzbh) as cnt
+        FROM t_ky_zzzz a JOIN t_ky_zz z ON a.zzbh = z.zzbh
+        WHERE a.zzryh = :teacher_id AND a.smsx = 1
+        GROUP BY YEAR(z.cbrq)
+      ) book ON yr.yr = book.yr
+      LEFT JOIN (
+        SELECT YEAR(r.djrq) as yr, COUNT(DISTINCT c.rjzzbh) as cnt
+        FROM t_ky_rjzzcy c JOIN t_ky_rjzz r ON c.rjzzbh = r.rjzzbh
+        WHERE c.zzryh = :teacher_id AND c.smsx = 1
+        GROUP BY YEAR(r.djrq)
+      ) soft ON yr.yr = soft.yr
+      LEFT JOIN (
+        SELECT YEAR(h.hjrq) as yr, COUNT(DISTINCT r.hjbh) as cnt
+        FROM t_ky_hjry r JOIN t_ky_hj h ON r.hjbh = h.hjbh
+        WHERE r.ry_gh = :teacher_id AND r.smsx = 1
+        GROUP BY YEAR(h.hjrq)
+      ) award ON yr.yr = award.yr
+      WHERE yr.yr <= :end_year
+      ORDER BY yr.yr
+    chart_type: "table"
+    unit: ""

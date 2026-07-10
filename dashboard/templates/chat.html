@@ -26,7 +26,6 @@
     --ease-out: cubic-bezier(0.16,1,0.3,1);
     --ease-bounce: cubic-bezier(0.34,1.56,0.64,1);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
@@ -42,22 +41,29 @@
     overflow: hidden;
   }
 
+  /* ═══════ 三栏布局 ═══════ */
+  .app-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    grid-template-rows: 60px 1fr;
+    grid-template-areas: "header header" "sidebar main";
+    height: 100vh;
+    width: 100%;
+  }
+
   /* ── 顶部导航 ── */
   .header {
+    grid-area: header;
     background: rgba(255,255,255,0.85);
     backdrop-filter: blur(20px) saturate(150%);
     border-bottom: 1px solid var(--border);
-    padding: 0 24px;
-    height: 60px;
+    padding: 0 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-shrink: 0;
     z-index: 10;
   }
-  .header-left {
-    display: flex; align-items: center; gap: 10px;
-  }
+  .header-left { display: flex; align-items: center; gap: 10px; }
   .header .logo {
     width: 32px; height: 32px;
     background: var(--primary);
@@ -68,45 +74,34 @@
   }
   .header .title { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
 
-  /* 用户下拉菜单 */
-  .user-menu {
-    position: relative;
-  }
+  .user-menu { position: relative; }
   .user-trigger {
     display: flex; align-items: center; gap: 8px;
-    padding: 6px 8px 6px 6px;
-    border-radius: 50px;
-    cursor: pointer;
+    padding: 6px 8px 6px 6px; border-radius: 50px; cursor: pointer;
     transition: background 0.2s;
   }
   .user-trigger:hover { background: rgba(0,0,0,0.04); }
   .user-avatar {
-    width: 32px; height: 32px;
-    border-radius: 50%;
+    width: 30px; height: 30px; border-radius: 50%;
     background: linear-gradient(135deg, #a78bfa, #6366f1);
     color: #fff;
     display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 600;
+    font-size: 12px; font-weight: 600;
   }
   .user-name { font-size: 13px; font-weight: 500; color: var(--text); }
   .user-menu-body {
-    position: absolute; top: 48px; right: 0;
+    position: absolute; top: 46px; right: 0;
     background: #fff; border-radius: 14px;
-    box-shadow: var(--shadow-lg);
-    border: 1px solid var(--border);
-    min-width: 160px;
-    padding: 6px;
-    display: none;
-    opacity: 0; transform: translateY(-6px);
+    box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+    min-width: 180px; padding: 6px;
+    display: none; opacity: 0; transform: translateY(-6px);
     transition: all 0.2s var(--ease-out);
   }
   .user-menu.open .user-menu-body { display: block; opacity: 1; transform: translateY(0); }
   .user-menu-item {
     display: flex; align-items: center; gap: 8px;
-    padding: 10px 12px;
-    border-radius: 10px;
-    font-size: 13px; color: var(--text-light);
-    cursor: pointer;
+    padding: 10px 12px; border-radius: 10px;
+    font-size: 13px; color: var(--text-light); cursor: pointer;
     transition: all 0.15s;
   }
   .user-menu-item:hover { background: rgba(0,0,0,0.03); color: var(--text); }
@@ -114,76 +109,174 @@
   .user-menu-item.danger:hover { background: rgba(244,63,94,0.06); }
   .user-menu-divider { height: 1px; background: var(--border); margin: 6px 0; }
 
-  /* ── 主内容区 ── */
+  /* ── 左侧栏：历史 + 模板 ── */
+  .sidebar {
+    grid-area: sidebar;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-section { padding: 14px 12px; }
+  .sidebar-section + .sidebar-section { border-top: 1px solid var(--border); }
+
+  .sidebar-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 4px 8px; color: var(--text-light);
+  }
+  .sidebar-title { font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+  .sidebar-action {
+    cursor: pointer; padding: 4px; border-radius: 6px;
+    transition: all 0.2s;
+    color: var(--text-light);
+  }
+  .sidebar-action:hover { background: rgba(0,0,0,0.05); color: var(--primary); }
+
+  .new-chat-btn {
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    margin-bottom: 8px;
+    transition: all 0.2s var(--ease-bounce);
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb),0.25);
+  }
+  .new-chat-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(var(--primary-rgb),0.35); }
+
+  .history-list { display: flex; flex-direction: column; gap: 2px; max-height: 260px; overflow-y: auto; }
+  .history-list::-webkit-scrollbar { width: 4px; }
+  .history-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .history-list-empty { max-height: none; }
+  .history-more {
+    padding: 6px 10px; font-size: 11px; text-align: center;
+    color: var(--primary); cursor: pointer; border-radius: 6px;
+    margin-top: 4px;
+  }
+  .history-more:hover { background: var(--primary-light); }
+
+  .history-item { position: relative; }
+  .history-item-del {
+    display: none; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 4px;
+    color: var(--text-muted); cursor: pointer; flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .history-item:hover .history-item-del { display: inline-flex; }
+  .history-item-del:hover { background: rgba(244,63,94,0.08); color: var(--error); }
+  .history-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 12px;
+    color: var(--text-light);
+  }
+  .history-item:hover { background: rgba(0,0,0,0.04); color: var(--text); }
+  .history-item.active { background: rgba(var(--primary-rgb),0.08); color: var(--primary); }
+  .history-item .icon { flex-shrink: 0; margin-top: 2px; }
+  .history-item .text {
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    flex: 1; min-width: 0;
+  }
+  .history-item .time { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+  .history-empty {
+    text-align: center; padding: 20px 10px; font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .template-list { display: flex; flex-direction: column; gap: 4px; }
+  .template-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 12px;
+    color: var(--text-light);
+    border: 1px solid transparent;
+  }
+  .template-item:hover { background: rgba(0,0,0,0.04); color: var(--text); border-color: rgba(0,0,0,0.04); }
+  .template-item .icon { flex-shrink: 0; color: var(--primary); }
+  .template-item .text {
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;
+  }
+  .template-item .badge {
+    font-size: 9px; padding: 1px 6px; border-radius: 50px;
+    background: var(--primary-light); color: var(--primary); flex-shrink: 0;
+  }
+
+  /* ── 主区 ── */
   .main {
-    flex: 1;
+    grid-area: main;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     position: relative;
   }
 
-  /* ── 聊天区 ── */
   .chat-container {
     flex: 1;
     overflow-y: auto;
     padding: 24px 20px 160px;
     scroll-behavior: smooth;
   }
-  .chat-inner {
-    max-width: 800px;
-    margin: 0 auto;
-  }
+  .chat-inner { max-width: 760px; margin: 0 auto; }
 
   /* 空状态 / 欢迎页 */
-  .welcome {
-    text-align: center;
-    padding: 80px 20px 40px;
-    animation: fadeUp 0.5s var(--ease-out);
-  }
+  .welcome { text-align: center; padding: 40px 20px; animation: fadeUp 0.5s var(--ease-out); }
   .welcome-icon {
-    width: 64px; height: 64px;
-    margin: 0 auto 20px;
-    background: rgba(255,255,255,0.8);
-    border-radius: 18px;
+    width: 64px; height: 64px; margin: 0 auto 20px;
+    background: rgba(255,255,255,0.8); border-radius: 18px;
     display: flex; align-items: center; justify-content: center;
     box-shadow: var(--shadow);
   }
-  .welcome h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .welcome h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; }
   .welcome p { color: var(--text-light); font-size: 14px; margin-bottom: 32px; }
-  .suggestion-grid {
+
+  /* 初始模板 4 卡片 */
+  .default-templates {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 12px;
-    max-width: 680px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    max-width: 640px;
     margin: 0 auto;
   }
-  .suggestion-card {
+  .default-template-card {
     background: rgba(255,255,255,0.7);
     border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 16px;
+    padding: 18px 20px;
     text-align: left;
     cursor: pointer;
     transition: all 0.2s var(--ease-out);
+    position: relative;
   }
-  .suggestion-card:hover {
+  .default-template-card:hover {
     background: #fff;
     transform: translateY(-2px);
     box-shadow: var(--shadow);
     border-color: rgba(var(--primary-rgb),0.15);
   }
-  .suggestion-card .icon { color: var(--primary); margin-bottom: 8px; }
-  .suggestion-card .title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-  .suggestion-card .desc { font-size: 12px; color: var(--text-light); }
+  .default-template-card .icon { color: var(--primary); margin-bottom: 10px; }
+  .default-template-card .title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .default-template-card .desc { font-size: 12px; color: var(--text-light); line-height: 1.5; }
 
   /* 消息气泡 */
   .message { display: flex; align-items: flex-start; gap: 10px; padding: 12px 0; animation: fadeUp 0.4s var(--ease-out) forwards; }
   .message.user { justify-content: flex-end; flex-direction: row-reverse; }
   .message.assistant { justify-content: flex-start; }
   .avatar {
-    width: 32px; height: 32px; border-radius: 50%;
-    flex-shrink: 0;
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
     font-size: 14px; font-weight: 600;
   }
@@ -210,87 +303,102 @@
     box-shadow: var(--shadow);
   }
 
-  /* 意图标签 */
   .intent-tag {
-    display: inline-block;
-    font-size: 10px;
-    background: rgba(var(--primary-rgb),0.08);
-    color: var(--primary);
-    padding: 3px 10px;
-    border-radius: 50px;
-    margin-bottom: 8px;
-    font-weight: 500;
+    display: inline-block; font-size: 10px;
+    background: rgba(var(--primary-rgb),0.08); color: var(--primary);
+    padding: 3px 10px; border-radius: 50px; margin-bottom: 8px; font-weight: 500;
   }
 
-  /* KPI 小卡片 */
   .metric-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 12px; }
   .metric-card {
     background: rgba(99,102,241,0.04);
     border: 1px solid rgba(99,102,241,0.08);
-    border-radius: 14px;
-    padding: 12px 10px;
-    text-align: center;
+    border-radius: 14px; padding: 12px 10px; text-align: center;
     transition: all 0.3s var(--ease-out);
   }
   .metric-card:hover { transform: translateY(-2px); background: rgba(99,102,241,0.06); }
   .metric-card .val { font-size: 18px; font-weight: 700; color: var(--primary); }
   .metric-card .lbl { font-size: 10px; color: var(--text-light); margin-top: 2px; }
 
-  /* 洞察 */
   .insight-box {
-    margin-top: 10px;
-    padding: 12px 16px;
+    margin-top: 10px; padding: 12px 16px;
     background: rgba(245,158,11,0.06);
     border: 1px solid rgba(245,158,11,0.12);
-    border-radius: 14px;
-    font-size: 12px;
-    color: #92400e;
+    border-radius: 14px; font-size: 12px; color: #92400e;
   }
 
-  /* 追问提示 */
-  .followup-hint {
-    margin-top: 8px;
-    font-size: 11px;
-    color: var(--text-muted);
-  }
+  .followup-hint { margin-top: 8px; font-size: 11px; color: var(--text-muted); }
 
-  /* 消息内操作按钮 */
   .msg-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
   .msg-btn {
-    padding: 6px 12px;
-    border: 1px solid var(--border);
-    border-radius: 50px;
-    background: rgba(255,255,255,0.7);
-    color: var(--text-light);
-    font-size: 11px;
-    cursor: pointer;
-    transition: all 0.2s;
+    padding: 6px 12px; border: 1px solid var(--border); border-radius: 50px;
+    background: rgba(255,255,255,0.7); color: var(--text-light);
+    font-size: 11px; cursor: pointer; transition: all 0.2s;
     display: inline-flex; align-items: center; gap: 4px;
   }
   .msg-btn:hover { background: #fff; border-color: rgba(var(--primary-rgb),0.2); color: var(--primary); }
   .msg-btn.primary { background: rgba(var(--primary-rgb),0.08); color: var(--primary); border-color: rgba(var(--primary-rgb),0.15); }
-  .msg-btn.success { background: rgba(16,185,129,0.08); color: var(--success); border-color: rgba(16,185,129,0.15); }
 
-  /* ── 快捷按钮 / chips ── */
+  /* ── 输入区 ── */
+  .input-wrapper {
+    position: fixed;
+    bottom: 0; left: 260px; right: 0;
+    background: rgba(248,246,244,0.92);
+    backdrop-filter: blur(12px);
+    padding: 0 20px 24px;
+    z-index: 20;
+    transition: left 0.3s;
+  }
+  .input-area { max-width: 760px; margin: 0 auto; }
+  .input-box {
+    background: #fff; border: 1px solid var(--border); border-radius: 24px;
+    padding: 12px 14px; display: flex; align-items: flex-end; gap: 10px;
+    box-shadow: var(--shadow-lg); transition: all 0.2s;
+  }
+  .input-box:focus-within {
+    border-color: rgba(var(--primary-rgb),0.25);
+    box-shadow: 0 12px 48px rgba(99,102,241,0.12);
+  }
+  .input-box textarea {
+    flex: 1; border: none; font-size: 15px; font-family: inherit;
+    resize: none; height: 26px; max-height: 140px; outline: none;
+    background: transparent; padding: 6px 4px; line-height: 1.5;
+  }
+  .input-box textarea::placeholder { color: var(--text-muted); }
+  .send-btn {
+    width: 36px; height: 36px; border: none; border-radius: 50%;
+    background: var(--primary); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.2s var(--ease-bounce);
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb),0.25); flex-shrink: 0;
+  }
+  .send-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 6px 18px rgba(var(--primary-rgb),0.35); }
+  .send-btn:active:not(:disabled) { transform: scale(0.95); }
+  .send-btn:disabled { background: var(--text-muted); cursor: not-allowed; box-shadow: none; }
+  .input-hint { text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 8px; }
+
+  /* 滚动到底部 */
+  .scroll-bottom-btn {
+    position: fixed; bottom: 160px; left: 50%; transform: translateX(-50%);
+    width: 36px; height: 36px; border-radius: 50%;
+    background: #fff; border: 1px solid var(--border);
+    box-shadow: var(--shadow); cursor: pointer;
+    display: none; z-index: 15;
+    align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .scroll-bottom-btn:hover { transform: translateX(-50%) translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+
+  /* ── 快捷 chips ── */
   .quick-chips {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 8px 0;
-    max-width: 760px;
-    margin: 0 auto;
+    display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+    padding: 8px 0; max-width: 760px; margin: 0 auto;
   }
   .quick-chip {
     display: inline-flex; align-items: center; gap: 5px;
-    padding: 6px 12px;
-    border: 1px solid var(--border);
-    border-radius: 50px;
-    background: rgba(255,255,255,0.7);
-    color: var(--text-light);
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
+    padding: 6px 12px; border: 1px solid var(--border); border-radius: 50px;
+    background: rgba(255,255,255,0.7); color: var(--text-light);
+    font-size: 12px; cursor: pointer; transition: all 0.2s;
   }
   .quick-chip:hover { background: #fff; border-color: rgba(var(--primary-rgb),0.2); color: var(--primary); transform: translateY(-1px); }
   .quick-chip svg { width: 13px; height: 13px; }
@@ -303,14 +411,8 @@
   }
   .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
   .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes bounce {
-    0%, 80%, 100% { transform: scale(0); opacity: 0.4; }
-    40% { transform: scale(1); opacity: 1; }
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes bounce { 0%, 80%, 100% { transform: scale(0); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
   /* ── 表格 ── */
   table { border-collapse: collapse; width: 100%; font-size: 11px; }
@@ -319,138 +421,102 @@
   tr:nth-child(even) td { background: rgba(0,0,0,0.01); }
   tr:hover td { background: rgba(var(--primary-rgb),0.03); }
 
-  /* ── 输入区（底部固定居中） ── */
-  .input-wrapper {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    background: rgba(248,246,244,0.92);
-    backdrop-filter: blur(12px);
-    padding: 0 20px 24px;
-    z-index: 20;
-  }
-  .input-area {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  .input-box {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 12px 14px;
-    display: flex;
-    align-items: flex-end;
-    gap: 10px;
-    box-shadow: var(--shadow-lg);
-    transition: all 0.2s;
-  }
-  .input-box:focus-within {
-    border-color: rgba(var(--primary-rgb),0.25);
-    box-shadow: 0 12px 48px rgba(99,102,241,0.12);
-  }
-  .input-box textarea {
-    flex: 1;
-    border: none;
-    font-size: 15px;
-    font-family: inherit;
-    resize: none;
-    height: 26px;
-    max-height: 140px;
-    outline: none;
-    background: transparent;
-    padding: 6px 4px;
-    line-height: 1.5;
-  }
-  .input-box textarea::placeholder { color: var(--text-muted); }
-  .send-btn {
-    width: 36px; height: 36px;
-    border: none;
-    border-radius: 50%;
-    background: var(--primary);
-    color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s var(--ease-bounce);
-    box-shadow: 0 4px 12px rgba(var(--primary-rgb),0.25);
-    flex-shrink: 0;
-  }
-  .send-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 6px 18px rgba(var(--primary-rgb),0.35); }
-  .send-btn:active:not(:disabled) { transform: scale(0.95); }
-  .send-btn:disabled { background: var(--text-muted); cursor: not-allowed; box-shadow: none; }
-  .input-hint {
-    text-align: center;
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 8px;
-  }
-
-  /* 模板面板 */
-  .templates-popover {
-    position: absolute;
-    bottom: 76px;
-    left: 50%; transform: translateX(-50%);
-    width: 90%; max-width: 760px;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 14px;
-    box-shadow: var(--shadow-lg);
-    display: none;
-    max-height: 260px;
-    overflow-y: auto;
-  }
-  .templates-popover.open { display: block; }
-
   /* ── 登录遮罩 ── */
   .login-overlay {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,0.25);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 100;
+    display: flex; align-items: center; justify-content: center; z-index: 100;
   }
   .login-card {
     background: rgba(255,255,255,0.92);
     backdrop-filter: blur(24px);
-    border-radius: 24px;
-    padding: 40px;
-    width: 380px;
-    text-align: center;
+    border-radius: 24px; padding: 40px; width: 380px; text-align: center;
     box-shadow: var(--shadow-lg);
   }
   .login-card h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 8px; }
   .login-card p { font-size: 13px; color: var(--text-light); margin-bottom: 24px; }
   .login-card input {
-    width: 100%;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 13px 16px;
-    font-size: 14px;
-    margin-bottom: 12px;
-    background: rgba(255,255,255,0.7);
-    transition: all 0.2s;
+    width: 100%; border: 1px solid var(--border); border-radius: 12px;
+    padding: 13px 16px; font-size: 14px; margin-bottom: 12px;
+    background: rgba(255,255,255,0.7); transition: all 0.2s;
   }
-  .login-card input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(var(--primary-rgb),0.08);
-  }
+  .login-card input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(var(--primary-rgb),0.08); }
   .login-card button {
-    width: 100%;
-    border: none;
-    background: var(--primary);
-    color: #fff;
-    border-radius: 50px;
-    padding: 14px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.25s var(--ease-bounce);
+    width: 100%; border: none; background: var(--primary); color: #fff;
+    border-radius: 50px; padding: 14px; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: all 0.25s var(--ease-bounce);
     box-shadow: 0 4px 16px rgba(var(--primary-rgb),0.3);
   }
   .login-card button:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(var(--primary-rgb),0.4); }
   #login-error { color: var(--error); font-size: 13px; margin-top: 10px; display: none; }
+
+  /* 模板弹窗 */
+  .tmpl-modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    display: none; align-items: center; justify-content: center;
+    z-index: 200;
+  }
+  .tmpl-modal {
+    background: #fff; border-radius: 20px; width: 560px; max-width: 90vw;
+    max-height: 80vh; display: flex; flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    overflow: hidden;
+  }
+  .tmpl-modal-header {
+    padding: 18px 24px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .tmpl-modal-title { font-size: 16px; font-weight: 600; }
+  .tmpl-modal-close {
+    cursor: pointer; padding: 4px; border-radius: 6px;
+    color: var(--text-light);
+  }
+  .tmpl-modal-close:hover { background: rgba(0,0,0,0.05); }
+  .tmpl-modal-body { padding: 18px 24px; flex: 1; overflow-y: auto; }
+  .tmpl-modal-input {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--border);
+    border-radius: 10px; font-size: 13px; margin-bottom: 14px;
+  }
+  .tmpl-modal-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(var(--primary-rgb),0.08); }
+  .tmpl-metric-list {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 6px; max-height: 360px; overflow-y: auto;
+  }
+  .tmpl-metric-item {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 10px; border: 1px solid var(--border); border-radius: 8px;
+    cursor: pointer; font-size: 12px; transition: all 0.15s;
+  }
+  .tmpl-metric-item:hover { background: rgba(0,0,0,0.02); }
+  .tmpl-metric-item.selected { background: rgba(var(--primary-rgb),0.06); border-color: rgba(var(--primary-rgb),0.25); }
+  .tmpl-metric-item input { margin: 0; }
+  .tmpl-metric-item .name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tmpl-metric-item .cat { color: var(--text-muted); font-size: 10px; }
+  .tmpl-modal-footer {
+    padding: 14px 24px; border-top: 1px solid var(--border);
+    display: flex; justify-content: flex-end; gap: 8px;
+  }
+  .tmpl-modal-footer button { padding: 8px 20px; border: none; border-radius: 50px; font-size: 13px; cursor: pointer; }
+  .tmpl-btn-primary { background: var(--primary); color: #fff; }
+  .tmpl-btn-secondary { background: rgba(0,0,0,0.05); color: var(--text); }
+  .tmpl-error { color: var(--error); font-size: 12px; margin-bottom: 10px; display: none; }
+
+  /* 自定义模板项悬停显示操作 */
+  .template-item.custom-template { position: relative; }
+  .tmpl-actions { display: none; gap: 2px; margin-left: auto; }
+  .template-item.custom-template:hover .tmpl-actions { display: flex; }
+  .template-item.custom-template:hover .badge { display: none; }
+  .tmpl-action-btn {
+    width: 20px; height: 20px; padding: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 4px; color: var(--text-light); cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tmpl-action-btn:hover { background: rgba(0,0,0,0.06); color: var(--primary); }
+  .tmpl-action-btn.danger:hover { color: var(--error); }
 </style>
 </head>
-
 <body>
 
 <!-- 登录遮罩 -->
@@ -458,98 +524,201 @@
   <div class="login-card">
     <h2><i data-lucide="school" style="width:26px;height:26px;vertical-align:-5px;margin-right:6px;"></i>教师登录</h2>
     <p>输入工号和密码开始对话（初始密码为工号后6位）</p>
-    <input type="text" id="login-teacher-id" placeholder="工号">
-    <input type="password" id="login-password" placeholder="密码">
+    <input type="text" id="login-teacher-id" placeholder="工号" onkeydown="if(event.key==='Enter')document.getElementById('login-password').focus()">
+    <input type="password" id="login-password" placeholder="密码" onkeydown="if(event.key==='Enter')doLogin()">
     <button onclick="doLogin()">登录</button>
     <div id="login-error">请填写工号和密码</div>
   </div>
 </div>
 
-<div class="header">
-  <div class="header-left">
-    <div class="logo"><i data-lucide="graduation-cap" style="width:18px;height:18px;"></i></div>
-    <span class="title">教师科研助手</span>
-  </div>
-
-  <div class="user-menu" id="user-menu">
-    <div class="user-trigger" onclick="toggleUserMenu()">
-      <div class="user-avatar" id="user-avatar">用</div>
-      <span class="user-name" id="user-name">未登录</span>
-      <i data-lucide="chevron-down" style="width:14px;height:14px;color:var(--text-light);"></i>
+<div class="tmpl-modal-overlay" id="template-modal" onclick="if(event.target===this)closeTemplateEditor()">
+  <div class="tmpl-modal" onclick="event.stopPropagation()">
+    <div class="tmpl-modal-header">
+      <span class="tmpl-modal-title" id="tmpl-modal-title">新增模板</span>
+      <span class="tmpl-modal-close" onclick="closeTemplateEditor()">
+        <i data-lucide="x" style="width:18px;height:18px;"></i>
+      </span>
     </div>
-    <div class="user-menu-body">
-      <div class="user-menu-item" onclick="openAdmin()">
-        <i data-lucide="layout-dashboard" style="width:14px;height:14px;"></i>
-        <span>超管后台</span>
+    <div class="tmpl-modal-body">
+      <label style="font-size:12px;color:var(--text-light);display:block;margin-bottom:4px;">模板名称</label>
+      <input type="text" id="tmpl-name" class="tmpl-modal-input" placeholder="例如：我的科研概况">
+      <div class="tmpl-error" id="tmpl-error">请填写名称</div>
+      <label style="font-size:12px;color:var(--text-light);display:block;margin-bottom:6px;">选择指标（点击切换）</label>
+      <div class="tmpl-metric-list" id="tmpl-metric-list">
+        <div style="color:var(--text-muted);font-size:12px;padding:10px;">加载中...</div>
       </div>
-      <div class="user-menu-divider"></div>
-      <div class="user-menu-item danger" onclick="logout()">
-        <i data-lucide="log-out" style="width:14px;height:14px;"></i>
-        <span>退出登录</span>
-      </div>
+    </div>
+    <div class="tmpl-modal-footer">
+      <button class="tmpl-btn-secondary" onclick="closeTemplateEditor()">取消</button>
+      <button class="tmpl-btn-primary" onclick="saveTemplateFromEditor()">保存</button>
     </div>
   </div>
 </div>
 
-<div class="main">
-  <div class="chat-container" id="chat-container">
-    <div class="chat-inner" id="chat-inner">
-      <!-- 消息动态插入 -->
+<div class="app-layout">
+  <!-- 顶部 -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo"><i data-lucide="graduation-cap" style="width:18px;height:18px;"></i></div>
+      <span class="title">教师科研助手</span>
     </div>
-  </div>
-
-  <!-- 快捷功能 chips（位于输入框上方） -->
-  <div class="quick-chips" id="quick-chips">
-    <button class="quick-chip" onclick="sendQuick('帮我看看整体科研情况')">
-      <i data-lucide="layout-dashboard" style="width:13px;height:13px;"></i>科研全景
-    </button>
-    <button class="quick-chip" onclick="sendQuick('论文发表情况')">
-      <i data-lucide="file-text" style="width:13px;height:13px;"></i>论文分析
-    </button>
-    <button class="quick-chip" onclick="sendQuick('经费到账和支出详情')">
-      <i data-lucide="banknote" style="width:13px;height:13px;"></i>经费详情
-    </button>
-    <button class="quick-chip" onclick="promptDiscover()">
-      <i data-lucide="compass" style="width:13px;height:13px;"></i>探索新指标
-    </button>
-    <button class="quick-chip" onclick="runScenario('annual_summary')">
-      <i data-lucide="calendar-days" style="width:13px;height:13px;"></i>年度总结
-    </button>
-    <button class="quick-chip" onclick="runScenario('title_evaluation')">
-      <i data-lucide="award" style="width:13px;height:13px;"></i>职称评审
-    </button>
-    <button class="quick-chip" onclick="runScenario('grant_application')">
-      <i data-lucide="landmark" style="width:13px;height:13px;"></i>基金申报
-    </button>
-    <button class="quick-chip" onclick="toggleTemplates()">
-      <i data-lucide="bookmark" style="width:13px;height:13px;"></i>我的模板
-    </button>
-  </div>
-
-  <!-- 模板面板 -->
-  <div class="templates-popover" id="templates-panel">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-      <span style="font-size:13px;font-weight:600;"><i data-lucide="bookmark" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px;"></i>我的模板</span>
-      <span onclick="toggleTemplates()" style="cursor:pointer;color:var(--text-light);"><i data-lucide="x" style="width:14px;height:14px;"></i></span>
-    </div>
-    <div id="templates-list" style="font-size:13px;color:var(--text-light);">加载中...</div>
-  </div>
-
-  <!-- 输入区 -->
-  <div class="input-wrapper">
-    <div class="input-area">
-      <div class="input-box">
-        <textarea id="user-input" rows="1" placeholder="输入问题，如「帮我看看整体科研情况」..." onkeydown="onKeyDown(event)"></textarea>
-        <button id="send-btn" class="send-btn" onclick="sendMessage()" disabled>
-          <i data-lucide="arrow-up" style="width:18px;height:18px;"></i>
-        </button>
+    <div class="user-menu" id="user-menu">
+      <div class="user-trigger" onclick="toggleUserMenu()">
+        <div class="user-avatar" id="user-avatar">用</div>
+        <span class="user-name" id="user-name">未登录</span>
+        <i data-lucide="chevron-down" style="width:14px;height:14px;color:var(--text-light);"></i>
       </div>
-      <div class="input-hint">按 Enter 发送，Shift + Enter 换行</div>
+      <div class="user-menu-body">
+        <div class="user-menu-item danger" onclick="logout()">
+          <i data-lucide="log-out" style="width:14px;height:14px;"></i><span>退出登录</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 左侧栏 -->
+  <div class="sidebar">
+    <!-- 新建对话 -->
+    <div class="sidebar-section">
+      <button class="new-chat-btn" onclick="newChat()">
+        <i data-lucide="plus" style="width:14px;height:14px;"></i>新建对话
+      </button>
+    </div>
+
+    <!-- 历史对话 -->
+    <div class="sidebar-section" style="flex: 1; min-height: 0;">
+      <div class="sidebar-header">
+        <span class="sidebar-title">历史对话</span>
+      </div>
+      <div class="history-list" id="history-list">
+        <div class="history-empty">暂无历史对话</div>
+      </div>
+    </div>
+
+    <!-- 模板 -->
+    <div class="sidebar-section">
+      <div class="sidebar-header">
+        <span class="sidebar-title">模板</span>
+        <span style="display:flex;gap:4px;">
+          <span class="sidebar-action" id="restore-defaults-btn" style="display:none;" onclick="restoreDefaults()" title="恢复已删除的默认模板">
+            <i data-lucide="rotate-ccw" style="width:12px;height:12px;"></i>
+          </span>
+          <span class="sidebar-action" onclick="openTemplateEditor()" title="新增自定义模板">
+            <i data-lucide="plus" style="width:12px;height:12px;"></i>
+          </span>
+        </span>
+      </div>
+      <div class="template-list" id="template-list">
+        <div class="template-item custom-template" data-id="default:personal_overview" data-mid="personal_overview" onclick="applyTemplate('personal_overview', DEFAULT_TEMPLATES.personal_overview)">
+          <i data-lucide="layout-dashboard" class="icon" style="width:14px;height:14px;"></i>
+          <span class="text">科研全景</span>
+          <span class="badge" id="badge-personal_overview">19</span>
+          <span class="tmpl-actions" onclick="event.stopPropagation();">
+            <span class="tmpl-action-btn" onclick="event.stopPropagation();openTemplateEditor('default:personal_overview', DEFAULT_TEMPLATES.personal_overview)" title="编辑">
+              <i data-lucide="edit-2" style="width:11px;height:11px;"></i>
+            </span>
+            <span class="tmpl-action-btn danger" onclick="event.stopPropagation();deleteDefaultTemplate('personal_overview')" title="移除">
+              <i data-lucide="trash-2" style="width:11px;height:11px;"></i>
+            </span>
+          </span>
+        </div>
+        <div class="template-item custom-template" data-id="default:paper_analysis" data-mid="paper_analysis" onclick="applyTemplate('paper_analysis', DEFAULT_TEMPLATES.paper_analysis)">
+          <i data-lucide="file-text" class="icon" style="width:14px;height:14px;"></i>
+          <span class="text">论文分析</span>
+          <span class="badge" id="badge-paper_analysis">9</span>
+          <span class="tmpl-actions" onclick="event.stopPropagation();">
+            <span class="tmpl-action-btn" onclick="event.stopPropagation();openTemplateEditor('default:paper_analysis', DEFAULT_TEMPLATES.paper_analysis)" title="编辑">
+              <i data-lucide="edit-2" style="width:11px;height:11px;"></i>
+            </span>
+            <span class="tmpl-action-btn danger" onclick="event.stopPropagation();deleteDefaultTemplate('paper_analysis')" title="移除">
+              <i data-lucide="trash-2" style="width:11px;height:11px;"></i>
+            </span>
+          </span>
+        </div>
+        <div class="template-item custom-template" data-id="default:funding_detail" data-mid="funding_detail" onclick="applyTemplate('funding_detail', DEFAULT_TEMPLATES.funding_detail)">
+          <i data-lucide="banknote" class="icon" style="width:14px;height:14px;"></i>
+          <span class="text">经费详情</span>
+          <span class="badge" id="badge-funding_detail">8</span>
+          <span class="tmpl-actions" onclick="event.stopPropagation();">
+            <span class="tmpl-action-btn" onclick="event.stopPropagation();openTemplateEditor('default:funding_detail', DEFAULT_TEMPLATES.funding_detail)" title="编辑">
+              <i data-lucide="edit-2" style="width:11px;height:11px;"></i>
+            </span>
+            <span class="tmpl-action-btn danger" onclick="event.stopPropagation();deleteDefaultTemplate('funding_detail')" title="移除">
+              <i data-lucide="trash-2" style="width:11px;height:11px;"></i>
+            </span>
+          </span>
+        </div>
+        <div id="custom-templates"></div>
+      </div>
+    </div>
+
+    <!-- 技能 -->
+    <div class="sidebar-section">
+      <div class="sidebar-header">
+        <span class="sidebar-title">技能</span>
+      </div>
+      <div class="template-list">
+        <div class="template-item" onclick="runScenario('annual_summary')">
+          <i data-lucide="calendar-days" class="icon" style="width:14px;height:14px;color:var(--warning);"></i>
+          <span class="text">年度总结</span>
+        </div>
+        <div class="template-item" onclick="runScenario('title_evaluation')">
+          <i data-lucide="award" class="icon" style="width:14px;height:14px;color:var(--warning);"></i>
+          <span class="text">职称评审</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主区 -->
+  <div class="main">
+    <div class="chat-container" id="chat-container">
+      <div class="chat-inner" id="chat-inner">
+        <!-- 消息动态插入 -->
+      </div>
+    </div>
+
+    <button class="scroll-bottom-btn" id="scroll-bottom-btn" onclick="scrollToBottom()" title="滚动到底部">
+      <i data-lucide="chevron-down" style="width:18px;height:18px;"></i>
+    </button>
+
+    <!-- 输入区 -->
+    <div class="input-wrapper">
+      <div class="input-area">
+        <div class="input-box">
+          <textarea id="user-input" rows="1" placeholder="输入问题，如「帮我看看整体科研情况」..." onkeydown="onKeyDown(event)"></textarea>
+          <button id="send-btn" class="send-btn" onclick="sendMessage()" disabled>
+            <i data-lucide="arrow-up" style="width:18px;height:18px;"></i>
+          </button>
+        </div>
+        <div class="input-hint">按 Enter 发送，Shift + Enter 换行</div>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
+// ── 默认模板配置 ──
+const DEFAULT_TEMPLATES = {
+  personal_overview: [
+    'project_count_leader','fund_total_arrived','paper_count_total','paper_first_author_count',
+    'patent_count','book_count','award_count','conference_hosted',
+    'project_by_level','fund_monthly_trend','paper_by_level','paper_yearly_trend',
+    'patent_by_type','award_by_level','paper_rank_dept','project_rank_dept',
+    'fund_rank_dept','composite_output_score','achievement_yearly_table',
+  ],
+  paper_analysis: [
+    'paper_count_total','paper_first_author_count','paper_by_level',
+    'paper_yearly_trend','paper_author_role','paper_journal_source',
+    'paper_by_year_level','paper_rank_dept','paper_rank_school',
+  ],
+  funding_detail: [
+    'fund_total_arrived','fund_total_spent','fund_execution_rate',
+    'fund_monthly_trend','fund_yearly_inout','fund_yearly_comparison',
+    'fund_rank_dept','fund_rank_school',
+  ],
+};
+
 // ── 全局状态 ──
 let state = {
   sessionId: null,
@@ -558,38 +727,211 @@ let state = {
   isLoading: false,
   lastMetricIds: [],
   token: null,
+  chatHistory: [],
+  historyExpanded: false,   // 历史对话是否展开
 };
 
-// ── 初始化（恢复登录态） ──
-async function init() {
-  const saved = localStorage.getItem('tr_token');
-  if (saved) {
-    try {
-      const res = await fetch('/api/auth/me', {
-        headers: { 'Authorization': `Bearer ${saved}` }
-      });
-      if (res.ok) {
-        const user = await res.json();
-        state.token = saved;
-        state.teacherId = user.teacher_id;
-        state.teacherName = user.name;
-        document.getElementById('login-overlay').style.display = 'none';
-        updateUserHeader(user.name, user.department);
-        document.getElementById('send-btn').disabled = false;
-        showWelcome(user.name);
-        return;
+// ── 聊天历史持久化 ──
+function getHistoryKey() { return `tr_chat_history_${state.teacherId}`; }
+
+// history 项结构：{ question, answer, timestamp, intent }
+function saveHistory() {
+  if (!state.teacherId) return;
+  try {
+    localStorage.setItem(getHistoryKey(), JSON.stringify(state.chatHistory));
+  } catch(e) {}
+}
+
+function loadHistory() {
+  if (!state.teacherId) return [];
+  try {
+    const raw = JSON.parse(localStorage.getItem(getHistoryKey())) || [];
+    // 数据迁移：旧的 [{role, content, ...}] 格式合并为成对问答
+    if (raw.length > 0 && raw[0].role !== undefined) {
+      const merged = [];
+      for (let i = 0; i < raw.length; i++) {
+        if (raw[i].role === 'user') {
+          const next = raw[i + 1];
+          if (next && next.role === 'assistant') {
+            merged.push({
+              question: raw[i].content,
+              answer: next.content,
+              timestamp: raw[i].timestamp || next.timestamp || Date.now(),
+            });
+            i++;
+          } else {
+            merged.push({ question: raw[i].content, answer: '', timestamp: raw[i].timestamp || Date.now() });
+          }
+        }
       }
-    } catch(e) { localStorage.removeItem('tr_token'); }
+      localStorage.setItem(getHistoryKey(), JSON.stringify(merged));
+      return merged;
+    }
+    return raw;
+  } catch(e) { return []; }
+}
+
+function clearHistory() {
+  if (!confirm('确认清空所有历史对话？')) return;
+  state.chatHistory = [];
+  if (state.teacherId) localStorage.removeItem(getHistoryKey());
+  renderHistoryList();
+  showWelcome(state.teacherName);
+}
+
+// 添加一条完整对话（user + assistant 合并为一条）
+function addChatTurn(question, answer, intent) {
+  state.chatHistory.push({
+    question,
+    answer: (answer || '').replace(/<[^>]*>/g, ''),
+    intent: intent || '',
+    timestamp: Date.now(),
+  });
+  saveHistory();
+  renderHistoryList();
+}
+
+// 删除单条历史
+function deleteHistoryItem(timestamp) {
+  state.chatHistory = state.chatHistory.filter(h => h.timestamp !== timestamp);
+  saveHistory();
+  renderHistoryList();
+}
+
+function renderHistoryList() {
+  const container = document.getElementById('history-list');
+  if (state.chatHistory.length === 0) {
+    container.classList.add('history-list-empty');
+    container.innerHTML = '<div class="history-empty">暂无历史对话</div>';
+    return;
+  }
+  container.classList.remove('history-list-empty');
+  // 默认仅显示前 8 条；超出可点击展开更多
+  const collapsed = !state.historyExpanded;
+  const limit = collapsed ? 8 : 20;
+  const items = [...state.chatHistory].reverse().slice(0, limit);
+  let html = items.map((item, idx) => {
+    const realIdx = state.chatHistory.length - 1 - idx;
+    const time = new Date(item.timestamp);
+    const now = new Date();
+    const isToday = time.toDateString() === now.toDateString();
+    const timeStr = isToday
+      ? time.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })
+      : time.toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' });
+    return `
+      <div class="history-item" onclick="restoreFromHistory(${realIdx})" title="${escapeHtml(item.question)}">
+        <i data-lucide="message-circle" class="icon" style="width:13px;height:13px;margin-top:2px;"></i>
+        <div style="flex:1;min-width:0;">
+          <div class="text">${escapeHtml(item.question)}</div>
+          <div class="time">${timeStr}</div>
+        </div>
+        <span class="history-item-del" onclick="event.stopPropagation();deleteHistoryItem(${item.timestamp})" title="删除该条历史">
+          <i data-lucide="x" style="width:12px;height:12px;"></i>
+        </span>
+      </div>
+    `;
+  }).join('');
+
+  // 展开/折叠
+  if (state.chatHistory.length > 8) {
+    if (collapsed) {
+      html += `<div class="history-more" onclick="toggleHistoryExpand()">
+        <i data-lucide="chevron-down" style="width:11px;height:11px;vertical-align:-1px;margin-right:2px;"></i>查看更多（剩余 ${state.chatHistory.length - 8} 条）
+      </div>`;
+    } else {
+      html += `<div class="history-more" onclick="toggleHistoryExpand()">
+        <i data-lucide="chevron-up" style="width:11px;height:11px;vertical-align:-1px;margin-right:2px;"></i>收起
+      </div>`;
+    }
+  }
+  container.innerHTML = html;
+  lucide.createIcons();
+}
+
+function toggleHistoryExpand() {
+  state.historyExpanded = !state.historyExpanded;
+  renderHistoryList();
+}
+
+function restoreFromHistory(idx) {
+  if (idx < 0 || idx >= state.chatHistory.length) return;
+  const item = state.chatHistory[idx];
+  if (!item || !item.question) return;
+  const inner = document.getElementById('chat-inner');
+  inner.innerHTML = '';
+
+  // 显示该条历史对应的问答对
+  const renderMsg = (role, text) => {
+    const div = document.createElement('div');
+    div.className = `message ${role}`;
+    const avatarIcon = role === 'user' ? 'user' : 'bot';
+    div.innerHTML = `
+      <div class="avatar"><i data-lucide="${avatarIcon}" style="width:16px;height:16px;"></i></div>
+      <div class="bubble">${text}</div>
+    `;
+    inner.appendChild(div);
+  };
+
+  // 显示前一条历史的问答（上下文）
+  if (idx > 0) {
+    const prev = state.chatHistory[idx - 1];
+    if (prev && prev.question) {
+      renderMsg('user', prev.question);
+      if (prev.answer) renderMsg('assistant', prev.answer);
+    }
   }
 
-  // 检查服务是否可用
+  renderMsg('user', item.question);
+  if (item.answer) renderMsg('assistant', item.answer);
+  scrollToBottom();
+  lucide.createIcons();
+}
+  scrollToBottom();
+  lucide.createIcons();
+}
+
+// ── 初始化 ──
+async function init() {
+  const saved = localStorage.getItem('tr_token');
+  if (!saved) return;
+
+  const inner = document.getElementById('chat-inner');
+  inner.innerHTML = `
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding-top:120px;">
+      <div class="loading-dots"><span></span><span></span><span></span></div>
+      <p style="color:var(--text-light);font-size:13px;margin-top:16px;">恢复登录状态...</p>
+    </div>`;
+
   try {
-    const res = await fetch('/api/chat/sessions');
-    if (!res.ok) throw new Error('服务未启动');
+    const res = await fetch('/api/auth/me', {
+      headers: { 'Authorization': `Bearer ${saved}` }
+    });
+    if (res.ok) {
+      const user = await res.json();
+      state.token = saved;
+      state.teacherId = user.teacher_id;
+      state.teacherName = user.name;
+      document.getElementById('login-overlay').style.display = 'none';
+      updateUserHeader(user.name, user.department);
+      document.getElementById('send-btn').disabled = false;
+
+      state.chatHistory = loadHistory();
+      renderHistoryList();
+      await renderCustomTemplates();
+      applyDeletedDefaults();
+      if (state.chatHistory.length > 0) {
+        showContinueChat(user.name, state.chatHistory);
+      } else {
+        showWelcome(user.name);
+      }
+      return;
+    }
+    if (res.status === 401 || res.status === 403) {
+      localStorage.removeItem('tr_token');
+    }
+    inner.innerHTML = '';
   } catch (e) {
-    document.getElementById('chat-inner').innerHTML =
-      '<div style="text-align:center;padding:60px 20px;color:var(--error);"><i data-lucide="alert-circle" style="width:32px;height:32px;margin-bottom:10px;"></i><br>服务未启动，请先运行 <code>python main.py</code></div>';
-    lucide.createIcons();
+    inner.innerHTML = '';
   }
 }
 
@@ -605,25 +947,25 @@ function showWelcome(name) {
     <div class="welcome">
       <div class="welcome-icon"><i data-lucide="sparkles" style="width:28px;height:28px;color:var(--primary);"></i></div>
       <h1>你好，${name}老师</h1>
-      <p>我是你的科研助手，可以帮你分析科研数据、生成报告和洞察。</p>
-      <div class="suggestion-grid">
-        <div class="suggestion-card" onclick="sendQuick('帮我看看整体科研情况')">
-          <div class="icon"><i data-lucide="layout-dashboard" style="width:18px;height:18px;"></i></div>
+      <p>我是你的科研助手，点击左侧「模板」快速查询，或「技能」生成报告</p>
+      <div class="default-templates">
+        <div class="default-template-card" onclick="applyTemplate('personal_overview', DEFAULT_TEMPLATES.personal_overview)">
+          <div class="icon"><i data-lucide="layout-dashboard" style="width:20px;height:20px;"></i></div>
           <div class="title">科研全景</div>
-          <div class="desc">查看个人科研整体情况与核心指标</div>
+          <div class="desc">查看个人科研整体情况、核心指标与学院排名</div>
         </div>
-        <div class="suggestion-card" onclick="sendQuick('论文发表情况')">
-          <div class="icon"><i data-lucide="file-text" style="width:18px;height:18px;"></i></div>
+        <div class="default-template-card" onclick="applyTemplate('paper_analysis', DEFAULT_TEMPLATES.paper_analysis)">
+          <div class="icon"><i data-lucide="file-text" style="width:20px;height:20px;"></i></div>
           <div class="title">论文分析</div>
-          <div class="desc">论文数量、级别、趋势与作者角色</div>
+          <div class="desc">论文数量、级别、趋势、作者角色与学院/全校排名</div>
         </div>
-        <div class="suggestion-card" onclick="sendQuick('经费到账和支出详情')">
-          <div class="icon"><i data-lucide="banknote" style="width:18px;height:18px;"></i></div>
+        <div class="default-template-card" onclick="applyTemplate('funding_detail', DEFAULT_TEMPLATES.funding_detail)">
+          <div class="icon"><i data-lucide="banknote" style="width:20px;height:20px;"></i></div>
           <div class="title">经费详情</div>
-          <div class="desc">到账、支出、执行率与月度趋势</div>
+          <div class="desc">到账、支出、执行率、月度趋势与排名</div>
         </div>
-        <div class="suggestion-card" onclick="runScenario('annual_summary')">
-          <div class="icon"><i data-lucide="calendar-days" style="width:18px;height:18px;"></i></div>
+        <div class="default-template-card" onclick="runScenario('annual_summary')">
+          <div class="icon"><i data-lucide="calendar-days" style="width:20px;height:20px;"></i></div>
           <div class="title">年度总结</div>
           <div class="desc">一键生成年度科研总结报告</div>
         </div>
@@ -633,24 +975,93 @@ function showWelcome(name) {
   lucide.createIcons();
 }
 
+function showContinueChat(name, history) {
+  const lastTime = history.length > 0
+    ? new Date(history[history.length - 1].timestamp).toLocaleString('zh-CN')
+    : '';
+  const inner = document.getElementById('chat-inner');
+  inner.innerHTML = `
+    <div class="welcome" style="padding-top:30px;">
+      <div class="welcome-icon" style="background:rgba(16,185,129,0.1);">
+        <i data-lucide="history" style="width:28px;height:28px;color:var(--success);"></i>
+      </div>
+      <h1 style="font-size:24px;">欢迎回来，${name}老师</h1>
+      <p style="margin-bottom:8px;">共有 ${history.length} 条历史对话</p>
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:24px;">最近对话：${lastTime}</p>
+      <div class="suggestion-grid" style="max-width:520px;">
+        <div class="suggestion-card" onclick="renderSavedHistory()" style="border-color:rgba(16,185,129,0.2);background:rgba(16,185,129,0.03);">
+          <div class="icon" style="color:var(--success);"><i data-lucide="message-circle" style="width:18px;height:18px;"></i></div>
+          <div class="title">继续上次对话</div>
+          <div class="desc">查看全部 ${history.length} 条历史消息</div>
+        </div>
+        <div class="suggestion-card" onclick="newChat()">
+          <div class="icon"><i data-lucide="plus-circle" style="width:18px;height:18px;"></i></div>
+          <div class="title">开始新对话</div>
+          <div class="desc">清空历史，重新开始</div>
+        </div>
+      </div>
+    </div>
+  `;
+  lucide.createIcons();
+}
+
+function renderSavedHistory() {
+  const inner = document.getElementById('chat-inner');
+  inner.innerHTML = '';
+
+  const renderMsg = (role, text) => {
+    if (!text) return;
+    const div = document.createElement('div');
+    div.className = `message ${role}`;
+    const avatarIcon = role === 'user' ? 'user' : 'bot';
+    div.innerHTML = `
+      <div class="avatar"><i data-lucide="${avatarIcon}" style="width:16px;height:16px;"></i></div>
+      <div class="bubble">${escapeHtml(text)}</div>
+    `;
+    inner.appendChild(div);
+  };
+
+  // 渲染全部历史对话
+  state.chatHistory.forEach(item => {
+    renderMsg('user', item.question);
+    if (item.answer) renderMsg('assistant', item.answer);
+  });
+
+  scrollToBottom();
+  lucide.createIcons();
+}
+
+function newChat() {
+  state.chatHistory = [];
+  if (state.teacherId) localStorage.removeItem(getHistoryKey());
+  renderHistoryList();
+  showWelcome(state.teacherName);
+}
+
+function goHome() {
+  if (state.chatHistory.length > 0) {
+    showContinueChat(state.teacherName, state.chatHistory);
+  } else {
+    showWelcome(state.teacherName);
+  }
+}
+
 // ── 用户菜单 ──
 function toggleUserMenu() {
   document.getElementById('user-menu').classList.toggle('open');
 }
-
 document.addEventListener('click', function(e) {
   const menu = document.getElementById('user-menu');
   if (!menu.contains(e.target)) menu.classList.remove('open');
 });
 
-function openAdmin() {
-  window.open('/api/admin', '_blank');
-}
+function openAdmin() { window.open('/api/admin', '_blank'); }
 
 function logout() {
   state.token = null;
   state.teacherId = null;
   state.teacherName = '';
+  state.chatHistory = [];
   localStorage.removeItem('tr_token');
   location.reload();
 }
@@ -675,7 +1086,6 @@ async function doLogin() {
       errDiv.style.display = 'block';
       return;
     }
-
     state.token = data.token;
     state.teacherId = data.user.teacher_id;
     state.teacherName = data.user.name;
@@ -684,10 +1094,53 @@ async function doLogin() {
     document.getElementById('login-overlay').style.display = 'none';
     updateUserHeader(data.user.name, data.user.department);
     document.getElementById('send-btn').disabled = false;
-    showWelcome(data.user.name);
+
+    state.chatHistory = loadHistory();
+    renderHistoryList();
+    await renderCustomTemplates();
+    applyDeletedDefaults();
+    if (state.chatHistory.length > 0) {
+      showContinueChat(data.user.name, state.chatHistory);
+    } else {
+      showWelcome(data.user.name);
+    }
   } catch (e) {
     errDiv.textContent = '网络错误：' + e.message;
     errDiv.style.display = 'block';
+  }
+}
+
+// ── 应用模板（左侧栏/欢迎卡片触发） ──
+async function applyTemplate(intentName, metricIds) {
+  if (!state.teacherId || state.isLoading) return;
+  setLoading(true);
+  try {
+    const res = await fetch('/api/teacher/' + state.teacherId + '/overview?metric_ids=' + metricIds.join(','));
+    if (!res.ok) throw new Error('模板加载失败');
+    const data = await res.json();
+    const intentLabel = {
+      personal_overview: '科研全景',
+      paper_analysis: '论文分析',
+      funding_detail: '经费详情',
+      project_query: '项目查询',
+      award_query: '获奖查询',
+      patent_analysis: '专利分析',
+      book_analysis: '著作分析',
+    };
+    const chatData = {
+      reply: `${intentLabel[intentName] || intentName}模板：${metricIds.length} 个指标`,
+      intent: intentName,
+      is_followup: false,
+      metrics: data.metrics,
+      insights: [],
+      teacher: data.teacher,
+      metric_ids: metricIds,
+    };
+    renderAssistantReply(chatData);
+  } catch (e) {
+    addMessage('assistant', `<span style="color:var(--error)">模板加载失败: ${e.message}</span>`);
+  } finally {
+    setLoading(false);
   }
 }
 
@@ -706,7 +1159,7 @@ async function exportReport(format) {
     const res = await fetch('/api/export', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ teacher_id: state.teacherId, format: format, scenario_id: 'annual_summary' }),
+      body: JSON.stringify({ teacher_id: state.teacherId, format, scenario_id: 'annual_summary' }),
     });
     if (!res.ok) { alert('导出失败'); return; }
     const blob = await res.blob();
@@ -725,7 +1178,6 @@ async function sendMessage() {
   const text = input.value.trim();
   if (!text || state.isLoading) return;
 
-  // 首次发送时隐藏欢迎页
   const welcome = document.querySelector('.welcome');
   if (welcome) welcome.remove();
 
@@ -749,11 +1201,8 @@ async function sendMessage() {
       const err = await res.json();
       throw new Error(err.detail || '请求失败');
     }
-
     const data = await res.json();
     state.sessionId = data.session_id;
-
-    // 渲染回复
     renderAssistantReply(data);
   } catch (e) {
     addMessage('assistant', `<span style="color:var(--error)">${e.message}</span>`);
@@ -770,6 +1219,8 @@ function sendQuick(text) {
 // ── 场景模板一键生成 ──
 async function runScenario(scenarioId) {
   if (!state.teacherId || state.isLoading) return;
+  const welcome = document.querySelector('.welcome');
+  if (welcome) welcome.remove();
   setLoading(true);
 
   const labels = {
@@ -784,25 +1235,16 @@ async function runScenario(scenarioId) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ scenario_id: scenarioId, teacher_id: state.teacherId }),
     });
-
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.detail || '生成失败');
     }
-
     const data = await res.json();
-
-    // 隐藏欢迎页
-    const welcome = document.querySelector('.welcome');
-    if (welcome) welcome.remove();
-
     const container = document.getElementById('chat-inner');
     const msgDiv = document.createElement('div');
     msgDiv.className = 'message assistant';
-
     const bubble = document.createElement('div');
     bubble.className = 'bubble';
-
     const tag = document.createElement('span');
     tag.className = 'intent-tag';
     tag.textContent = labels[scenarioId] || scenarioId;
@@ -821,7 +1263,6 @@ async function runScenario(scenarioId) {
       });
       bubble.appendChild(cards);
     }
-
     if (data.narrative) {
       const narrative = document.createElement('div');
       narrative.style.cssText = 'margin-top:12px;padding:12px;background:#fafafa;border-radius:12px;font-size:13px;line-height:1.8;';
@@ -835,16 +1276,13 @@ async function runScenario(scenarioId) {
         .replace(/\n\n/g, '<br><br>');
       bubble.appendChild(narrative);
     }
-
     if (data.insights && data.insights.length > 0) {
       const box = document.createElement('div');
       box.className = 'insight-box';
       box.innerHTML = '<i data-lucide="lightbulb" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px;"></i>' + data.insights.join('<br>');
       bubble.appendChild(box);
     }
-
     appendMsgActions(bubble, data.metric_ids || []);
-
     msgDiv.appendChild(bubble);
     container.appendChild(msgDiv);
     scrollToBottom();
@@ -858,8 +1296,96 @@ async function runScenario(scenarioId) {
 
 // ── 模板保存/加载 ──
 async function saveTemplate(metricIds) {
-  const name = prompt('请输入模板名称：', `${state.teacherName}的模板`);
-  if (!name) return;
+  openTemplateEditor(null, metricIds || state.lastMetricIds);
+}
+
+// 打开模板编辑弹窗（mode: 'create' | 'edit'）
+let _editingTemplateId = null;
+let _editingMetricIds = [];
+
+async function openTemplateEditor(editId, prefillMetricIds) {
+  _editingTemplateId = editId || null;
+  _editingMetricIds = prefillMetricIds ? [...prefillMetricIds] : [];
+
+  const modal = document.getElementById('template-modal');
+  document.getElementById('tmpl-modal-title').textContent = editId ? '编辑模板' : '新增模板';
+  document.getElementById('tmpl-name').value = '';
+  document.getElementById('tmpl-error').style.display = 'none';
+
+  // 加载指标选项
+  try {
+    const res = await fetch('/api/metrics');
+    const data = await res.json();
+    const allMetrics = data.metrics || [];
+    const selected = new Set(_editingMetricIds);
+    document.getElementById('tmpl-metric-list').innerHTML = allMetrics.map(m => `
+      <label class="tmpl-metric-item ${selected.has(m.metric_id) ? 'selected' : ''}" data-id="${m.metric_id}">
+        <input type="checkbox" ${selected.has(m.metric_id) ? 'checked' : ''}>
+        <span class="name">${m.name}</span>
+        <span class="cat">${m.category || ''}</span>
+      </label>
+    `).join('');
+    // 点击切换
+    document.querySelectorAll('#tmpl-metric-list .tmpl-metric-item').forEach(item => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        this.classList.toggle('selected');
+        const cb = this.querySelector('input');
+        cb.checked = this.classList.contains('selected');
+      });
+    });
+  } catch (e) {
+    document.getElementById('tmpl-metric-list').innerHTML = '<div style="color:var(--error);padding:20px;">指标加载失败</div>';
+  }
+
+  // 加载已有模板名称
+  if (editId) {
+    try {
+      const res = await fetch(`/api/templates/${state.teacherId}`);
+      const data = await res.json();
+      const t = data.templates.find(x => x.id === editId);
+      if (t) document.getElementById('tmpl-name').value = t.name;
+    } catch (e) {}
+  }
+
+  modal.style.display = 'flex';
+  setTimeout(() => document.getElementById('tmpl-name').focus(), 50);
+}
+
+function closeTemplateEditor() {
+  document.getElementById('template-modal').style.display = 'none';
+  _editingTemplateId = null;
+  _editingMetricIds = [];
+}
+
+async function saveTemplateFromEditor() {
+  const name = document.getElementById('tmpl-name').value.trim();
+  const errDiv = document.getElementById('tmpl-error');
+  const selectedIds = [...document.querySelectorAll('#tmpl-metric-list .tmpl-metric-item.selected')]
+    .map(el => el.dataset.id);
+  if (!name) {
+    errDiv.textContent = '请输入模板名称';
+    errDiv.style.display = 'block';
+    return;
+  }
+  if (selectedIds.length === 0) {
+    errDiv.textContent = '请至少选择一个指标';
+    errDiv.style.display = 'block';
+    return;
+  }
+  errDiv.style.display = 'none';
+
+  // 编辑默认模板 → 直接更新 DEFAULT_TEMPLATES 常量
+  if (_editingTemplateId && String(_editingTemplateId).startsWith('default:')) {
+    const key = String(_editingTemplateId).replace('default:', '');
+    if (DEFAULT_TEMPLATES[key]) {
+      DEFAULT_TEMPLATES[key] = [...selectedIds];
+      const badge = document.getElementById('badge-' + key);
+      if (badge) badge.textContent = selectedIds.length;
+    }
+    closeTemplateEditor();
+    return;
+  }
 
   try {
     const res = await fetch('/api/templates/save', {
@@ -867,33 +1393,120 @@ async function saveTemplate(metricIds) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         teacher_id: state.teacherId,
-        name: name,
-        metric_ids: metricIds || state.lastMetricIds,
+        name,
+        metric_ids: selectedIds,
       }),
     });
     const data = await res.json();
     if (res.ok) {
-      addMessage('assistant', `<span style="color:var(--success)">${data.message}</span>`);
+      closeTemplateEditor();
+      await renderCustomTemplates();
     } else {
-      addMessage('assistant', `<span style="color:var(--error)">保存失败: ${data.detail}</span>`);
+      errDiv.textContent = data.detail || '保存失败';
+      errDiv.style.display = 'block';
     }
   } catch (e) {
-    addMessage('assistant', `<span style="color:var(--error)">保存失败: ${e.message}</span>`);
+    errDiv.textContent = '网络错误：' + e.message;
+    errDiv.style.display = 'block';
   }
 }
+
+async function renderCustomTemplates() {
+  if (!state.teacherId) return;
+  try {
+    const res = await fetch(`/api/templates/${state.teacherId}`);
+    const data = await res.json();
+    const container = document.getElementById('custom-templates');
+    if (!data.templates || data.templates.length === 0) {
+      container.innerHTML = '';
+      return;
+    }
+    container.innerHTML = data.templates.map(t => `
+      <div class="template-item custom-template" data-id="${t.id}" onclick="applyCustomTemplate(${t.id})">
+        <i data-lucide="bookmark" class="icon" style="width:14px;height:14px;color:var(--success);"></i>
+        <span class="text">${escapeHtml(t.name)}</span>
+        <span class="badge">${t.metric_count}</span>
+        <span class="tmpl-actions" onclick="event.stopPropagation();">
+          <span class="tmpl-action-btn" onclick="event.stopPropagation();openTemplateEditor(${t.id}, ${JSON.stringify(t.metric_ids)})" title="编辑">
+            <i data-lucide="edit-2" style="width:11px;height:11px;"></i>
+          </span>
+          <span class="tmpl-action-btn danger" onclick="event.stopPropagation();deleteCustomTemplate(${t.id})" title="删除">
+            <i data-lucide="trash-2" style="width:11px;height:11px;"></i>
+          </span>
+        </span>
+      </div>
+    `).join('');
+    lucide.createIcons();
+  } catch (e) {}
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+async function applyCustomTemplate(id) {
+  try {
+    const res = await fetch(`/api/templates/${state.teacherId}`);
+    const data = await res.json();
+    const t = data.templates.find(x => x.id === id);
+    if (!t) return;
+    await applyTemplate('template', t.metric_ids);
+  } catch (e) {}
+}
+
+async function deleteCustomTemplate(id) {
+  if (!confirm('确定删除此模板？')) return;
+  try {
+    await fetch(`/api/templates/${id}`, { method: 'DELETE' });
+    await renderCustomTemplates();
+  } catch (e) {}
+}
+
+// ── 默认模板的删除/恢复 ──
+function getDeletedDefaults() {
+  try { return JSON.parse(localStorage.getItem('tr_deleted_defaults') || '[]'); }
+  catch(e) { return []; }
+}
+
+function deleteDefaultTemplate(key) {
+  if (!confirm(`确定删除「${DEFAULT_TEMPLATE_NAMES[key] || key}」模板？可通过左下角 + 按钮重新创建。`)) return;
+  const deleted = getDeletedDefaults();
+  if (!deleted.includes(key)) deleted.push(key);
+  localStorage.setItem('tr_deleted_defaults', JSON.stringify(deleted));
+  applyDeletedDefaults();
+}
+
+function applyDeletedDefaults() {
+  const deleted = getDeletedDefaults();
+  ['personal_overview','paper_analysis','funding_detail'].forEach(key => {
+    const el = document.querySelector(`[data-mid="${key}"]`);
+    if (el) el.style.display = deleted.includes(key) ? 'none' : '';
+  });
+  // 显示/隐藏恢复按钮
+  const btn = document.getElementById('restore-defaults-btn');
+  if (btn) btn.style.display = deleted.length > 0 ? '' : 'none';
+}
+
+function restoreDefaults() {
+  localStorage.removeItem('tr_deleted_defaults');
+  applyDeletedDefaults();
+}
+
+const DEFAULT_TEMPLATE_NAMES = {
+  personal_overview: '科研全景',
+  paper_analysis: '论文分析',
+  funding_detail: '经费详情',
+};
 
 async function toggleTemplates() {
   const panel = document.getElementById('templates-panel');
   panel.classList.toggle('open');
-  if (panel.classList.contains('open')) {
-    await loadTemplateList();
-  }
+  if (panel.classList.contains('open')) await loadTemplateList();
 }
 
 async function loadTemplateList() {
   const list = document.getElementById('templates-list');
   if (!state.teacherId) { list.innerHTML = '请先登录'; return; }
-
   try {
     const res = await fetch(`/api/templates/${state.teacherId}`);
     const data = await res.json();
@@ -903,38 +1516,20 @@ async function loadTemplateList() {
     }
     list.innerHTML = data.templates.map(t => `
       <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
-        <span style="cursor:pointer;color:var(--primary);" onclick="loadTemplate('${t.id}', '${t.name}', ${JSON.stringify(t.metric_ids)}, '${t.time_range_start}', '${t.time_range_end}')">
+        <span style="cursor:pointer;color:var(--primary);" onclick="loadTemplate('${t.id}','${t.name}',${JSON.stringify(t.metric_ids)},'${t.time_range_start}','${t.time_range_end}')">
           <i data-lucide="bookmark" style="width:12px;height:12px;vertical-align:-1px;margin-right:4px;"></i>${t.name} <span style="color:var(--text-muted);font-size:11px;">(${t.metric_count}个指标)</span>
         </span>
         <span style="cursor:pointer;color:var(--error);font-size:11px;" onclick="deleteTemplate(${t.id})">删除</span>
       </div>
     `).join('');
     lucide.createIcons();
-  } catch (e) {
-    list.innerHTML = '加载失败';
-  }
+  } catch (e) { list.innerHTML = '加载失败'; }
 }
 
 async function loadTemplate(id, name, metricIds, start, end) {
   state.lastMetricIds = metricIds;
   document.getElementById('templates-panel').classList.remove('open');
-
-  try {
-    const res = await fetch(`/api/teacher/${state.teacherId}/overview?metric_ids=${metricIds.join(',')}&start_date=${start}&end_date=${end}`);
-    const data = await res.json();
-    const chatData = {
-      reply: `模板「${name}」：${metricIds.length} 个指标`,
-      intent: 'template',
-      is_followup: false,
-      metrics: data.metrics,
-      insights: [],
-      teacher: data.teacher,
-      metric_ids: metricIds,
-    };
-    renderAssistantReply(chatData);
-  } catch (e) {
-    addMessage('assistant', `<span style="color:var(--error)">加载失败: ${e.message}</span>`);
-  }
+  await applyTemplate('template', metricIds);
 }
 
 async function deleteTemplate(id) {
@@ -942,9 +1537,7 @@ async function deleteTemplate(id) {
   try {
     await fetch(`/api/templates/${id}`, { method: 'DELETE' });
     loadTemplateList();
-  } catch (e) {
-    addMessage('assistant', `<span style="color:var(--error)">删除失败: ${e.message}</span>`);
-  }
+  } catch (e) {}
 }
 
 // ── v0.4: 指标自动发现 ──
@@ -958,7 +1551,6 @@ function promptDiscover() {
 async function discoverMetric(question) {
   if (!state.teacherId || state.isLoading) return;
   setLoading(true);
-
   const welcome = document.querySelector('.welcome');
   if (welcome) welcome.remove();
   addMessage('user', `<i data-lucide="compass" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px;"></i>${question}`);
@@ -970,26 +1562,21 @@ async function discoverMetric(question) {
       body: JSON.stringify({ question, teacher_id: state.teacherId }),
     });
     const data = await res.json();
-
     if (!res.ok) {
       addMessage('assistant', `<span style="color:var(--error)">${data.detail || '探索失败'}</span>`);
       return;
     }
-
     const container = document.getElementById('chat-inner');
     const msgDiv = document.createElement('div');
     msgDiv.className = 'message assistant';
-
     const bubble = document.createElement('div');
     bubble.className = 'bubble';
-
     let html = `
       <div style="font-weight:600;margin-bottom:4px;"><i data-lucide="compass" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px;"></i>${data.name}</div>
       <div style="font-size:12px;color:var(--text-light);margin-bottom:8px;">${data.explanation || ''}</div>
       ${data.error ? `<div style="color:var(--error);font-size:12px;"><i data-lucide="alert-triangle" style="width:12px;height:12px;vertical-align:-1px;margin-right:3px;"></i>${data.error}</div>` : ''}
       ${data.sql ? `<div style="background:#f8f8f8;padding:8px;border-radius:8px;font-size:11px;font-family:monospace;margin-bottom:8px;word-break:break-all;">${data.sql}</div>` : ''}
     `;
-
     if (data.row_count > 0 && data.rows.length > 0) {
       html += `<div style="font-size:12px;color:var(--text-light);">共 ${data.row_count} 行</div>
         <div style="max-height:200px;overflow-y:auto;font-size:11px;margin-top:4px;">
@@ -997,12 +1584,10 @@ async function discoverMetric(question) {
             <thead><tr>${Object.keys(data.rows[0]).map(k => `<th style="padding:4px 6px;border-bottom:1px solid var(--border);text-align:left;">${k}</th>`).join('')}</tr></thead>
             <tbody>${data.rows.slice(0, 10).map(r => `<tr>${Object.values(r).map(v => `<td style="padding:3px 6px;">${v == null ? '-' : v}</td>`).join('')}</tr>`).join('')}</tbody>
           </table>
-          ${data.row_count > 10 ? '<div style="text-align:center;color:var(--text-muted);padding:4px;">... 仅显示前 10 行</div>' : ''}
         </div>`;
     } else if (!data.error) {
       html += '<div style="color:var(--text-muted);font-size:12px;">无数据</div>';
     }
-
     bubble.innerHTML = html;
     msgDiv.appendChild(bubble);
     container.appendChild(msgDiv);
@@ -1025,14 +1610,12 @@ function onKeyDown(e) {
 // ── 渲染助手回复 ──
 function renderAssistantReply(data) {
   const container = document.getElementById('chat-inner');
-
   if (data.metric_ids && data.metric_ids.length > 0) {
     state.lastMetricIds = data.metric_ids;
   }
 
   const msgDiv = document.createElement('div');
   msgDiv.className = 'message assistant';
-
   const bubble = document.createElement('div');
   bubble.className = 'bubble';
 
@@ -1064,8 +1647,16 @@ function renderAssistantReply(data) {
   if (data.insights && data.insights.length > 0) {
     const box = document.createElement('div');
     box.className = 'insight-box';
-    box.innerHTML = '<i data-lucide="lightbulb" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px;"></i>' + data.insights.join('<br>');
+    box.innerHTML = '<div style="font-weight:600;margin-bottom:6px;"><i data-lucide="lightbulb" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px;"></i>AI 洞察</div>' +
+      data.insights.map(i => `<div>· ${i}</div>`).join('');
     bubble.appendChild(box);
+  }
+
+  if (!data.is_followup && data.intent !== 'chitchat') {
+    const hint = document.createElement('div');
+    hint.className = 'followup-hint';
+    hint.textContent = '可以继续追问：论文情况？经费详情？年度总结？';
+    bubble.appendChild(hint);
   }
 
   appendMsgActions(bubble, data.metric_ids || []);
@@ -1074,23 +1665,39 @@ function renderAssistantReply(data) {
   container.appendChild(msgDiv);
   scrollToBottom();
   lucide.createIcons();
+
+  // 把"最后一条 user + 本条 assistant"合并成一条历史记录
+  if (state._pendingQuestion) {
+    addChatTurn(state._pendingQuestion, data.reply || '', data.intent);
+    state._pendingQuestion = null;
+  }
 }
 
 function appendMsgActions(bubble, metricIds) {
   if (!metricIds || metricIds.length === 0) return;
   const actions = document.createElement('div');
   actions.className = 'msg-actions';
+  actions.dataset.metricIds = JSON.stringify(metricIds);
   actions.innerHTML = `
-    <button class="msg-btn" onclick="saveTemplate(${JSON.stringify(metricIds)})">
+    <button class="msg-btn" data-action="save">
       <i data-lucide="bookmark" style="width:12px;height:12px;"></i>保存为模板
     </button>
-    <button class="msg-btn primary" onclick="openDashboard(${JSON.stringify(metricIds)})">
+    <button class="msg-btn primary" data-action="dashboard">
       <i data-lucide="monitor" style="width:12px;height:12px;"></i>生成大屏报告
     </button>
-    <button class="msg-btn" onclick="exportReport('pptx')">
+    <button class="msg-btn" data-action="export-ppt">
       <i data-lucide="download" style="width:12px;height:12px;"></i>导出PPT
     </button>
   `;
+  actions.addEventListener('click', function(e) {
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    const mids = JSON.parse(actions.dataset.metricIds);
+    const action = btn.dataset.action;
+    if (action === 'save') saveTemplate(mids);
+    else if (action === 'dashboard') openDashboard(mids);
+    else if (action === 'export-ppt') exportReport('pptx');
+  });
   bubble.appendChild(actions);
 }
 
@@ -1109,6 +1716,11 @@ function addMessage(role, text) {
   container.appendChild(div);
   scrollToBottom();
   lucide.createIcons();
+
+  // 记录用户问题，等 assistant 回复后合并成一条历史
+  if (role === 'user') {
+    state._pendingQuestion = text.replace(/<[^>]*>/g, '');
+  }
 }
 
 function setLoading(loading) {
@@ -1139,6 +1751,15 @@ function scrollToBottom() {
   container.scrollTop = container.scrollHeight;
 }
 
+(function() {
+  const container = document.getElementById('chat-container');
+  const btn = document.getElementById('scroll-bottom-btn');
+  container.addEventListener('scroll', function() {
+    const distFromBottom = container.scrollHeight - container.scrollTop - container.clientHeight;
+    btn.style.display = distFromBottom > 200 ? 'flex' : 'none';
+  });
+})();
+
 // ── 工具函数 ──
 function formatValue(val, unit) {
   if (val == null) return '-';
@@ -1166,13 +1787,11 @@ function intentLabel(intent) {
   return map[intent] || intent;
 }
 
-// ── 自动调整输入框高度 ──
 document.getElementById('user-input').addEventListener('input', function() {
   this.style.height = 'auto';
   this.style.height = Math.min(this.scrollHeight, 140) + 'px';
 });
 
-// 启动
 init();
 </script>
 </body>

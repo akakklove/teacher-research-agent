@@ -1070,6 +1070,44 @@ def _build_chitchat_reply(message: str, teacher: dict) -> str:
     return f"{name}老师，我理解了。如果有科研相关的问题，请随时告诉我。"
 
 
+def _format_money(v: float) -> str:
+    """金额格式化：1.2万 / 12.3万 / 1234.5"""
+    if v is None or v == 0:
+        return "0元"
+    if abs(v) >= 10000:
+        return f"{v/10000:.1f}万元"
+    return f"{int(v)}元"
+
+
+def _format_yearly_trend(rows: list) -> str:
+    """从年度趋势图表的 rows 提取关键年份信息"""
+    if not rows:
+        return ""
+    items = []
+    for r in rows[:5]:
+        label = r.get("label", "")
+        value = r.get("value", 0)
+        if isinstance(value, (int, float)):
+            items.append(f"{label}年{value}个")
+    if not items:
+        return ""
+    return "、".join(items)
+
+
+def _format_top_distribution(rows: list, n: int = 3) -> str:
+    """从分布图表的 rows 提取 Top N 类别"""
+    if not rows:
+        return ""
+    sorted_rows = sorted(rows, key=lambda r: r.get("value", 0), reverse=True)[:n]
+    parts = []
+    for r in sorted_rows:
+        label = r.get("label", "")
+        value = r.get("value", 0)
+        if isinstance(value, (int, float)):
+            parts.append(f"{label} {value}个")
+    return "、".join(parts)
+
+
 def _build_natural_reply(
     teacher: dict,
     intent_result,
@@ -1081,73 +1119,151 @@ def _build_natural_reply(
     name = teacher.get("xm", "老师")
     intent = intent_result.intent if hasattr(intent_result, 'intent') else str(intent_result)
 
-    # 获取 KPI 值
-    kpi_values = {}
-    for r in results:
-        if r.success and r.chart_type == "kpi_card":
-            kpi_values[r.metric_id] = r.value
+    # 获取所有指标数据（按 metric_id 索引）
+    all_results = {r.metric_id: r for r in results if r.success}
+    kpi_values = {mid: r.value for mid, r in all_results.items() if r.chart_type == "kpi_card"}
+    chart_rows = {mid: r.rows for mid, r in all_results.items() if r.chart_type != "kpi_card" and r.rows}
+
+    # 通用项目回复
+    project_count_leader = int(kpi_values.get("project_count_leader", 0) or 0)
+    project_count_total = int(kpi_values.get("project_count_total", 0) or 0)
+    project_yearly = chart_rows.get("project_yearly_trend", [])
+    project_by_level = chart_rows.get("project_by_level", [])
+    project_status = chart_rows.get("project_status_distribution", [])
+    project_by_source = chart_rows.get("project_by_source", [])
+    project_rank_dept = kpi_values.get("project_rank_dept")
+
+    # 经费
+    fund_total_arrived = float(kpi_values.get("fund_total_arrived", 0) or 0)
+    fund_total_spent = float(kpi_values.get("fund_total_spent", 0) or 0)
+    fund_execution_rate = float(kpi_values.get("fund_execution_rate", 0) or 0)
+    fund_monthly = chart_rows.get("fund_monthly_trend", [])
+    fund_yearly_inout = chart_rows.get("fund_yearly_inout", [])
+
+    # 论文
+    paper_count_total = int(kpi_values.get("paper_count_total", 0) or 0)
+    paper_first_author = int(kpi_values.get("paper_first_author_count", 0) or 0)
+    paper_yearly = chart_rows.get("paper_yearly_trend", [])
+    paper_by_level = chart_rows.get("paper_by_level", [])
+    paper_rank_dept = kpi_values.get("paper_rank_dept")
+
+    # 专利
+    patent_count = int(kpi_values.get("patent_count", 0) or 0)
+    patent_by_type = chart_rows.get("patent_by_type", [])
+
+    # 获奖
+    award_count = int(kpi_values.get("award_count", 0) or 0)
+    award_by_level = chart_rows.get("award_by_level", [])
+
+    # 著作
+    book_count = int(kpi_values.get("book_count", 0) or 0)
+    book_by_type = chart_rows.get("book_by_type", [])
+
+    # 软著
+    software_count = int(kpi_values.get("software_count", 0) or 0)
+
+    # 会议
+    conference_hosted = int(kpi_values.get("conference_hosted", 0) or 0)
 
     intent_replies = {
         "personal_overview": (
-            f"{name}老师好！这是您的个人科研全景：\n"
-            f"· 主持项目 {int(kpi_values.get('project_count_leader', 0))} 个"
-            f"（共参与 {int(kpi_values.get('project_count_total', 0))} 个）\n"
-            f"· 到账经费 {kpi_values.get('fund_total_arrived', 0):.0f} 元\n"
-            f"· 发表论文 {int(kpi_values.get('paper_count_total', 0))} 篇"
-            f"（一作 {int(kpi_values.get('paper_first_author_count', 0))} 篇）\n"
-            f"· 专利 {int(kpi_values.get('patent_count', 0))} 项"
-            f" | 著作 {int(kpi_values.get('book_count', 0))} 部"
-            f" | 软著 {int(kpi_values.get('software_count', 0))} 项\n"
-            f"· 获奖 {int(kpi_values.get('award_count', 0))} 项"
-            f" | 学术会议 {int(kpi_values.get('conference_hosted', 0))} 次"
+            f"{name}老师好！这是您的个人科研全景：\n\n"
+            f"【项目情况】\n"
+            f"· 主持 {project_count_leader} 个"
+            f"（共参与 {project_count_total} 个）"
+            f"{'，学院排名第 ' + str(int(project_rank_dept)) + ' 名' if project_rank_dept else ''}\n"
+            f"· 年度趋势：{_format_yearly_trend(project_yearly) or '暂无数据'}\n"
+            f"· 级别分布：{_format_top_distribution(project_by_level) or '暂无数据'}\n\n"
+            f"【经费情况】\n"
+            f"· 到账总额 {_format_money(fund_total_arrived)}，"
+            f"支出 {_format_money(fund_total_spent)}，"
+            f"执行率 {fund_execution_rate:.1f}%\n\n"
+            f"【成果情况】\n"
+            f"· 论文 {paper_count_total} 篇（一作 {paper_first_author} 篇）"
+            f"{'，学院排名第 ' + str(int(paper_rank_dept)) + ' 名' if paper_rank_dept else ''}\n"
+            f"· 专利 {patent_count} 项 | 著作 {book_count} 部 | 软著 {software_count} 项\n"
+            f"· 获奖 {award_count} 项 | 学术会议 {conference_hosted} 次"
         ),
         "funding_detail": (
-            f"{name}老师的科研经费概况：\n"
-            f"· 到账总额 {kpi_values.get('fund_total_arrived', 0):.0f} 元\n"
-            f"· 支出总额 {kpi_values.get('fund_total_spent', 0):.0f} 元\n"
-            f"· 经费执行率 {kpi_values.get('fund_execution_rate', 0):.1f}%"
+            f"{name}老师的科研经费概况：\n\n"
+            f"【核心指标】\n"
+            f"· 到账总额：{_format_money(fund_total_arrived)}\n"
+            f"· 支出总额：{_format_money(fund_total_spent)}\n"
+            f"· 经费执行率：{fund_execution_rate:.1f}%\n"
+            f"· 净余额：{_format_money(fund_total_arrived - fund_total_spent)}\n\n"
+            f"【月度趋势（最近月份）】\n"
+            f"· {_format_yearly_trend(fund_monthly) or '暂无数据'}\n\n"
+            f"【年度收支对比】\n"
+            f"· {_format_yearly_trend(fund_yearly_inout) or '暂无数据'}"
         ),
         "paper_analysis": (
-            f"{name}老师的论文成果：\n"
-            f"· 共发表 {int(kpi_values.get('paper_count_total', 0))} 篇"
-            f"（一作 {int(kpi_values.get('paper_first_author_count', 0))} 篇）"
+            f"{name}老师的论文成果：\n\n"
+            f"【核心数据】\n"
+            f"· 共发表 {paper_count_total} 篇\n"
+            f"· 一作 {paper_first_author} 篇（占比 {paper_count_total and paper_first_author*100//paper_count_total}%）\n"
+            f"{'· 学院排名：第 ' + str(int(paper_rank_dept)) + ' 名' if paper_rank_dept else ''}\n\n"
+            f"【年度趋势】\n"
+            f"· {_format_yearly_trend(paper_yearly) or '暂无数据'}\n\n"
+            f"【级别分布】\n"
+            f"· {_format_top_distribution(paper_by_level) or '暂无数据'}"
         ),
         "patent_analysis": (
-            f"{name}老师的专利成果：共 {int(kpi_values.get('patent_count', 0))} 项"
+            f"{name}老师的专利成果：\n\n"
+            f"· 专利总数：{patent_count} 项\n"
+            f"· 类型分布：{_format_top_distribution(patent_by_type) or '暂无数据'}"
         ),
         "project_query": (
-            f"{name}老师的科研项目："
-            f"主持 {int(kpi_values.get('project_count_leader', 0))} 个，"
-            f"共参与 {int(kpi_values.get('project_count_total', 0))} 个"
+            f"{name}老师的科研项目情况：\n\n"
+            f"【项目数量】\n"
+            f"· 主持项目：{project_count_leader} 个\n"
+            f"· 参与项目：{project_count_total} 个（主持占比 {project_count_total and project_count_leader*100//project_count_total}%）\n"
+            f"{'· 学院排名：第 ' + str(int(project_rank_dept)) + ' 名' if project_rank_dept else ''}\n\n"
+            f"【年度立项趋势】\n"
+            f"· {_format_yearly_trend(project_yearly) or '暂无数据'}\n\n"
+            f"【项目级别分布】\n"
+            f"· {_format_top_distribution(project_by_level) or '暂无数据'}\n\n"
+            f"【项目状态】\n"
+            f"· {_format_top_distribution(project_status) or '暂无数据'}\n\n"
+            f"【项目来源】\n"
+            f"· {_format_top_distribution(project_by_source) or '暂无数据'}"
         ),
         "award_query": (
-            f"{name}老师的获奖情况：共 {int(kpi_values.get('award_count', 0))} 项"
+            f"{name}老师的获奖情况：\n\n"
+            f"· 获奖总数：{award_count} 项\n"
+            f"· 级别分布：{_format_top_distribution(award_by_level) or '暂无数据'}"
         ),
         "book_analysis": (
-            f"{name}老师的著作：共 {int(kpi_values.get('book_count', 0))} 部"
+            f"{name}老师的著作情况：\n\n"
+            f"· 著作总数：{book_count} 部\n"
+            f"· 类别分布：{_format_top_distribution(book_by_type) or '暂无数据'}"
         ),
         "software_analysis": (
-            f"{name}老师的软著：共 {int(kpi_values.get('software_count', 0))} 项"
+            f"{name}老师的软著情况：\n\n"
+            f"· 软著总数：{software_count} 项"
         ),
         "conference_analysis": (
-            f"{name}老师的学术活动：参与学术会议 {int(kpi_values.get('conference_hosted', 0))} 次"
+            f"{name}老师的学术活动：\n\n"
+            f"· 主持学术会议 {conference_hosted} 次\n"
+            f"· 详情见下方图表"
         ),
         "annual_summary": (
-            f"{name}老师的年度科研总结已生成。"
+            f"{name}老师的年度科研总结已生成，包含：\n"
+            f"· 整体指标 {len([r for r in results if r.success])} 项\n"
+            f"· 含 {sum(1 for r in results if r.success and r.chart_type=='kpi_card')} 张 KPI 卡片"
         ),
         "title_evaluation": (
-            f"{name}老师的职称评审材料已汇总。"
+            f"{name}老师的职称评审材料已汇总：\n"
+            f"· 整体指标 {len([r for r in results if r.success])} 项\n"
+            f"· 含 {sum(1 for r in results if r.success and r.chart_type=='kpi_card')} 张 KPI 卡片"
         ),
     }
 
-    base = intent_replies.get(intent, f"{name}老师，查询完成。")
+    base = intent_replies.get(intent, f"{name}老师，查询完成，共返回 {len([r for r in results if r.success])} 项指标。")
 
-    # 拼接 AI 洞察
-    if insights:
-        base += "\n\n💡 **AI 洞察：**\n" + "\n".join(insights)
+    # AI 洞察由前端独立渲染（避免重复），此处不再拼接到 reply
 
     # 追问时加提示
     if is_followup:
-        base += "\n\n_💬 您可以继续追问，比如「那经费呢？」「只看2024年的」等。_"
+        base += "\n\n_您可以继续追问，比如「那经费呢？」「只看2024年的」等。_"
 
     return base

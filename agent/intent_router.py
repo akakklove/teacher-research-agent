@@ -41,41 +41,49 @@ class IntentRouter:
     INTENT_METRICS_MAP = {
         "chitchat": [],   # 闲聊/问候：不查询任何指标
         "personal_overview": [
-            # KPI 卡片（顶行）
+            # KPI 卡片
             "project_count_leader", "project_count_total",
             "fund_total_arrived", "fund_total_spent",
             "paper_count_total", "paper_first_author_count",
             "patent_count", "book_count",
             "software_count", "award_count",
             "conference_hosted",
-            # 图表（中排）
+            # 排名
+            "paper_rank_dept", "project_rank_dept", "fund_rank_dept",
+            "composite_output_score", "department_percentile",
+            # 图表
             "project_by_level", "project_status_distribution", "project_yearly_trend",
-            "fund_monthly_trend", "fund_expense_structure", "fund_execution_rate",
-            "paper_by_level", "paper_yearly_trend", "paper_author_role",
+            "fund_monthly_trend", "fund_yearly_inout", "fund_execution_rate",
+            "paper_by_level", "paper_yearly_trend", "paper_by_year_level",
             "patent_by_type", "patent_yearly_trend",
-            "award_by_level", "award_timeline",
+            "award_by_level", "award_yearly_category",
             "book_by_type", "software_yearly_trend",
+            "achievement_yearly_table",
         ],
         "funding_detail": [
             "fund_total_arrived", "fund_total_spent",
             "fund_execution_rate", "fund_monthly_trend",
-            "fund_expense_structure", "fund_yearly_comparison",
-            "fund_monthly_spent_trend",
+            "fund_yearly_inout", "fund_yearly_comparison",
+            "fund_monthly_spent_trend", "fund_rank_dept",
+            "fund_rank_school",
         ],
         "paper_analysis": [
             "paper_count_total", "paper_first_author_count",
             "paper_by_level", "paper_yearly_trend", "paper_author_role",
             "paper_journal_source", "paper_author_ranking",
+            "paper_by_year_level", "paper_rank_dept", "paper_rank_school",
         ],
         "award_query": [
             "award_count", "award_by_level", "award_timeline",
             "award_category", "award_yearly_trend",
+            "award_by_year_category",
         ],
         "project_query": [
             "project_count_total", "project_count_leader",
             "project_by_level", "project_status_distribution",
             "project_yearly_trend", "project_by_source",
-            "project_fund_ranking",
+            "project_fund_ranking", "project_rank_dept",
+            "project_by_year_level",
         ],
         "annual_summary": [
             "project_count_leader", "project_yearly_trend",
@@ -83,6 +91,8 @@ class IntentRouter:
             "paper_first_author_count",
             "patent_yearly_trend",
             "award_count", "award_timeline",
+            "achievement_yearly_table", "composite_output_score",
+            "department_percentile",
         ],
         "title_evaluation": [
             "project_count_leader", "project_by_level",
@@ -91,10 +101,13 @@ class IntentRouter:
             "patent_count", "patent_by_type",
             "book_count", "software_count",
             "award_count", "award_by_level",
+            "composite_output_score", "paper_rank_school",
+            "project_rank_school",
         ],
         # v0.4 追问专用意图
         "patent_analysis": [
             "patent_count", "patent_by_type", "patent_yearly_trend",
+            "patent_rank_dept", "patent_rank_school",
         ],
         "book_analysis": [
             "book_count", "book_by_type", "book_by_role",
@@ -102,10 +115,11 @@ class IntentRouter:
         ],
         "software_analysis": [
             "software_count", "software_yearly_trend",
+            "software_by_type",
         ],
         "conference_analysis": [
             "conference_hosted", "conference_total_papers",
-            "conference_by_type",
+            "conference_by_type", "institution_by_type",
         ],
     }
 
