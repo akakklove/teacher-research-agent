@@ -869,12 +869,42 @@ class MetricSaveRequest(BaseModel):
 
 @app.get("/api/admin/metrics")
 def admin_list_metrics(user=Depends(get_current_user)):
-    """列出所有自定义指标"""
+    """列出所有指标（内置 + 自定义），合并去重"""
     if user.role != "admin":
         raise HTTPException(status_code=403, detail="需要管理员权限")
+
     from metric_manager import MetricManager
+    import yaml
+    from pathlib import Path
+
+    # 加载内置指标
+    builtin = {}
+    metrics_path = Path(__file__).parent.parent / "agent" / "metrics.yaml"
+    with open(metrics_path, "r", encoding="utf-8") as f:
+        config = yaml.safe_load(f)
+    for m in config["metrics"]:
+        builtin[m["id"]] = {
+            "metric_id": m["id"],
+            "name": m["name"],
+            "category": m.get("category", ""),
+            "chart_type": m.get("chart_type", "table"),
+            "unit": m.get("unit", ""),
+            "sql_template": m.get("sql_template", ""),
+            "description": m.get("description", ""),
+            "source": "内置",
+        }
+
+    # 加载自定义指标（覆盖同ID的内置指标）
     mgr = MetricManager()
-    return {"metrics": mgr.list_all()}
+    custom = mgr.list_all()
+    for c in custom:
+        c["source"] = "自定义"
+        c["sql_template"] = c.get("sql_template", "")[:80] + "..."
+        builtin[c["metric_id"]] = c  # 自定义覆盖内置
+
+    # 按分类排序
+    metrics_list = sorted(builtin.values(), key=lambda x: (x["category"], x["name"]))
+    return {"total": len(metrics_list), "metrics": metrics_list}
 
 
 @app.post("/api/admin/metrics")
