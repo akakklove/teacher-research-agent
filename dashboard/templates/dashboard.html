@@ -2,109 +2,132 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ teacher_name }} - 个人科研全景报告</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #f0f2f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1f2937; }
-        .kpi-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .kpi-card.green { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
-        .kpi-card.blue { background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%); }
-        .kpi-card.orange { background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%); }
-        .kpi-card.purple { background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%); }
-        .kpi-card.teal { background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%); }
-        .chart-box { background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-        .insight-box { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #f59e0b; }
+        body {
+            width: 1920px; height: 1080px; overflow: hidden;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1535 100%);
+            font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", sans-serif;
+            color: #e2e8f0;
+        }
+        .kpi-card {
+            background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(59,130,246,0.05));
+            border: 1px solid rgba(59,130,246,0.3);
+        }
+        .kpi-card.green { background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.05)); border-color: rgba(16,185,129,0.3); }
+        .kpi-card.orange { background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.05)); border-color: rgba(245,158,11,0.3); }
+        .kpi-card.purple { background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(139,92,246,0.05)); border-color: rgba(139,92,246,0.3); }
+        .kpi-card.teal { background: linear-gradient(135deg, rgba(20,184,166,0.15), rgba(20,184,166,0.05)); border-color: rgba(20,184,166,0.3); }
+        .chart-box {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+        }
+        .insight-box {
+            background: rgba(245,158,11,0.08);
+            border: 1px solid rgba(245,158,11,0.2);
+            border-radius: 8px;
+        }
     </style>
 </head>
-<body class="min-h-screen">
-    <!-- 顶部标题栏 -->
-    <div class="bg-white shadow-sm mb-6">
-        <div class="max-w-7xl mx-auto px-6 py-5">
-            <div class="flex items-center justify-between">
+<body>
+    <div class="flex flex-col h-full">
+        <!-- 顶部标题栏 -->
+        <div class="flex items-center justify-between px-8 py-3 border-b border-white/5 flex-shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="w-1 h-6 bg-blue-500 rounded-full"></div>
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-800">
-                        🔬 {{ teacher_name }} 个人科研全景报告
-                    </h1>
-                    <p class="text-gray-500 mt-1 text-sm">
-                        {{ teacher_dept }} · {{ teacher_title }} · 时间范围：{{ time_range }}
-                    </p>
-                </div>
-                <div class="text-right text-gray-400 text-xs">
-                    教师科研小助手 v0.3<br>数据更新：{{ time_range.split(' ')[0] }}
+                    <h1 class="text-lg font-bold tracking-wide">🔬 {{ teacher_name }} 个人科研全景报告</h1>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="max-w-7xl mx-auto px-6 pb-10">
-
-        <!-- KPI 卡片行 -->
-        {% if kpis %}
-        <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-6">
-            {% for kpi in kpis %}
-            <div class="kpi-card {{ ['blue','green','orange','purple','teal','blue','green'][loop.index0 % 7] }} rounded-xl p-4 text-white">
-                <div class="text-xs opacity-80 mb-1">{{ kpi.name }}</div>
-                <div class="text-2xl font-bold">
-                    {% if kpi.value >= 10000 %}
-                        {{ "%.1f"|format(kpi.value / 10000) }}<span class="text-sm ml-0.5">万</span>
-                    {% else %}
-                        {{ "%.0f"|format(kpi.value) }}
-                    {% endif %}
-                </div>
-                <div class="text-xs opacity-70 mt-0.5">{{ kpi.unit }}</div>
+            <div class="flex items-center gap-6 text-xs text-gray-400">
+                <span>{{ teacher_dept }} · {{ teacher_title }}</span>
+                <span class="text-gray-600">|</span>
+                <span>📅 {{ time_range }}</span>
+                <span class="text-gray-600">|</span>
+                <span>教师科研小助手 v0.3</span>
             </div>
-            {% endfor %}
         </div>
-        {% endif %}
 
-        <!-- 图表面板 -->
-        {% if charts %}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            {% for chart in charts %}
-            <div class="chart-box">
-                <h3 class="text-sm font-semibold text-gray-600 mb-2">{{ chart.title }}</h3>
-                {% if chart.chart_type == 'table' %}
-                <div class="overflow-auto max-h-64">
-                    <table class="w-full text-sm">
-                        <thead class="bg-gray-50">
-                            <tr>
-                            {% for col in chart.option.columns %}
-                                <th class="px-3 py-2 text-left text-gray-500">{{ col }}</th>
-                            {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y">
-                            {% for row in chart.option.rows %}
-                            <tr class="hover:bg-gray-50">
-                                {% for col in chart.option.columns %}
-                                <td class="px-3 py-2">{{ row[col] }}</td>
-                                {% endfor %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+        <!-- 主体内容区 -->
+        <div class="flex-1 px-6 py-4 flex flex-col gap-3 overflow-hidden">
+
+            <!-- KPI 卡片行 -->
+            {% if kpis %}
+            <div class="grid gap-2.5 flex-shrink-0" style="grid-template-columns: repeat({{ kpis|length }}, 1fr);">
+                {% for kpi in kpis %}
+                <div class="kpi-card {{ ['blue','green','orange','purple','teal','blue','green','orange','purple','teal','blue'][loop.index0 % 11] }} rounded-lg py-3 px-3 flex flex-col items-center">
+                    <div class="text-[11px] text-gray-400 mb-1">{{ kpi.name }}</div>
+                    <div class="text-xl font-bold tracking-tight" style="color: {{ ['#60a5fa','#34d399','#fbbf24','#a78bfa','#2dd4bf'][loop.index0 % 5] }}">
+                        {% if kpi.value >= 10000 %}
+                            {{ "%.1f"|format(kpi.value / 10000) }}<span class="text-xs ml-0.5">万</span>
+                        {% else %}
+                            {{ "%.0f"|format(kpi.value) }}
+                        {% endif %}
+                    </div>
+                    <div class="text-[10px] text-gray-500 mt-0.5">{{ kpi.unit }}</div>
                 </div>
-                {% else %}
-                <div id="{{ chart.dom_id }}" style="width:100%;height:320px;"></div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- 图表 + 洞察 区域 -->
+            <div class="flex gap-3 flex-1 min-h-0">
+                <!-- 图表面板 -->
+                {% if charts %}
+                <div class="flex-1 grid gap-3" style="grid-template-columns: repeat({{ [charts|length, 2]|min }}, 1fr);">
+                    {% for chart in charts %}
+                    <div class="chart-box relative flex flex-col">
+                        <div class="text-xs text-gray-400 px-4 pt-3 flex-shrink-0 flex items-center justify-between">
+                            <span>{{ chart.title }}</span>
+                            <span class="text-[10px] text-gray-600">{% if chart.chart_type == 'pie_chart' %}占比{% elif chart.chart_type == 'line_chart' %}趋势{% elif chart.chart_type == 'bar_chart' %}对比{% elif chart.chart_type == 'horizontal_bar' %}排名{% elif chart.chart_type == 'gauge' %}指标{% endif %}</span>
+                        </div>
+                        {% if chart.chart_type == 'table' %}
+                        <div class="overflow-auto flex-1 px-4 pb-3">
+                            <table class="w-full text-xs">
+                                <thead>
+                                    <tr class="border-b border-white/10">
+                                    {% for col in chart.option.columns %}
+                                        <th class="py-1.5 text-left text-gray-500">{{ col }}</th>
+                                    {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in chart.option.rows %}
+                                    <tr class="border-b border-white/5 hover:bg-white/5">
+                                        {% for col in chart.option.columns %}
+                                        <td class="py-1.5 text-gray-300">{{ row[col] }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div id="{{ chart.dom_id }}" class="flex-1 w-full"></div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- 智能洞察 -->
+                {% if insights %}
+                <div class="insight-box p-4 flex flex-col justify-center" style="width: 280px; flex-shrink: 0;">
+                    <div class="text-xs text-yellow-400 font-semibold mb-3">💡 AI 洞察</div>
+                    {% for text in insights %}
+                    <p class="text-xs text-gray-300 mb-2.5 leading-relaxed">{{ text }}</p>
+                    {% endfor %}
+                    <div class="mt-auto pt-3 border-t border-yellow-500/20">
+                        <p class="text-[10px] text-gray-500">Powered by 通义千问 qwen-max</p>
+                    </div>
+                </div>
                 {% endif %}
             </div>
-            {% endfor %}
         </div>
-        {% endif %}
-
-        <!-- 智能洞察 -->
-        {% if insights %}
-        <div class="insight-box rounded-xl p-5 mb-6">
-            <h3 class="text-sm font-bold text-gray-700 mb-3">💡 智能洞察</h3>
-            {% for text in insights %}
-            <p class="text-sm text-gray-700 mb-1.5">{{ text }}</p>
-            {% endfor %}
-        </div>
-        {% endif %}
-
     </div>
 
     <!-- ECharts 渲染 -->
@@ -116,7 +139,41 @@
             var dom = document.getElementById(c.dom_id);
             if (!dom) return;
             var chart = echarts.init(dom);
-            chart.setOption(JSON.parse(c.option));
+
+            // 深色主题适配
+            var option = JSON.parse(c.option);
+            if (option.tooltip !== undefined) option.tooltip.backgroundColor = 'rgba(0,0,0,0.8)';
+            if (option.xAxis) {
+                option.xAxis.axisLabel = option.xAxis.axisLabel || {};
+                option.xAxis.axisLabel.color = '#94a3b8';
+                option.xAxis.axisLine = { lineStyle: { color: '#334155' } };
+                option.xAxis.splitLine = { show: false };
+            }
+            if (option.yAxis) {
+                var ya = Array.isArray(option.yAxis) ? option.yAxis : [option.yAxis];
+                ya.forEach(function(y) {
+                    y.axisLabel = { color: '#94a3b8' };
+                    y.axisLine = { show: false };
+                    y.splitLine = { lineStyle: { color: 'rgba(255,255,255,0.06)' } };
+                });
+            }
+            if (option.series) {
+                option.series.forEach(function(s) {
+                    if (s.label) {
+                        s.label = s.label || {};
+                        if (typeof s.label.color === 'undefined') s.label.color = '#94a3b8';
+                    }
+                });
+            }
+            if (option.legend) {
+                option.legend.textStyle = option.legend.textStyle || {};
+                option.legend.textStyle.color = '#94a3b8';
+            }
+            if (option.title) {
+                option.title.show = false;
+            }
+
+            chart.setOption(option);
             window.addEventListener('resize', function() { chart.resize(); });
         });
     });
