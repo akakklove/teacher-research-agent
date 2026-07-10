@@ -3,7 +3,20 @@
 """
 import json
 from pathlib import Path
+from decimal import Decimal
 from jinja2 import Template
+
+
+class CustomEncoder(json.JSONEncoder):
+    """处理 MySQL DECIMAL / date 类型的 JSON 序列化"""
+    def default(self, obj):
+        from decimal import Decimal
+        from datetime import date, datetime
+        if isinstance(obj, Decimal):
+            return float(obj)
+        if isinstance(obj, (date, datetime)):
+            return str(obj)
+        return super().default(obj)
 
 
 class DashboardComposer:
@@ -39,12 +52,16 @@ class DashboardComposer:
         for i, m in enumerate(chart_metrics):
             option = self._build_chart_option(m, i)
             if option:
-                charts_config.append({
+                cfg = {
                     "dom_id": f"chart_{i}",
-                    "option": json.dumps(option, ensure_ascii=False),
                     "title": m.name,
                     "chart_type": m.chart_type,
-                })
+                }
+                if m.chart_type == "table":
+                    cfg["option"] = option  # 表格保留原始 dict
+                else:
+                    cfg["option"] = json.dumps(option, ensure_ascii=False, cls=CustomEncoder)
+                charts_config.append(cfg)
 
         # 加载 HTML 模板
         template_path = Path(__file__).parent.parent / "dashboard" / "templates" / "dashboard.html"
@@ -58,6 +75,7 @@ class DashboardComposer:
             time_range=f"{start_date} 至 {end_date}",
             kpis=kpi_metrics,
             charts=charts_config,
+            charts_json=json.dumps(charts_config, ensure_ascii=False, cls=CustomEncoder) if charts_config else "[]",
             insights=insights or [],
         )
 

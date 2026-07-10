@@ -135,7 +135,7 @@
 
     <!-- ECharts 渲染 -->
     <script>
-    var chartsConfig = {{ charts|tojson }};
+    var chartsConfig = {{ charts_json|safe }};
     window.addEventListener('load', function() {
         chartsConfig.forEach(function(c) {
             if (c.chart_type === 'table') return;
