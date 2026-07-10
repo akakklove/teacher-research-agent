@@ -33,3 +33,4 @@ docker/mysql_data/
 Thumbs.db
 desktop.ini
 data/
+exports/

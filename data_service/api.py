@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from typing import Optional
 import sys
 from pathlib import Path
+import os
 
 # 添加 agent 目录到路径
 sys.path.insert(0, str(Path(__file__).parent.parent / "agent"))
@@ -39,13 +40,13 @@ app = FastAPI(
     description="输入教师工号，返回个人科研全景数据 — 支持多轮对话"
 )
 
-# ── 数据库配置 ──
+# ── 数据库配置（支持环境变量覆盖） ──
 DB_CONFIG = {
-    "host": "127.0.0.1",
-    "port": 3307,
-    "user": "tr_user",
-    "password": "tr_pass_2025",
-    "database": "teacher_research",
+    "host": os.getenv("DB_HOST", "127.0.0.1"),
+    "port": int(os.getenv("DB_PORT", "3307")),
+    "user": os.getenv("DB_USER", "tr_user"),
+    "password": os.getenv("DB_PASSWORD", "tr_pass_2025"),
+    "database": os.getenv("DB_NAME", "teacher_research"),
     "charset": "utf8mb4",
 }
 
