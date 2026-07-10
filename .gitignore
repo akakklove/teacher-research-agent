@@ -32,3 +32,4 @@ docker/mysql_data/
 # 系统文件
 Thumbs.db
 desktop.ini
+data/
