@@ -262,7 +262,7 @@ class IntentRouter:
 
         # 意图识别
         scores = {
-            "personal_overview":   self._score(text, ["科研","情况","全貌","全景","总览","整体","综合","帮我看","查一下"]),
+            "personal_overview":   self._score(text, ["全貌","全景","总览","整体","综合","帮我看","查一下","查询"]),
             "funding_detail":      self._score(text, ["经费","到账","支出","财务","钱","花了","预算"]),
             "paper_analysis":      self._score(text, ["论文","文章","发表","期刊","SCI","EI","核心"]),
             "patent_analysis":     self._score(text, ["专利","发明","实用新型","外观"]),
@@ -275,9 +275,17 @@ class IntentRouter:
             "title_evaluation":    self._score(text, ["职称","评审","评职称","材料","副教授","教授","升职"]),
         }
 
-        # 取最高分
-        best = max(scores, key=scores.get)
-        confidence = 0.6 if scores[best] > 2 else 0.4
+        # 取最高分（平票时优先选非全景的专门类别）
+        best_score = max(scores.values())
+        if best_score == 0:
+            return IntentResult(intent="personal_overview", time_range="last_3_years", confidence=0.3)
+
+        # 平票时：排除 personal_overview，优先专门类别
+        tied = [k for k, v in scores.items() if v == best_score]
+        if len(tied) > 1 and "personal_overview" in tied:
+            tied.remove("personal_overview")
+        best = tied[0]
+        confidence = 0.7 if best_score >= 2 else 0.5
 
         # 时间范围识别
         time_range = "last_3_years"  # 默认
