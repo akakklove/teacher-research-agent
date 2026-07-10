@@ -166,6 +166,26 @@
 <script>
 let token = '';
 
+// 恢复登录态
+(async function restoreLogin() {
+  const saved = localStorage.getItem('tr_admin_token');
+  if (!saved) return;
+  try {
+    const res = await fetch('/api/auth/me', {
+      headers: { 'Authorization': `Bearer ${saved}` }
+    });
+    if (res.ok) {
+      const user = await res.json();
+      if (user.role === 'admin') {
+        token = saved;
+        document.getElementById('login-overlay').style.display = 'none';
+        document.getElementById('admin-name').textContent = `管理员: ${user.name}`;
+        loadDashboard();
+      }
+    }
+  } catch(e) { localStorage.removeItem('tr_admin_token'); }
+})();
+
 async function adminLogin() {
   const id = document.getElementById('admin-id').value;
   const pw = document.getElementById('admin-pw').value;
@@ -180,13 +200,14 @@ async function adminLogin() {
     if (!res.ok) { err.textContent = data.detail; err.style.display='block'; return; }
     if (data.user.role !== 'admin') { err.textContent = '非管理员账号'; err.style.display='block'; return; }
     token = data.token;
+    localStorage.setItem('tr_admin_token', data.token);
     document.getElementById('login-overlay').style.display = 'none';
     document.getElementById('admin-name').textContent = `管理员: ${data.user.name}`;
     loadDashboard();
   } catch(e) { err.textContent = '网络错误'; err.style.display='block'; }
 }
 
-function logout() { token = ''; location.reload(); }
+function logout() { token = ''; localStorage.removeItem('tr_admin_token'); location.reload(); }
 
 async function api(url) {
   const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });

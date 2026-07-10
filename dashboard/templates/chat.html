@@ -360,12 +360,34 @@ let state = {
   teacherId: null,
   teacherName: '',
   isLoading: false,
-  lastMetricIds: [],   // v0.4: 最后一次查询的指标ID（供模板保存）
-  token: null,         // v1.0: JWT token
+  lastMetricIds: [],
+  token: null,
 };
 
-// ── 初始化 ──
+// ── 初始化（恢复登录态） ──
 async function init() {
+  // 从 localStorage 恢复 token
+  const saved = localStorage.getItem('tr_token');
+  if (saved) {
+    try {
+      const res = await fetch('/api/auth/me', {
+        headers: { 'Authorization': `Bearer ${saved}` }
+      });
+      if (res.ok) {
+        const user = await res.json();
+        state.token = saved;
+        state.teacherId = user.teacher_id;
+        state.teacherName = user.name;
+        document.getElementById('login-overlay').style.display = 'none';
+        document.getElementById('teacher-label').textContent =
+          `👤 ${user.name} · ${user.role === 'admin' ? '管理员' : ''} · 🔐 已登录`;
+        document.getElementById('send-btn').disabled = false;
+        addMessage('assistant', `👋 欢迎回来，${user.name}老师！`);
+        return;
+      }
+    } catch(e) { localStorage.removeItem('tr_token'); }
+  }
+
   // 加载教师列表
   try {
     const res = await fetch('/api/chat/sessions');
@@ -412,6 +434,7 @@ async function doLogin() {
     state.token = data.token;
     state.teacherId = data.user.teacher_id;
     state.teacherName = data.user.name;
+    localStorage.setItem('tr_token', data.token);
 
     document.getElementById('login-overlay').style.display = 'none';
     document.getElementById('teacher-label').textContent =
