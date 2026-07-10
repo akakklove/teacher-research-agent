@@ -161,6 +161,12 @@ class AuthManager:
             conn.commit()
             return True
 
+    def _get_conn(self):
+        """获取数据库连接（供外部查询使用）"""
+        conn = sqlite3.connect(self.db_path)
+        conn.row_factory = sqlite3.Row
+        return conn
+
     # ── 工具 ──
 
     def _create_token(self, user: User) -> str:

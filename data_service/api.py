@@ -733,6 +733,122 @@ def export_report(req: ExportRequest):
         engine.close()
 
 
+# ── v1.0: 超管后台 API ──
+
+@app.get("/api/admin/stats")
+def admin_stats(user=Depends(get_current_user)):
+    """超管仪表盘数据"""
+    if user.role != "admin":
+        raise HTTPException(status_code=403, detail="需要管理员权限")
+
+    engine = MetricEngine(DB_CONFIG)
+    try:
+        with engine.conn.cursor() as cursor:
+            cursor.execute("SELECT COUNT(*) FROM t_jzg_jbxx")
+            teachers = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM t_ky_xmjbxx")
+            projects = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM t_ky_lw")
+            papers = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM t_ky_zl")
+            patents = cursor.fetchone()[0]
+
+            # 各学院统计
+            cursor.execute("SELECT dw_mc, COUNT(*) as cnt FROM t_jzg_jbxx GROUP BY dw_mc ORDER BY cnt DESC")
+            depts = [{"name": r[0], "count": r[1]} for r in cursor.fetchall()]
+
+        memory = get_memory()
+        return {
+            "stats": {
+                "teachers": teachers,
+                "projects": projects,
+                "papers": papers,
+                "patents": patents,
+                "active_sessions": memory.active_count,
+            },
+            "departments": depts,
+            "db_status": "connected",
+        }
+    except Exception as e:
+        return {"error": str(e), "db_status": "disconnected"}
+    finally:
+        engine.close()
+
+
+@app.get("/api/admin/users")
+def admin_users(user=Depends(get_current_user)):
+    """列出所有用户"""
+    if user.role != "admin":
+        raise HTTPException(status_code=403, detail="需要管理员权限")
+
+    from agent.auth import AuthManager
+    auth = AuthManager()
+    try:
+        with auth._get_conn() as conn:
+            rows = conn.execute(
+                "SELECT id, teacher_id, name, role, department, created_at FROM users ORDER BY id"
+            ).fetchall()
+        return {
+            "total": len(rows),
+            "users": [
+                {"id": r[0], "teacher_id": r[1], "name": r[2],
+                 "role": r[3], "department": r[4], "created_at": r[5]}
+                for r in rows
+            ]
+        }
+    except Exception as e:
+        return {"error": str(e), "users": []}
+
+
+@app.get("/api/admin/datasource")
+def admin_datasource(user=Depends(get_current_user)):
+    """数据源状态"""
+    if user.role != "admin":
+        raise HTTPException(status_code=403, detail="需要管理员权限")
+
+    try:
+        import pymysql
+        conn = pymysql.connect(**DB_CONFIG)
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT COUNT(*) as cnt FROM t_jzg_jbxx")
+            teacher_count = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) as cnt FROM t_ky_xmjbxx")
+            project_count = cursor.fetchone()[0]
+        conn.close()
+
+        return {
+            "status": "connected",
+            "host": DB_CONFIG["host"],
+            "port": DB_CONFIG["port"],
+            "database": DB_CONFIG["database"],
+            "tables": {
+                "teachers": teacher_count,
+                "projects": project_count,
+            }
+        }
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+
+@app.post("/api/admin/sync")
+def admin_sync(user=Depends(get_current_user)):
+    """触发教师账号同步"""
+    if user.role != "admin":
+        raise HTTPException(status_code=403, detail="需要管理员权限")
+
+    from agent.auth import AuthManager
+    auth = AuthManager()
+    count = auth.sync_teachers(DB_CONFIG)
+    return {"message": f"已同步 {count} 个教师账号", "count": count}
+
+
+@app.get("/api/admin", response_class=HTMLResponse)
+def admin_page():
+    """超管后台页面"""
+    template_path = Path(__file__).parent.parent / "dashboard" / "templates" / "admin.html"
+    return HTMLResponse(content=template_path.read_text(encoding="utf-8"))
+
+
 @app.get("/api/chat", response_class=HTMLResponse)
 def chat_page():
     """聊天对话界面"""

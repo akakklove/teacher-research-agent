@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>超管后台 — 教师科研查询器</title>
+<style>
+  :root {
+    --bg: #f5f6fa; --card: #fff; --text: #2d3436; --text-light: #636e72;
+    --primary: #0984e3; --success: #00b894; --warning: #fdcb6e; --error: #e17055;
+    --border: #e0e3eb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Microsoft YaHei", sans-serif; background: var(--bg); color: var(--text); }
+  .header { background: var(--card); border-bottom: 1px solid var(--border); padding: 12px 24px; display: flex; align-items: center; gap: 12px; }
+  .header h1 { font-size: 18px; }
+  .header .logout { margin-left: auto; color: var(--error); cursor: pointer; font-size: 13px; }
+  .container { display: grid; grid-template-columns: 200px 1fr; min-height: calc(100vh - 50px); }
+  .sidebar { background: var(--card); border-right: 1px solid var(--border); padding: 12px 0; }
+  .sidebar a { display: block; padding: 10px 20px; font-size: 14px; color: var(--text); text-decoration: none; cursor: pointer; }
+  .sidebar a:hover, .sidebar a.active { background: #e8f0fe; color: var(--primary); font-weight: 500; }
+  .main { padding: 24px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+  .card h3 { margin-bottom: 12px; font-size: 16px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; text-align: center; }
+  .stat .val { font-size: 28px; font-weight: 700; color: var(--primary); }
+  .stat .lbl { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #f0f0f0; }
+  th { color: var(--text-light); font-weight: 500; }
+  button { background: var(--primary); color: #fff; border: none; border-radius: 6px; padding: 8px 16px; cursor: pointer; font-size: 13px; }
+  button:hover { opacity: 0.9; }
+  .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+  .status-dot.ok { background: var(--success); }
+  .status-dot.err { background: var(--error); }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+  .badge.admin { background: #fce4ec; color: #c62828; }
+  .badge.teacher { background: #e8f5e9; color: #2e7d32; }
+
+  .login-overlay { position: fixed; top:0;left:0;right:0;bottom:0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 100; }
+  .login-card { background: var(--card); border-radius: 16px; padding: 32px; width: 340px; text-align: center; }
+  .login-card input { width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 10px; font-size: 14px; margin-bottom: 12px; }
+  .section { display: none; }
+  .section.active { display: block; }
+</style>
+</head>
+<body>
+
+<div class="login-overlay" id="login-overlay">
+  <div class="login-card">
+    <h2>⚙️ 超管登录</h2>
+    <input type="text" id="admin-id" placeholder="管理员账号">
+    <input type="password" id="admin-pw" placeholder="密码">
+    <button onclick="adminLogin()" style="width:100%;">登录</button>
+    <div id="login-error" style="color:#e17055;font-size:13px;margin-top:8px;display:none;"></div>
+  </div>
+</div>
+
+<div class="header">
+  <h1>⚙️ 教师科研查询器 — 超管后台</h1>
+  <span id="admin-name" style="font-size:13px;color:var(--text-light);"></span>
+  <span class="logout" onclick="logout()">退出</span>
+</div>
+
+<div class="container">
+  <div class="sidebar">
+    <a class="active" onclick="showSection('dashboard')">📊 仪表盘</a>
+    <a onclick="showSection('users')">👥 用户管理</a>
+    <a onclick="showSection('datasource')">🗄️ 数据源</a>
+    <a onclick="showSection('sync')">🔄 同步任务</a>
+  </div>
+
+  <div class="main">
+    <!-- 仪表盘 -->
+    <div class="section active" id="section-dashboard">
+      <div class="stats" id="stats-cards"></div>
+      <div class="card">
+        <h3>学院分布</h3>
+        <table id="dept-table"><tbody></tbody></table>
+      </div>
+    </div>
+
+    <!-- 用户管理 -->
+    <div class="section" id="section-users">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <h3 style="margin:0;">用户列表</h3>
+          <button onclick="syncUsers()">🔄 同步教师</button>
+        </div>
+        <table id="users-table"><thead><tr><th>ID</th><th>工号</th><th>姓名</th><th>角色</th><th>部门</th><th>创建时间</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+
+    <!-- 数据源 -->
+    <div class="section" id="section-datasource">
+      <div class="card">
+        <h3>数据库连接</h3>
+        <div id="ds-status"></div>
+      </div>
+    </div>
+
+    <!-- 同步 -->
+    <div class="section" id="section-sync">
+      <div class="card">
+        <h3>同步任务</h3>
+        <p style="color:var(--text-light);margin-bottom:12px;">从 MySQL 教师表同步用户账号到认证系统</p>
+        <button onclick="runSync()" style="margin-bottom:12px;">▶ 立即同步</button>
+        <div id="sync-result" style="font-size:13px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let token = '';
+
+async function adminLogin() {
+  const id = document.getElementById('admin-id').value;
+  const pw = document.getElementById('admin-pw').value;
+  const err = document.getElementById('login-error');
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ teacher_id: id, password: pw }),
+    });
+    const data = await res.json();
+    if (!res.ok) { err.textContent = data.detail; err.style.display='block'; return; }
+    if (data.user.role !== 'admin') { err.textContent = '非管理员账号'; err.style.display='block'; return; }
+    token = data.token;
+    document.getElementById('login-overlay').style.display = 'none';
+    document.getElementById('admin-name').textContent = `管理员: ${data.user.name}`;
+    loadDashboard();
+  } catch(e) { err.textContent = '网络错误'; err.style.display='block'; }
+}
+
+function logout() { token = ''; location.reload(); }
+
+async function api(url) {
+  const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
+  return res.json();
+}
+
+async function loadDashboard() {
+  const data = await api('/api/admin/stats');
+  if (data.error) return;
+  document.getElementById('stats-cards').innerHTML = `
+    <div class="stat"><div class="val">${data.stats.teachers}</div><div class="lbl">教师数</div></div>
+    <div class="stat"><div class="val">${data.stats.projects}</div><div class="lbl">项目数</div></div>
+    <div class="stat"><div class="val">${data.stats.papers}</div><div class="lbl">论文数</div></div>
+    <div class="stat"><div class="val">${data.stats.patents}</div><div class="lbl">专利数</div></div>
+    <div class="stat"><div class="val">${data.stats.active_sessions}</div><div class="lbl">活跃会话</div></div>
+  `;
+  document.getElementById('dept-table').innerHTML = '<thead><tr><th>学院</th><th>教师数</th></tr></thead><tbody>' +
+    (data.departments || []).map(d => `<tr><td>${d.name}</td><td>${d.count}</td></tr>`).join('') + '</tbody>';
+}
+
+async function loadUsers() {
+  const data = await api('/api/admin/users');
+  document.getElementById('users-table').innerHTML = '<thead><tr><th>ID</th><th>工号</th><th>姓名</th><th>角色</th><th>部门</th><th>创建时间</th></tr></thead><tbody>' +
+    (data.users || []).map(u => `<tr>
+      <td>${u.id}</td><td>${u.teacher_id}</td><td>${u.name}</td>
+      <td><span class="badge ${u.role}">${u.role}</span></td>
+      <td>${u.department||''}</td><td>${u.created_at||''}</td>
+    </tr>`).join('') + '</tbody>';
+}
+
+async function loadDS() {
+  const data = await api('/api/admin/datasource');
+  document.getElementById('ds-status').innerHTML = `
+    <span class="status-dot ${data.status==='connected'?'ok':'err'}"></span> ${data.status}
+    ${data.host ? `<p style="margin-top:8px;font-size:13px;color:var(--text-light);">
+      Host: ${data.host}:${data.port} | DB: ${data.database} | 
+      教师: ${data.tables?.teachers||0} 条 | 项目: ${data.tables?.projects||0} 条
+    </p>` : ''}
+    ${data.message ? `<p style="color:var(--error);margin-top:4px;">${data.message}</p>` : ''}
+  `;
+}
+
+async function syncUsers() { await api('/api/admin/sync'); loadUsers(); }
+async function runSync() {
+  const data = await api('/api/admin/sync');
+  document.getElementById('sync-result').innerHTML = `✅ ${data.message}`;
+}
+
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+  document.getElementById('section-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'dashboard') loadDashboard();
+  if (name === 'users') loadUsers();
+  if (name === 'datasource') loadDS();
+}
+</script>
+</body>
+</html>
