@@ -428,6 +428,14 @@ async function doLogin() {
   }
 }
 
+// v1.0: 生成大屏报告
+function openDashboard(metricIds) {
+  if (!state.teacherId) return;
+  const mids = (metricIds.length > 0 ? metricIds : state.lastMetricIds).join(',');
+  const url = `/api/teacher/${state.teacherId}/report?metric_ids=${mids}`;
+  window.open(url, '_blank');
+}
+
 // v1.0: 导出按钮
 async function exportReport(format) {
   if (!state.teacherId) { alert('请先登录'); return; }
@@ -821,6 +829,14 @@ function renderAssistantReply(data) {
     saveBtn.style.cssText = 'margin-top:8px;font-size:11px;';
     saveBtn.onclick = () => saveTemplate(data.metric_ids);
     bubble.appendChild(saveBtn);
+
+    // v1.0: 生成大屏按钮
+    const dashBtn = document.createElement('button');
+    dashBtn.className = 'quick-btn';
+    dashBtn.textContent = '📊 生成大屏报告';
+    dashBtn.style.cssText = 'margin-top:8px;margin-left:6px;font-size:11px;background:#e8f5e9;color:#2e7d32;border-color:#c8e6c9;';
+    dashBtn.onclick = () => openDashboard(data.metric_ids || []);
+    bubble.appendChild(dashBtn);
   }
 
   // 追问提示

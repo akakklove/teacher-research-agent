@@ -211,6 +211,7 @@ def get_teacher_report(
     start_date: str = "2022-01-01",
     end_date: str = "2025-12-31",
     query: Optional[str] = None,
+    metric_ids: Optional[str] = None,   # v1.0: 逗号分隔的指标ID
 ):
     """
     教师科研大屏报告 — 直接返回 HTML 页面
@@ -226,8 +227,14 @@ def get_teacher_report(
         if not teacher:
             raise HTTPException(status_code=404, detail=f"教师 {teacher_id} 不存在")
 
-        intent = router.route(query or "我的科研情况")
-        results = engine.execute(teacher_id, intent.recommended_metrics, {
+        # 优先使用 URL 指定的指标，其次用意图路由推荐
+        if metric_ids:
+            mid_list = [m.strip() for m in metric_ids.split(",")]
+        else:
+            intent = router.route(query or "我的科研情况")
+            mid_list = intent.recommended_metrics
+
+        results = engine.execute(teacher_id, mid_list, {
             "start_date": start_date,
             "end_date": end_date,
             "start_year": start_date[:4],
