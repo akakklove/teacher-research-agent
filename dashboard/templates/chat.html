@@ -316,8 +316,11 @@
       <button class="quick-btn" onclick="sendQuick('帮我看看整体科研情况')">📊 科研全景</button>
       <button class="quick-btn" onclick="sendQuick('那论文情况呢？')">📄 论文分析</button>
       <button class="quick-btn" onclick="sendQuick('经费到账和支出详情')">💰 经费详情</button>
-      <button class="quick-btn" onclick="sendQuick('帮我做年度总结')">📝 年度总结</button>
-      <button class="quick-btn" onclick="sendQuick('我够评职称了吗？')">🏅 职称评审</button>
+    </div>
+    <div class="quick-actions" id="scenario-actions">
+      <button class="quick-btn" onclick="runScenario('annual_summary')" style="background:#fff3e0;color:#e65100;border-color:#ffe0b2;">📝 场景：年度总结</button>
+      <button class="quick-btn" onclick="runScenario('title_evaluation')" style="background:#fce4ec;color:#c62828;border-color:#f8bbd0;">🏅 场景：职称评审</button>
+      <button class="quick-btn" onclick="runScenario('grant_application')" style="background:#e8f5e9;color:#2e7d32;border-color:#c8e6c9;">💰 场景：基金申报</button>
     </div>
     <textarea id="user-input" rows="1" placeholder="输入问题，如「帮我看看整体科研情况」..." onkeydown="onKeyDown(event)"></textarea>
   </div>
@@ -444,6 +447,100 @@ async function sendMessage() {
 function sendQuick(text) {
   document.getElementById('user-input').value = text;
   sendMessage();
+}
+
+// ── 场景模板一键生成 ──
+async function runScenario(scenarioId) {
+  if (!state.teacherId || state.isLoading) return;
+  setLoading(true);
+
+  const labels = {
+    annual_summary: '📝 年度科研总结',
+    title_evaluation: '🏅 职称评审材料',
+    grant_application: '💰 基金申报支撑',
+  };
+
+  try {
+    const res = await fetch('/api/chat/scenario', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        scenario_id: scenarioId,
+        teacher_id: state.teacherId,
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || '生成失败');
+    }
+
+    const data = await res.json();
+
+    // 渲染场景报告
+    const container = document.getElementById('chat-container');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'message assistant';
+    msgDiv.style.flexDirection = 'column';
+    msgDiv.style.alignItems = 'flex-start';
+    msgDiv.style.maxWidth = '90%';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+
+    // 场景名称标记
+    const tag = document.createElement('span');
+    tag.className = 'intent-tag';
+    tag.textContent = labels[scenarioId] || scenarioId;
+    bubble.appendChild(tag);
+
+    // KPI 卡片
+    const kpiMetrics = (data.metrics || []).filter(m => m.chart_type === 'kpi_card' && m.value != null).slice(0, 8);
+    if (kpiMetrics.length > 0) {
+      const cards = document.createElement('div');
+      cards.className = 'metric-cards';
+      kpiMetrics.forEach(m => {
+        const card = document.createElement('div');
+        card.className = 'metric-card';
+        card.innerHTML = `<div class="val">${formatValue(m.value, m.unit)}</div><div class="lbl">${m.name}</div>`;
+        cards.appendChild(card);
+      });
+      bubble.appendChild(cards);
+    }
+
+    // 叙事文案（Markdown 转 HTML）
+    if (data.narrative) {
+      const narrative = document.createElement('div');
+      narrative.style.cssText = 'margin-top:12px;padding:12px;background:#fff;border-radius:8px;font-size:13px;line-height:1.8;';
+      narrative.innerHTML = data.narrative
+        .replace(/^### (.*$)/gm, '<h4 style="margin:8px 0 4px;color:#0984e3;">$1</h4>')
+        .replace(/^## (.*$)/gm, '<h3 style="margin:10px 0 6px;color:#2d3436;">$1</h3>')
+        .replace(/^# (.*$)/gm, '<h2 style="margin:12px 0 8px;color:#2d3436;">$1</h2>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/^- (.*$)/gm, '<li>$1</li>')
+        .replace(/\|(.+)\|/g, (match) => {
+          return '<tr>' + match.split('|').filter(s => s.trim()).map(s => `<td style="padding:4px 8px;border:1px solid #ddd;">${s.trim()}</td>`).join('') + '</tr>';
+        })
+        .replace(/\n\n/g, '<br><br>');
+      bubble.appendChild(narrative);
+    }
+
+    // 洞察
+    if (data.insights && data.insights.length > 0) {
+      const box = document.createElement('div');
+      box.className = 'insight-box';
+      box.innerHTML = '💡 ' + data.insights.join('<br>');
+      bubble.appendChild(box);
+    }
+
+    msgDiv.appendChild(bubble);
+    container.appendChild(msgDiv);
+    container.scrollTop = container.scrollHeight;
+  } catch (e) {
+    addMessage('assistant', `❌ 场景生成失败: ${e.message}`);
+  } finally {
+    setLoading(false);
+  }
 }
 
 function onKeyDown(e) {

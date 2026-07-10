@@ -13,6 +13,7 @@ from intent_router import IntentRouter
 from insight_engine import InsightEngine
 from dashboard_composer import DashboardComposer
 from conversation_memory import ConversationMemory, get_memory
+from scenario_templates import ScenarioEngine
 from llm import create_chat_model
 
 # 初始化 LLM（首次启动时创建，后续复用）
@@ -439,6 +440,74 @@ def debug_session(session_id: str, test_input: str = None):
             "suggested_intent": ctx.get("suggested_intent"),
         }
     return result
+
+
+# ── v0.4: 场景模板 API ──
+
+class ScenarioRequest(BaseModel):
+    scenario_id: str                                   # annual_summary / title_evaluation / grant_application
+    teacher_id: str
+    start_date: str = "2022-01-01"
+    end_date: str = "2025-12-31"
+
+
+@app.get("/api/scenarios")
+def list_scenarios():
+    """列出所有可用场景模板"""
+    engine = ScenarioEngine()
+    return {
+        "total": len(engine.TEMPLATES),
+        "scenarios": engine.list_templates(),
+    }
+
+
+@app.post("/api/chat/scenario")
+def run_scenario(req: ScenarioRequest):
+    """
+    执行场景模板 — 一键生成场景化报告
+
+    请求：
+    ```json
+    {
+        "scenario_id": "annual_summary",
+        "teacher_id": "GH20200001",
+        "start_date": "2022-01-01",
+        "end_date": "2025-12-31"
+    }
+    ```
+
+    返回：指标数据 + AI洞察 + LLM叙事文案（Markdown格式）
+    """
+    engine = MetricEngine(DB_CONFIG)
+    scenario_engine = ScenarioEngine(llm=get_llm())
+
+    try:
+        result = scenario_engine.execute(
+            teacher_id=req.teacher_id,
+            scenario_id=req.scenario_id,
+            metric_engine=engine,
+            custom_time_range=(req.start_date, req.end_date) if req.start_date else None,
+        )
+
+        return {
+            "scenario": {
+                "id": result.scenario_id,
+                "name": result.scenario_name,
+            },
+            "teacher": result.teacher,
+            "time_range": list(result.time_range),
+            "metrics": [
+                {"metric_id": r.metric_id, "name": r.name,
+                 "category": r.category, "chart_type": r.chart_type,
+                 "unit": r.unit, "value": r.value, "rows": r.rows}
+                for r in result.metrics if r.success
+            ],
+            "insights": result.insights,
+            "narrative": result.narrative,
+        }
+
+    finally:
+        engine.close()
 
 
 @app.get("/api/chat", response_class=HTMLResponse)
