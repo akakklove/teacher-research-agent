@@ -855,6 +855,52 @@ def admin_sync(user=Depends(get_current_user)):
     return {"message": f"已同步 {count} 个教师账号", "count": count}
 
 
+# ── v1.0: 自定义指标管理 ──
+
+class MetricSaveRequest(BaseModel):
+    metric_id: str
+    name: str
+    sql_template: str
+    category: str = "自定义"
+    chart_type: str = "table"
+    unit: str = ""
+    description: str = ""
+
+
+@app.get("/api/admin/metrics")
+def admin_list_metrics(user=Depends(get_current_user)):
+    """列出所有自定义指标"""
+    if user.role != "admin":
+        raise HTTPException(status_code=403, detail="需要管理员权限")
+    from metric_manager import MetricManager
+    mgr = MetricManager()
+    return {"metrics": mgr.list_all()}
+
+
+@app.post("/api/admin/metrics")
+def admin_save_metric(req: MetricSaveRequest, user=Depends(get_current_user)):
+    """新增/更新自定义指标"""
+    if user.role != "admin":
+        raise HTTPException(status_code=403, detail="需要管理员权限")
+    from metric_manager import MetricManager
+    mgr = MetricManager()
+    mid = mgr.save(req.metric_id, req.name, req.sql_template,
+                   req.category, req.chart_type, req.unit, req.description)
+    return {"id": mid, "message": f"指标「{req.name}」已保存"}
+
+
+@app.delete("/api/admin/metrics/{metric_id}")
+def admin_delete_metric(metric_id: str, user=Depends(get_current_user)):
+    """删除自定义指标"""
+    if user.role != "admin":
+        raise HTTPException(status_code=403, detail="需要管理员权限")
+    from metric_manager import MetricManager
+    mgr = MetricManager()
+    if mgr.delete(metric_id):
+        return {"message": "已删除"}
+    raise HTTPException(status_code=404, detail="指标不存在")
+
+
 @app.get("/api/admin", response_class=HTMLResponse)
 def admin_page():
     """超管后台页面"""

@@ -68,6 +68,7 @@
     <a class="active" onclick="showSection('dashboard')">📊 仪表盘</a>
     <a onclick="showSection('users')">👥 用户管理</a>
     <a onclick="showSection('datasource')">🗄️ 数据源</a>
+    <a onclick="showSection('metrics')">📊 指标管理</a>
     <a onclick="showSection('sync')">🔄 同步任务</a>
   </div>
 
@@ -97,6 +98,40 @@
       <div class="card">
         <h3>数据库连接</h3>
         <div id="ds-status"></div>
+      </div>
+    </div>
+
+    <!-- 指标管理 -->
+    <div class="section" id="section-metrics">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <h3 style="margin:0;">📊 自定义指标</h3>
+          <button onclick="showMetricForm()">➕ 新增指标</button>
+        </div>
+        <div id="metric-form" style="display:none;background:#f8f9fa;border-radius:8px;padding:16px;margin-bottom:16px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;font-size:13px;">
+            <div><label>指标ID</label><input id="m-id" style="width:100%;border:1px solid #ddd;border-radius:4px;padding:6px;" placeholder="my_new_metric"></div>
+            <div><label>名称</label><input id="m-name" style="width:100%;border:1px solid #ddd;border-radius:4px;padding:6px;" placeholder="我的指标"></div>
+            <div><label>分类</label><input id="m-cat" style="width:100%;border:1px solid #ddd;border-radius:4px;padding:6px;" placeholder="自定义" value="自定义"></div>
+            <div><label>图表类型</label>
+              <select id="m-chart" style="width:100%;border:1px solid #ddd;border-radius:4px;padding:6px;">
+                <option value="kpi_card">KPI卡片</option><option value="pie_chart">饼图</option>
+                <option value="bar_chart">柱状图</option><option value="horizontal_bar">横向柱状</option>
+                <option value="line_chart" selected>折线图</option><option value="table">表格</option>
+              </select>
+            </div>
+            <div><label>单位</label><input id="m-unit" style="width:100%;border:1px solid #ddd;border-radius:4px;padding:6px;" placeholder="个"></div>
+            <div><label>描述</label><input id="m-desc" style="width:100%;border:1px solid #ddd;border-radius:4px;padding:6px;"></div>
+          </div>
+          <div style="margin-top:10px;"><label style="font-size:13px;">SQL模板 (参数:teacher_id, :start_date, :end_date)</label>
+            <textarea id="m-sql" style="width:100%;height:100px;border:1px solid #ddd;border-radius:4px;padding:8px;font-family:monospace;font-size:12px;"></textarea>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px;">
+            <button onclick="saveMetric()">💾 保存</button>
+            <button onclick="document.getElementById('metric-form').style.display='none'" style="background:#b2bec3;">取消</button>
+          </div>
+        </div>
+        <table id="metrics-table"><thead><tr><th>ID</th><th>名称</th><th>分类</th><th>图表</th><th>操作</th></tr></thead><tbody><tr><td colspan="5" style="color:#b2bec3;">加载中...</td></tr></tbody></table>
       </div>
     </div>
 
@@ -192,6 +227,57 @@ function showSection(name) {
   if (name === 'dashboard') loadDashboard();
   if (name === 'users') loadUsers();
   if (name === 'datasource') loadDS();
+  if (name === 'metrics') loadMetrics();
+}
+
+// ── 指标管理 ──
+function showMetricForm() {
+  document.getElementById('metric-form').style.display = 'block';
+  document.getElementById('m-id').value = '';
+  document.getElementById('m-name').value = '';
+  document.getElementById('m-sql').value = '';
+}
+
+async function loadMetrics() {
+  const data = await api('/api/admin/metrics');
+  const tbody = document.querySelector('#metrics-table tbody');
+  if (!data.metrics || data.metrics.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="color:#b2bec3;">还没有自定义指标</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.metrics.map(m => `<tr>
+    <td><code>${m.metric_id}</code></td>
+    <td>${m.name}</td>
+    <td>${m.category}</td>
+    <td><span class="badge teacher">${m.chart_type}</span></td>
+    <td><span style="cursor:pointer;color:#e17055;" onclick="deleteMetric('${m.metric_id}')">删除</span></td>
+  </tr>`).join('');
+}
+
+async function saveMetric() {
+  const body = {
+    metric_id: document.getElementById('m-id').value,
+    name: document.getElementById('m-name').value,
+    sql_template: document.getElementById('m-sql').value,
+    category: document.getElementById('m-cat').value,
+    chart_type: document.getElementById('m-chart').value,
+    unit: document.getElementById('m-unit').value,
+    description: document.getElementById('m-desc').value,
+  };
+  if (!body.metric_id || !body.name || !body.sql_template) { alert('请填写ID/名称/SQL'); return; }
+  await fetch('/api/admin/metrics', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify(body),
+  });
+  document.getElementById('metric-form').style.display = 'none';
+  loadMetrics();
+}
+
+async function deleteMetric(id) {
+  if (!confirm('确定删除此指标？')) return;
+  await fetch(`/api/admin/metrics/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+  loadMetrics();
 }
 </script>
 </body>

@@ -33,12 +33,20 @@ class MetricEngine:
         self.db_config = db_config
         self._conn = None
 
-        # 加载指标定义
+        # 加载指标定义（YAML + 自定义）
         if metrics_path is None:
             metrics_path = Path(__file__).parent / "metrics.yaml"
         with open(metrics_path, "r", encoding="utf-8") as f:
             config = yaml.safe_load(f)
         self._metrics = {m["id"]: m for m in config["metrics"]}
+
+        # 合并自定义指标
+        try:
+            from metric_manager import MetricManager
+            custom = MetricManager().load_all()
+            self._metrics.update(custom)
+        except Exception:
+            pass
 
     # ── 数据库连接 ──
     @property
