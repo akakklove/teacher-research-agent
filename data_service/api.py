@@ -14,6 +14,7 @@ from insight_engine import InsightEngine
 from dashboard_composer import DashboardComposer
 from conversation_memory import ConversationMemory, get_memory
 from scenario_templates import ScenarioEngine
+from template_store import TemplateStore
 from llm import create_chat_model
 
 # 初始化 LLM（首次启动时创建，后续复用）
@@ -84,6 +85,7 @@ class ChatResponse(BaseModel):
     metrics: list[dict]                    # 指标数据
     insights: list[str]                    # AI 洞察
     teacher: dict                          # 教师信息
+    metric_ids: list[str] = []             # v0.4: 查询的指标ID列表（供模板保存用）
 
 
 # ── API 路由 ──
@@ -397,6 +399,7 @@ def chat_send(req: ChatRequest):
             ],
             insights=insights,
             teacher=teacher_info,
+            metric_ids=intent.recommended_metrics,
         )
 
     finally:
@@ -508,6 +511,74 @@ def run_scenario(req: ScenarioRequest):
 
     finally:
         engine.close()
+
+
+# ── v0.4: 模板存储 API ──
+
+class TemplateSaveRequest(BaseModel):
+    teacher_id: str
+    name: str
+    metric_ids: list[str]
+    time_range_start: str = "2022-01-01"
+    time_range_end: str = "2025-12-31"
+
+
+class TemplateRenameRequest(BaseModel):
+    name: str
+
+
+@app.get("/api/templates/{teacher_id}")
+def list_templates(teacher_id: str):
+    """列出某教师的所有保存模板"""
+    store = TemplateStore()
+    templates = store.list_by_teacher(teacher_id)
+    return {
+        "total": len(templates),
+        "templates": [
+            {
+                "id": t.id,
+                "name": t.name,
+                "metric_count": len(t.metric_ids),
+                "metric_ids": t.metric_ids,
+                "time_range_start": t.time_range_start,
+                "time_range_end": t.time_range_end,
+                "created_at": t.created_at,
+            }
+            for t in templates
+        ],
+    }
+
+
+@app.post("/api/templates/save")
+def save_template(req: TemplateSaveRequest):
+    """保存自定义模板"""
+    store = TemplateStore()
+    tid = store.save(
+        teacher_id=req.teacher_id,
+        name=req.name,
+        metric_ids=req.metric_ids,
+        time_range_start=req.time_range_start,
+        time_range_end=req.time_range_end,
+    )
+    return {"id": tid, "message": f"模板「{req.name}」已保存"}
+
+
+@app.delete("/api/templates/{template_id}")
+def delete_template(template_id: int):
+    """删除模板"""
+    store = TemplateStore()
+    if store.delete(template_id):
+        return {"message": "已删除"}
+    raise HTTPException(status_code=404, detail="模板不存在")
+
+
+@app.patch("/api/templates/{template_id}")
+def rename_template(template_id: int, req: TemplateRenameRequest):
+    """重命名模板"""
+    store = TemplateStore()
+    if store.rename(template_id, req.name):
+        return {"message": f"已重命名为「{req.name}」"}
+    raise HTTPException(status_code=404, detail="模板不存在")
 
 
 @app.get("/api/chat", response_class=HTMLResponse)

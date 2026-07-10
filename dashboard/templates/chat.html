@@ -321,6 +321,15 @@
       <button class="quick-btn" onclick="runScenario('annual_summary')" style="background:#fff3e0;color:#e65100;border-color:#ffe0b2;">📝 场景：年度总结</button>
       <button class="quick-btn" onclick="runScenario('title_evaluation')" style="background:#fce4ec;color:#c62828;border-color:#f8bbd0;">🏅 场景：职称评审</button>
       <button class="quick-btn" onclick="runScenario('grant_application')" style="background:#e8f5e9;color:#2e7d32;border-color:#c8e6c9;">💰 场景：基金申报</button>
+      <button class="quick-btn" onclick="toggleTemplates()" style="background:#e8eaf6;color:#3949ab;border-color:#c5cae9;">📋 我的模板</button>
+    </div>
+    <!-- 模板面板 -->
+    <div id="templates-panel" style="display:none;background:#fff;border:1px solid #e0e3eb;border-radius:8px;padding:12px;max-height:200px;overflow-y:auto;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:13px;font-weight:600;">📋 我的模板</span>
+        <span onclick="toggleTemplates()" style="cursor:pointer;color:#636e72;">✕</span>
+      </div>
+      <div id="templates-list" style="font-size:13px;color:#636e72;">加载中...</div>
     </div>
     <textarea id="user-input" rows="1" placeholder="输入问题，如「帮我看看整体科研情况」..." onkeydown="onKeyDown(event)"></textarea>
   </div>
@@ -346,6 +355,7 @@ let state = {
   teacherId: null,
   teacherName: '',
   isLoading: false,
+  lastMetricIds: [],   // v0.4: 最后一次查询的指标ID（供模板保存）
 };
 
 // ── 初始化 ──
@@ -543,6 +553,100 @@ async function runScenario(scenarioId) {
   }
 }
 
+// ── 模板保存/加载 ──
+async function saveTemplate(metricIds) {
+  const name = prompt('请输入模板名称：', `${state.teacherName}的模板`);
+  if (!name) return;
+
+  try {
+    const res = await fetch('/api/templates/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        teacher_id: state.teacherId,
+        name: name,
+        metric_ids: metricIds || state.lastMetricIds,
+      }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      addMessage('assistant', `✅ ${data.message}`);
+    } else {
+      addMessage('assistant', `❌ 保存失败: ${data.detail}`);
+    }
+  } catch (e) {
+    addMessage('assistant', `❌ 保存失败: ${e.message}`);
+  }
+}
+
+async function toggleTemplates() {
+  const panel = document.getElementById('templates-panel');
+  if (panel.style.display === 'none' || !panel.style.display) {
+    panel.style.display = 'block';
+    await loadTemplateList();
+  } else {
+    panel.style.display = 'none';
+  }
+}
+
+async function loadTemplateList() {
+  const list = document.getElementById('templates-list');
+  if (!state.teacherId) { list.innerHTML = '请先选择教师'; return; }
+
+  try {
+    const res = await fetch(`/api/templates/${state.teacherId}`);
+    const data = await res.json();
+    if (data.templates.length === 0) {
+      list.innerHTML = '<span style="color:#b2bec3;">还没有保存的模板</span>';
+      return;
+    }
+    list.innerHTML = data.templates.map(t => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f0f0f0;">
+        <span style="cursor:pointer;color:#0984e3;" onclick="loadTemplate('${t.id}', '${t.name}', ${JSON.stringify(t.metric_ids)}, '${t.time_range_start}', '${t.time_range_end}')">
+          📌 ${t.name} <span style="color:#b2bec3;font-size:11px;">(${t.metric_count}个指标)</span>
+        </span>
+        <span style="cursor:pointer;color:#e17055;font-size:11px;" onclick="deleteTemplate(${t.id})">删除</span>
+      </div>
+    `).join('');
+  } catch (e) {
+    list.innerHTML = '加载失败';
+  }
+}
+
+async function loadTemplate(id, name, metricIds, start, end) {
+  state.lastMetricIds = metricIds;
+  document.getElementById('templates-panel').style.display = 'none';
+
+  try {
+    const res = await fetch(`/api/teacher/${state.teacherId}/overview?metric_ids=${metricIds.join(',')}&start_date=${start}&end_date=${end}`);
+    const data = await res.json();
+
+    // 构建 ChatResponse 格式的数据
+    const chatData = {
+      reply: `📌 模板「${name}」：${metricIds.length} 个指标`,
+      intent: 'template',
+      is_followup: false,
+      metrics: data.metrics,
+      insights: [],
+      teacher: data.teacher,
+      metric_ids: metricIds,
+    };
+    renderAssistantReply(chatData);
+  } catch (e) {
+    addMessage('assistant', `❌ 加载失败: ${e.message}`);
+  }
+}
+
+async function deleteTemplate(id) {
+  if (!confirm('确定删除此模板？')) return;
+  try {
+    await fetch(`/api/templates/${id}`, { method: 'DELETE' });
+    loadTemplateList();
+  } catch (e) {
+    addMessage('assistant', `❌ 删除失败: ${e.message}`);
+  }
+}
+
 function onKeyDown(e) {
   if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault();
@@ -553,6 +657,11 @@ function onKeyDown(e) {
 // ── 渲染助手回复 ──
 function renderAssistantReply(data) {
   const container = document.getElementById('chat-container');
+
+  // v0.4: 存储指标ID供模板保存
+  if (data.metric_ids && data.metric_ids.length > 0) {
+    state.lastMetricIds = data.metric_ids;
+  }
 
   // 创建消息容器
   const msgDiv = document.createElement('div');
@@ -598,6 +707,16 @@ function renderAssistantReply(data) {
     box.className = 'insight-box';
     box.innerHTML = '💡 ' + data.insights.join('<br>');
     bubble.appendChild(box);
+  }
+
+  // v0.4: 保存模板按钮
+  if (data.metric_ids && data.metric_ids.length > 0) {
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'quick-btn';
+    saveBtn.textContent = '💾 保存为模板';
+    saveBtn.style.cssText = 'margin-top:8px;font-size:11px;';
+    saveBtn.onclick = () => saveTemplate(data.metric_ids);
+    bubble.appendChild(saveBtn);
   }
 
   // 追问提示
