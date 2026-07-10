@@ -33,11 +33,20 @@ class IntentRouter:
     # 意图 → 推荐指标组合
     INTENT_METRICS_MAP = {
         "personal_overview": [
-            "project_count_leader", "project_by_level",
-            "fund_total_arrived", "fund_execution_rate",
-            "paper_first_author_count", "paper_by_level",
-            "patent_count", "book_count", "software_count",
-            "award_count", "award_by_level",
+            # KPI 卡片（顶行）
+            "project_count_leader", "project_count_total",
+            "fund_total_arrived", "fund_total_spent",
+            "paper_count_total", "paper_first_author_count",
+            "patent_count", "book_count",
+            "software_count", "award_count",
+            "conference_hosted",
+            # 图表（中排）
+            "project_by_level", "project_status_distribution", "project_yearly_trend",
+            "fund_monthly_trend", "fund_expense_structure", "fund_execution_rate",
+            "paper_by_level", "paper_yearly_trend", "paper_author_role",
+            "patent_by_type", "patent_yearly_trend",
+            "award_by_level", "award_timeline",
+            "book_by_type", "software_yearly_trend",
         ],
         "funding_detail": [
             "fund_total_arrived", "fund_total_spent",

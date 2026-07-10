@@ -57,18 +57,18 @@
 
             <!-- KPI 卡片行 -->
             {% if kpis %}
-            <div class="grid gap-2.5 flex-shrink-0" style="grid-template-columns: repeat({{ kpis|length }}, 1fr);">
-                {% for kpi in kpis %}
-                <div class="kpi-card {{ ['blue','green','orange','purple','teal','blue','green','orange','purple','teal','blue'][loop.index0 % 11] }} rounded-lg py-3 px-3 flex flex-col items-center">
-                    <div class="text-[11px] text-gray-400 mb-1">{{ kpi.name }}</div>
-                    <div class="text-xl font-bold tracking-tight" style="color: {{ ['#60a5fa','#34d399','#fbbf24','#a78bfa','#2dd4bf'][loop.index0 % 5] }}">
+            <div class="grid gap-2 flex-shrink-0" style="grid-template-columns: repeat({{ [kpis|length, 11]|max }}, 1fr);">
+                {% for kpi in kpis[:11] %}
+                <div class="kpi-card {{ ['blue','green','orange','purple','teal','blue','green','orange','purple','teal','blue'][loop.index0 % 11] }} rounded-lg py-2.5 px-2 flex flex-col items-center">
+                    <div class="text-[10px] text-gray-400 mb-0.5">{{ kpi.name }}</div>
+                    <div class="text-lg font-bold tracking-tight" style="color: {{ ['#60a5fa','#34d399','#fbbf24','#a78bfa','#2dd4bf'][loop.index0 % 5] }}">
                         {% if kpi.value >= 10000 %}
-                            {{ "%.1f"|format(kpi.value / 10000) }}<span class="text-xs ml-0.5">万</span>
+                            {{ "%.1f"|format(kpi.value / 10000) }}<span class="text-[10px] ml-0.5">万</span>
                         {% else %}
                             {{ "%.0f"|format(kpi.value) }}
                         {% endif %}
                     </div>
-                    <div class="text-[10px] text-gray-500 mt-0.5">{{ kpi.unit }}</div>
+                    <div class="text-[9px] text-gray-500 mt-0.5">{{ kpi.unit }}</div>
                 </div>
                 {% endfor %}
             </div>
@@ -76,38 +76,41 @@
 
             <!-- 图表 + 洞察 区域 -->
             <div class="flex gap-3 flex-1 min-h-0">
-                <!-- 图表面板 -->
+                <!-- 图表面板 — 3列 -->
                 {% if charts %}
-                <div class="flex-1 grid gap-3" style="grid-template-columns: repeat({{ [charts|length, 2]|min }}, 1fr);">
+                <div class="flex-1 grid gap-2 overflow-auto" style="grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr;">
                     {% for chart in charts %}
-                    <div class="chart-box relative flex flex-col">
-                        <div class="text-xs text-gray-400 px-4 pt-3 flex-shrink-0 flex items-center justify-between">
+                    <div class="chart-box relative flex flex-col min-h-0">
+                        <div class="text-[10px] text-gray-400 px-3 pt-2 flex-shrink-0 flex items-center justify-between">
                             <span>{{ chart.title }}</span>
-                            <span class="text-[10px] text-gray-600">{% if chart.chart_type == 'pie_chart' %}占比{% elif chart.chart_type == 'line_chart' %}趋势{% elif chart.chart_type == 'bar_chart' %}对比{% elif chart.chart_type == 'horizontal_bar' %}排名{% elif chart.chart_type == 'gauge' %}指标{% endif %}</span>
+                            <span class="text-[9px] text-gray-600">{% if chart.chart_type == 'pie_chart' %}占比{% elif chart.chart_type == 'line_chart' %}趋势{% elif chart.chart_type == 'bar_chart' or chart.chart_type == 'horizontal_bar' %}对比{% elif chart.chart_type == 'gauge' %}指标{% endif %}</span>
                         </div>
                         {% if chart.chart_type == 'table' %}
-                        <div class="overflow-auto flex-1 px-4 pb-3">
-                            <table class="w-full text-xs">
+                        <div class="overflow-auto flex-1 px-3 pb-2">
+                            <table class="w-full text-[10px]">
                                 <thead>
                                     <tr class="border-b border-white/10">
                                     {% for col in chart.option.columns %}
-                                        <th class="py-1.5 text-left text-gray-500">{{ col }}</th>
+                                        <th class="py-1 text-left text-gray-500">{{ col }}</th>
                                     {% endfor %}
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for row in chart.option.rows %}
+                                    {% for row in chart.option.rows[:8] %}
                                     <tr class="border-b border-white/5 hover:bg-white/5">
                                         {% for col in chart.option.columns %}
-                                        <td class="py-1.5 text-gray-300">{{ row[col] }}</td>
+                                        <td class="py-1 text-gray-300">{{ row[col] }}</td>
                                         {% endfor %}
                                     </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            {% if chart.option.rows|length > 8 %}
+                            <p class="text-[9px] text-gray-600 mt-1">... 共 {{ chart.option.rows|length }} 条</p>
+                            {% endif %}
                         </div>
                         {% else %}
-                        <div id="{{ chart.dom_id }}" class="flex-1 w-full"></div>
+                        <div id="{{ chart.dom_id }}" class="flex-1 w-full min-h-0"></div>
                         {% endif %}
                     </div>
                     {% endfor %}
