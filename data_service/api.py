@@ -12,6 +12,21 @@ from metric_engine import MetricEngine
 from intent_router import IntentRouter
 from insight_engine import InsightEngine
 from dashboard_composer import DashboardComposer
+from llm import create_chat_model
+
+# 初始化 LLM（首次启动时创建，后续复用）
+_llm = None
+
+def get_llm():
+    global _llm
+    if _llm is None:
+        try:
+            _llm = create_chat_model()
+            print("[LLM] 通义千问已连接")
+        except Exception as e:
+            print(f"[LLM] 连接失败，将使用规则引擎兜底: {e}")
+            _llm = None
+    return _llm
 
 app = FastAPI(
     title="教师个人科研查询器",
@@ -178,8 +193,8 @@ def get_teacher_report(
     浏览器打开即可看到完整大屏
     """
     engine = MetricEngine(DB_CONFIG)
-    router = IntentRouter()
-    insight_engine = InsightEngine()
+    router = IntentRouter(llm=get_llm())
+    insight_engine = InsightEngine(llm=get_llm())
     composer = DashboardComposer()
 
     try:
@@ -214,8 +229,8 @@ def chat_query(
 ):
     """对话式查询 — 输入自然语言，返回 JSON（供前端 Chat UI 调用）"""
     engine = MetricEngine(DB_CONFIG)
-    router = IntentRouter()
-    insight_engine = InsightEngine()
+    router = IntentRouter(llm=get_llm())
+    insight_engine = InsightEngine(llm=get_llm())
 
     try:
         teacher = engine.get_teacher_info(teacher_id)
