@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ teacher_name }} - 个人科研全景报告</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #f0f2f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1f2937; }
+        .kpi-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .kpi-card.green { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+        .kpi-card.blue { background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%); }
+        .kpi-card.orange { background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%); }
+        .kpi-card.purple { background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%); }
+        .kpi-card.teal { background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%); }
+        .chart-box { background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        .insight-box { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #f59e0b; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- 顶部标题栏 -->
+    <div class="bg-white shadow-sm mb-6">
+        <div class="max-w-7xl mx-auto px-6 py-5">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">
+                        🔬 {{ teacher_name }} 个人科研全景报告
+                    </h1>
+                    <p class="text-gray-500 mt-1 text-sm">
+                        {{ teacher_dept }} · {{ teacher_title }} · 时间范围：{{ time_range }}
+                    </p>
+                </div>
+                <div class="text-right text-gray-400 text-xs">
+                    教师科研小助手 v0.3<br>数据更新：{{ time_range.split(' ')[0] }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 pb-10">
+
+        <!-- KPI 卡片行 -->
+        {% if kpis %}
+        <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-6">
+            {% for kpi in kpis %}
+            <div class="kpi-card {{ ['blue','green','orange','purple','teal','blue','green'][loop.index0 % 7] }} rounded-xl p-4 text-white">
+                <div class="text-xs opacity-80 mb-1">{{ kpi.name }}</div>
+                <div class="text-2xl font-bold">
+                    {% if kpi.value >= 10000 %}
+                        {{ "%.1f"|format(kpi.value / 10000) }}<span class="text-sm ml-0.5">万</span>
+                    {% else %}
+                        {{ "%.0f"|format(kpi.value) }}
+                    {% endif %}
+                </div>
+                <div class="text-xs opacity-70 mt-0.5">{{ kpi.unit }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- 图表面板 -->
+        {% if charts %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            {% for chart in charts %}
+            <div class="chart-box">
+                <h3 class="text-sm font-semibold text-gray-600 mb-2">{{ chart.title }}</h3>
+                {% if chart.chart_type == 'table' %}
+                <div class="overflow-auto max-h-64">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                            {% for col in chart.option.columns %}
+                                <th class="px-3 py-2 text-left text-gray-500">{{ col }}</th>
+                            {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            {% for row in chart.option.rows %}
+                            <tr class="hover:bg-gray-50">
+                                {% for col in chart.option.columns %}
+                                <td class="px-3 py-2">{{ row[col] }}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div id="{{ chart.dom_id }}" style="width:100%;height:320px;"></div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- 智能洞察 -->
+        {% if insights %}
+        <div class="insight-box rounded-xl p-5 mb-6">
+            <h3 class="text-sm font-bold text-gray-700 mb-3">💡 智能洞察</h3>
+            {% for text in insights %}
+            <p class="text-sm text-gray-700 mb-1.5">{{ text }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+
+    <!-- ECharts 渲染 -->
+    <script>
+    var chartsConfig = {{ charts|tojson }};
+    window.addEventListener('load', function() {
+        chartsConfig.forEach(function(c) {
+            if (c.chart_type === 'table') return;
+            var dom = document.getElementById(c.dom_id);
+            if (!dom) return;
+            var chart = echarts.init(dom);
+            chart.setOption(JSON.parse(c.option));
+            window.addEventListener('resize', function() { chart.resize(); });
+        });
+    });
+    </script>
+</body>
+</html>
