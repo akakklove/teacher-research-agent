@@ -322,6 +322,8 @@
       <button class="quick-btn" onclick="runScenario('annual_summary')" style="background:#fff3e0;color:#e65100;border-color:#ffe0b2;">📝 场景：年度总结</button>
       <button class="quick-btn" onclick="runScenario('title_evaluation')" style="background:#fce4ec;color:#c62828;border-color:#f8bbd0;">🏅 场景：职称评审</button>
       <button class="quick-btn" onclick="runScenario('grant_application')" style="background:#e8f5e9;color:#2e7d32;border-color:#c8e6c9;">💰 场景：基金申报</button>
+      <button class="quick-btn" onclick="exportReport('pptx')" style="background:#fff8e1;color:#f57f17;border-color:#ffe082;">📥 导出PPT</button>
+      <button class="quick-btn" onclick="exportReport('md')" style="background:#f5f5f5;color:#616161;border-color:#e0e0e0;">📥 导出MD</button>
       <button class="quick-btn" onclick="toggleTemplates()" style="background:#e8eaf6;color:#3949ab;border-color:#c5cae9;">📋 我的模板</button>
     </div>
     <!-- 模板面板 -->
@@ -340,12 +342,14 @@
 <!-- 登录遮罩 -->
 <div class="login-overlay" id="login-overlay">
   <div class="login-card">
-    <h2>🏫 选择教师</h2>
-    <p>请选择要查询的教师工号以开始对话</p>
-    <select id="teacher-select">
-      <option value="">— 加载中 —</option>
+    <h2>🏫 教师登录</h2>
+    <p>输入工号和密码开始对话（初始密码为工号后6位）</p>
+    <select id="teacher-select" style="width:100%;border:1px solid #e0e3eb;border-radius:8px;padding:10px;font-size:14px;margin-bottom:12px;">
+      <option value="">— 选择教师 —</option>
     </select>
-    <button onclick="startChat()">开始对话</button>
+    <input type="password" id="login-password" placeholder="密码" style="width:100%;border:1px solid #e0e3eb;border-radius:8px;padding:10px;font-size:14px;margin-bottom:16px;">
+    <button onclick="doLogin()">登录</button>
+    <div id="login-error" style="color:#e17055;font-size:13px;margin-top:8px;display:none;"></div>
   </div>
 </div>
 
@@ -357,6 +361,7 @@ let state = {
   teacherName: '',
   isLoading: false,
   lastMetricIds: [],   // v0.4: 最后一次查询的指标ID（供模板保存）
+  token: null,         // v1.0: JWT token
 };
 
 // ── 初始化 ──
@@ -385,29 +390,62 @@ async function loadTeacherList() {
 }
 
 // ── 开始对话 ──
-async function startChat() {
+async function doLogin() {
   const teacherId = document.getElementById('teacher-select').value;
-  if (!teacherId) return;
+  const password = document.getElementById('login-password').value;
+  const errDiv = document.getElementById('login-error');
+  if (!teacherId || !password) { errDiv.textContent = '请填写工号和密码'; errDiv.style.display = 'block'; return; }
 
   try {
-    const infoRes = await fetch(`/api/teacher/${teacherId}`);
-    if (!infoRes.ok) { alert('教师不存在'); return; }
-    const info = await infoRes.json();
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ teacher_id: teacherId, password: password }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      errDiv.textContent = data.detail || '登录失败';
+      errDiv.style.display = 'block';
+      return;
+    }
 
-    state.teacherId = teacherId;
-    state.teacherName = info.xm;
+    state.token = data.token;
+    state.teacherId = data.user.teacher_id;
+    state.teacherName = data.user.name;
 
     document.getElementById('login-overlay').style.display = 'none';
-    document.getElementById('teacher-label').textContent = `👤 ${info.xm} · ${info.dw_mc} · ${info.zc}`;
+    document.getElementById('teacher-label').textContent =
+      `👤 ${data.user.name} · ${data.user.department} · 🔐 已登录`;
     document.getElementById('send-btn').disabled = false;
 
     addMessage('assistant',
-      `👋 您好，${info.xm}老师！我是您的科研助手。\n\n` +
-      `您可以问我：\n• 帮我看看整体科研情况\n• 论文发表情况\n• 经费到账了多少\n• 能帮我做年度总结吗`
+      `👋 您好，${data.user.name}老师！我是您的科研助手。\n\n` +
+      `您可以问我：\n• 帮我看看整体科研情况\n• 论文发表情况\n• 经费到账了多少\n• 点下方场景按钮一键生成报告`
     );
   } catch (e) {
-    alert('连接失败：' + e.message);
+    errDiv.textContent = '网络错误：' + e.message;
+    errDiv.style.display = 'block';
   }
+}
+
+// v1.0: 导出按钮
+async function exportReport(format) {
+  if (!state.teacherId) { alert('请先登录'); return; }
+  try {
+    const res = await fetch('/api/export', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ teacher_id: state.teacherId, format: format, scenario_id: 'annual_summary' }),
+    });
+    if (!res.ok) { alert('导出失败'); return; }
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = format === 'pptx' ? '科研报告.pptx' : '科研报告.md';
+    a.click();
+    URL.revokeObjectURL(url);
+  } catch (e) { alert('导出失败: ' + e.message); }
 }
 
 // ── 发送消息 ──

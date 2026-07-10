@@ -1,6 +1,6 @@
 """FastAPI 服务层 — 教师科研查询 API"""
-from fastapi import FastAPI, HTTPException, Query
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, HTTPException, Query, Depends
+from fastapi.responses import HTMLResponse, FileResponse
 from pydantic import BaseModel
 from typing import Optional
 import sys
@@ -16,6 +16,7 @@ from conversation_memory import ConversationMemory, get_memory
 from scenario_templates import ScenarioEngine
 from template_store import TemplateStore
 from metric_discovery import MetricDiscovery
+from auth import AuthManager, get_current_user
 from llm import create_chat_model
 
 # 初始化 LLM（首次启动时创建，后续复用）
@@ -637,6 +638,98 @@ def discover_metric(req: DiscoverRequest):
         "row_count": len(rows),
         "error": result.error,
     }
+
+
+# ── v1.0: JWT 认证 ──
+
+class LoginRequest(BaseModel):
+    teacher_id: str
+    password: str
+
+
+@app.post("/api/auth/login")
+def login(req: LoginRequest):
+    """教师登录 → 返回 JWT token"""
+    auth = AuthManager()
+    result = auth.login(req.teacher_id, req.password)
+    if not result:
+        raise HTTPException(status_code=401, detail="工号或密码错误")
+    return result
+
+
+@app.post("/api/auth/sync")
+def sync_users():
+    """从 MySQL 同步教师账号（初始密码 = 工号后 6 位）"""
+    auth = AuthManager()
+    count = auth.sync_teachers(DB_CONFIG)
+    return {"message": f"已同步 {count} 个教师账号", "count": count}
+
+
+@app.get("/api/auth/me")
+def get_me(user=Depends(get_current_user)):
+    """获取当前登录用户信息（需 JWT）"""
+    return {"teacher_id": user.teacher_id, "name": user.name, "role": user.role}
+
+
+# ── v1.0: 导出 ──
+
+class ExportRequest(BaseModel):
+    teacher_id: str
+    format: str = "pptx"
+    scenario_id: str = "annual_summary"
+    start_date: str = "2022-01-01"
+    end_date: str = "2025-12-31"
+
+
+@app.post("/api/export")
+def export_report(req: ExportRequest):
+    """导出科研报告为 PPT 或 Markdown"""
+    from scenario_templates import ScenarioEngine
+    from dashboard.export import ReportExporter
+    from fastapi.responses import FileResponse
+
+    engine = MetricEngine(DB_CONFIG)
+    scenario_engine = ScenarioEngine(llm=get_llm())
+
+    try:
+        result = scenario_engine.execute(
+            teacher_id=req.teacher_id,
+            scenario_id=req.scenario_id,
+            metric_engine=engine,
+            custom_time_range=(req.start_date, req.end_date),
+        )
+
+        metrics = [
+            {"metric_id": r.metric_id, "name": r.name,
+             "category": r.category, "chart_type": r.chart_type,
+             "unit": r.unit, "value": r.value, "rows": r.rows}
+            for r in result.metrics if r.success
+        ]
+
+        if req.format == "pptx":
+            path = ReportExporter.to_pptx(
+                teacher=result.teacher,
+                metrics=metrics,
+                insights=result.insights,
+                narrative=result.narrative,
+                scenario_name=result.scenario_name,
+                time_range=result.time_range,
+            )
+            return FileResponse(path, filename=Path(path).name,
+                      media_type="application/vnd.openxmlformats-officedocument.presentationml.presentation")
+        else:
+            path = ReportExporter.to_markdown(
+                teacher=result.teacher,
+                metrics=metrics,
+                insights=result.insights,
+                narrative=result.narrative,
+                scenario_name=result.scenario_name,
+            )
+            return FileResponse(path, filename=Path(path).name,
+                      media_type="text/markdown; charset=utf-8")
+
+    finally:
+        engine.close()
 
 
 @app.get("/api/chat", response_class=HTMLResponse)
