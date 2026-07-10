@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+.venv/
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Docker volumes (数据库数据不提交)
+docker/mysql_data/
+
+# 环境变量/密钥
+.env
+*.key
+*.pem
+
+# 临时文件
+*.tmp
+*.log
+.DS_Store
+
+# 原始Excel文件（体积大，不提交）
+*.xls
+*.xlsx
+
+# 系统文件
+Thumbs.db
+desktop.ini

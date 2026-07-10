@@ -1,0 +1,481 @@
+{
+  "dataset_name": "GXGGFW高校公共服务数据集",
+  "table_count": 5,
+  "field_count": 39,
+  "tables": {
+    "T_GXGGFW_MJSBXX": {
+      "table_name": "T_GXGGFW_MJSBXX",
+      "entity_desc": "GXGGFWMJ0101高校公共服务门禁设备信息",
+      "data_class": "GXGGFWMJ01高校门禁数据类",
+      "dataset": "GXGGFW高校公共服务数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "SBBH",
+          "comment": "设备编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "门禁终端设备编号、通常\n系统会以设备ID存储",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "SBBH",
+          "comment": "设备名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "门禁终端设备名称",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "SBWZ",
+          "comment": "设备位置",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "设备所在建筑物的所在楼层或\n所在门等具体地址。",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "SBSZJZWBH",
+          "comment": "设备所在建筑物编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "设备所在建筑物编号，编号取自\n学校通用建筑物编号。",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "SFGDSB",
+          "comment": "是否是固定设备",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "确定设备终端是手持移动还是固定。",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "SFYXSB",
+          "comment": "是否是有效设备",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "确定设备终端是在运行的设备",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "SBZCBH",
+          "comment": "设备资产编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "超过千元设备录入资产系统的资产编号，用于和资产系统关联",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXGGFW_JCJLXX": {
+      "table_name": "T_GXGGFW_JCJLXX",
+      "entity_desc": "GXGGFWMJ0102高校公共服务门进出记录信息",
+      "data_class": "GXGGFWMJ01高校门禁数据类",
+      "dataset": "GXGGFW高校公共服务数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "WYBS",
+          "comment": "唯一标识",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "进出唯一主键字段，通常接入进出流水信息。",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "YHRYH",
+          "comment": "用户人员号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "用户人员号信息、校内人员通常由工号、学号校外人员或者\n临时人员则采用身份证号",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "MJSBBH",
+          "comment": "门禁设备编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "与门禁设备编号保持一致",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "SKDD",
+          "comment": "刷卡地点",
+          "type": "字符串",
+          "length": "500\n",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "SKSJ",
+          "comment": "刷卡时间",
+          "type": "日期时间",
+          "length": "",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "JCFX",
+          "comment": "进出方向",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "1、进，2、出，0、未知方向",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXGGFW_RYJBXX": {
+      "table_name": "T_GXGGFW_RYJBXX",
+      "entity_desc": "GXGGFWMJ0103高校公共服务人员基本信息",
+      "data_class": "GXGGFWMJ01高校门禁数据类",
+      "dataset": "GXGGFW高校公共服务数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "RYBH",
+          "comment": "人员编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "用户人员号信息、校内人员通常由工号、学号校外人员或者\n临时人员则采用身份证号",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "SZDW",
+          "comment": "所在单位编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "人员所在单位编号，采用学校统一单位编号。",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "TYLX",
+          "comment": "人员类型",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "包括1校内人员（学校内部人员学生、教工、后勤服务人员等）、\n2校外人员（临时人员、驻校办公人员等）两种。",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "ZCSJ",
+          "comment": "注册时间",
+          "type": "日期时间",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "SFYJCQX",
+          "comment": "是否有效",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXGGFWSW_RYJBXX": {
+      "table_name": "T_GXGGFWSW_RYJBXX",
+      "entity_desc": "GXGGFWSW0101上网人员基本信息",
+      "data_class": "GXGGFWSWJ01上网服务数据类",
+      "dataset": "GXGGFW高校公共服务数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "RYBH",
+          "comment": "人员编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "用户人员号信息、校内人员通常由工号、学号校外人员或者\n临时人员则采用身份证号",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "SZDW",
+          "comment": "所在单位编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "人员所在单位编号，采用学校统一单位编号。",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "TYLX",
+          "comment": "人员类型",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "包括1校内人员（学校内部人员学生、教工、后勤服务人员等）、\n2校外人员（临时人员、驻校办公人员等）两种。",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "ZCSJ",
+          "comment": "注册时间",
+          "type": "日期时间",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "SFYJCQX",
+          "comment": "是否有效",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXGGFWSW_SWLSXX": {
+      "table_name": "T_GXGGFWSW_SWLSXX",
+      "entity_desc": "GXGGFWMJ0102上网认证流水信息",
+      "data_class": "GXGGFWSWJ01上网服务数据类",
+      "dataset": "GXGGFW高校公共服务数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "WSBS",
+          "comment": "唯一标识",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "YHXGH",
+          "comment": "用户学工号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "RZSJ",
+          "comment": "认证时间",
+          "type": "日期时间",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "SXSJ",
+          "comment": "上线时间",
+          "type": "日期时间",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "XXSJ",
+          "comment": "下线时间",
+          "type": "日期时间",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "APSBBH",
+          "comment": "Ap设备编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "AP设备编号",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "APSBMC",
+          "comment": "Ap设备名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "AP设备名称",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "SBSZJZWBH",
+          "comment": "设备所在建筑物编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "WZLX",
+          "comment": "访问网站类型",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "WZDZ",
+          "comment": "访问网站地址",
+          "type": "字符串",
+          "length": "500",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "FWSJ",
+          "comment": "访问时间",
+          "type": "日期时间",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "信息中心",
+          "security": "完全共享"
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    }
+  }
+}

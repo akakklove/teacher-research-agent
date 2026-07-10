@@ -1,0 +1,61 @@
+# ============================================
+# 教师个人科研查询器 - 全局配置
+# ============================================
+
+app:
+  name: "教师个人科研查询器"
+  version: "1.0.0"
+  dataset: "GXKY"  # 当前启用的数据集
+
+datasource:
+  type: sqlite  # sqlite | mysql | postgresql
+  sqlite:
+    path: "./data_store/research_data.db"
+  mysql:
+    host: "localhost"
+    port: 3306
+    user: "root"
+    password: ""
+    database: "university_research"
+
+mock:
+  enabled: true  # true=使用模拟数据, false=使用真实数据库
+  teacher_count: 50  # 模拟教师数量
+  project_count: 200  # 模拟项目数量
+  date_range:
+    start: "2022-01-01"
+    end: "2025-12-31"
+  seed: 42  # 随机种子（保证可复现）
+
+security:
+  max_query_rows: 10000
+  query_timeout_seconds: 30
+  allowed_tables:
+    - "T_GXKY_KYXMJBXX"
+    - "T_GXKY_KYXMRYXX"
+    - "T_GXKY_KYXMJFDZMXXX"
+    - "T_GXKY_KYXMJFZCMXXX"
+    - "T_GXKY_KYXMJFWBMXXX"
+    - "T_GXKY_KYZZJBXX"
+    - "T_GXKY_KYZZZZXX"
+    - "T_GXKY_KYZLJBXX"
+    - "T_GXKY_KYZLFMRXX"
+    - "T_GXKY_RJZZJBXX"
+    - "T_GXKY_RJZZCYXX"
+    - "T_GXKY_KYHJCGJBXX"
+    - "T_GXKY_KYHJCGCYXX"
+    - "T_GXKY_KJLWJBXX"
+    - "T_GXKY_KJLWZZXX"
+    - "T_GXKY_KYXSHYXX"
+    - "T_GXKY_KYJGJBXX"
+    - "T_GXKY_KYJGRYXX"
+
+llm:
+  model: "qwen-max"
+  api_base: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  temperature: 0.3
+  max_tokens: 2000
+
+server:
+  host: "127.0.0.1"
+  port: 8000

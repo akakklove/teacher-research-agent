@@ -1,0 +1,2726 @@
+{
+  "dataset_name": "GXGZ高职管理数据集",
+  "table_count": 21,
+  "field_count": 230,
+  "tables": {
+    "GXGZ010101技术技能人才培养高地信息": {
+      "table_name": "GXGZ010101技术技能人才培养高地信息",
+      "entity_desc": "GXGZ0101双高指标体系",
+      "data_class": "GXGZ01学校概况数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "TZBDXSKWXSKJZPJSHJXC",
+          "type": "“挑战杯”大学生课外学术科技作品竞赛获奖（项次）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "学生工作处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "ZGHLWDXSCXCYDSXC",
+          "type": "中国“互联网+”大学生创新创业大赛（项次）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "学生工作处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "GJGHJCB",
+          "type": "国家规划教材（本）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "GJGGZYG",
+          "type": "国家骨干专业（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "JSQNLJCBSJJYSJNDSSXXC",
+          "type": "建设期内累计承办省级及以上技能大赛赛项（项次）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "学生工作处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "JXCGJG",
+          "type": "教学成果奖（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "XNSJJXJDG",
+          "type": "校内实践教学基地（含生产性实训基地、公共实训中心和职业教育实训基地）（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "SJJYSJPKFKCM",
+          "type": "省级及以上精品开放课程（门）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "SJPPZYG",
+          "type": "省级品牌专业（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "SJDXSCXCYXLXMX",
+          "type": "省级大学生创新创业训练项目（项）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "学生工作处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "SJDXSXWSJJXJDG",
+          "type": "省级大学生校外实践教学基地（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "SJXDXTZSDZYG",
+          "type": "省级现代学徒制试点专业（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "ZYJNDJXZSSDG",
+          "type": "职业技能等级X证书试点（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "XNFZSXZXG",
+          "type": "虚拟仿真实训中心（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "TJNF",
+          "type": "统计年份",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ010102技术技能创新服务平台信息": {
+      "table_name": "GXGZ010102技术技能创新服务平台信息",
+      "entity_desc": "GXGZ0101双高指标体系",
+      "data_class": "GXGZ01学校概况数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_DZJSJNCXFWPTXX",
+          "comment": "XTCXZXGS",
+          "type": "协同创新中心个数",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "科技处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNCXFWPTXX",
+          "comment": "JSJNPTG",
+          "type": "技术技能平台（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "科技处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNCXFWPTXX",
+          "comment": "KJCXTDG",
+          "type": "科技创新团队（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "科技处"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNRCPYGDXX",
+          "comment": "TJNF",
+          "type": "统计年份",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        },
+        {
+          "name": "T_GXGZ_DZJSJNCXFWPTXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ010103高水平双师队伍信息": {
+      "table_name": "GXGZ010103高水平双师队伍信息",
+      "entity_desc": "GXGZ0101双高指标体系",
+      "data_class": "GXGZ01学校概况数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_GSPSSDWXX",
+          "comment": "QGJSNSM",
+          "type": "全国技术能手（名）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_GSPSSDWXX",
+          "comment": "QGZYYXSSXJSDWJSDXALX",
+          "type": "全国职业院校“双师型”教师队伍建设典型案例（项）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_GSPSSDWXX",
+          "comment": "QGZYYXJXNLBSHJRC",
+          "type": "全国职业院校教学能力比赛获奖（人次）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_GSPSSDWXX",
+          "comment": "MSLMYSGZSDG",
+          "type": "名师、劳模、院士工作室等（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_GSPSSDWXX",
+          "comment": "JNDSGZSG",
+          "type": "技能大师工作室（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_GSPSSDWXX",
+          "comment": "JXMSLJRCR",
+          "type": "教学名师、领军人才（人）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_GSPSSDWXX",
+          "comment": "JSJXCXTDZ",
+          "type": "教师教学创新团队（支）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_GSPSSDWXX",
+          "comment": "SJYXJXTDZ",
+          "type": "省级优秀教学团队（支）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_GSPSSDWXX",
+          "comment": "SJZJXZHQNXZHJZJSM",
+          "type": "省级珠江学者或青年学者或讲座教授（名）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_GSPSSDWXX",
+          "comment": "SJQNJSJXDSRC",
+          "type": "省级青年教师教学大赛（人次）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_GSPSSDWXX",
+          "comment": "SJGCCJNXJZJSR",
+          "type": "省级高层次技能型兼职教师（人）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_GSPSSDWXX",
+          "comment": "TJNF",
+          "type": "统计年份",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        },
+        {
+          "name": "T_GXGZ_GSPSSDWXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ010104校企合作水平信息": {
+      "table_name": "GXGZ010104校企合作水平信息",
+      "entity_desc": "GXGZ0101双高指标体系",
+      "data_class": "GXGZ01学校概况数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_XQHZSPXX",
+          "comment": "CJRHXQYJ",
+          "type": "产教融合型企业（家）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_XQHZSPXX",
+          "comment": "SFXZYJYJTLMG",
+          "type": "示范性职业教育集团（联盟）（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_XQHZSPXX",
+          "comment": "RWYSHKXXMX",
+          "type": "人文与社会科学项目（项）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "社科处"
+        },
+        {
+          "name": "T_GXGZ_XQHZSPXX",
+          "comment": "FMZLX",
+          "type": "发明专利（项）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "科技处"
+        },
+        {
+          "name": "T_GXGZ_XQHZSPXX",
+          "comment": "GJJSSXJSPYPXJDG",
+          "type": "国家级双师型教师培养培训基地（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_XQHZSPXX",
+          "comment": "SJKXJSJKXYJYXCGJX",
+          "type": "省级科学技术奖、科学研究优秀成果奖（项）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "科技处"
+        },
+        {
+          "name": "T_GXGZ_XQHZSPXX",
+          "comment": "ZRKXYJSXMX",
+          "type": "自然科学与技术项目（项）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "科技处"
+        },
+        {
+          "name": "T_GXGZ_XQHZSPXX",
+          "comment": "TJNF",
+          "type": "统计年份",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "是",
+          "department": "",
+          "security": "信息中心"
+        },
+        {
+          "name": "T_GXGZ_XQHZSPXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ010105学校治理水平信息": {
+      "table_name": "GXGZ010105学校治理水平信息",
+      "entity_desc": "GXGZ0101双高指标体系",
+      "data_class": "GXGZ01学校概况数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_XXZLSPXX",
+          "comment": "QGDJGZYBZBG",
+          "type": "全国党建工作样板支部（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "组织部"
+        },
+        {
+          "name": "T_GXGZ_XXZLSPXX",
+          "comment": "XTJXZXG",
+          "type": "协同教学中心（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_XXZLSPXX",
+          "comment": "XXDWDJGZHSKHYXHHSJLC",
+          "type": "学校党委党建工作获省考核优秀或获省奖励（次）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "组织部"
+        },
+        {
+          "name": "T_GXGZ_XXZLSPXX",
+          "comment": "XXZDHBT",
+          "type": "学校制度汇编（套）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校党委办公室"
+        },
+        {
+          "name": "T_GXGZ_XXZLSPXX",
+          "comment": "SDJGZBGYXG",
+          "type": "省党建工作标杆院系（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "组织部"
+        },
+        {
+          "name": "T_GXGZ_XXZLSPXX",
+          "comment": "TJNF",
+          "type": "统计年份",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "是",
+          "department": "",
+          "security": "信息中心"
+        },
+        {
+          "name": "T_GXGZ_XXZLSPXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ010106信息化水平信息": {
+      "table_name": "GXGZ010106信息化水平信息",
+      "entity_desc": "GXGZ0101双高指标体系",
+      "data_class": "GXGZ01学校概况数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_XXHSPXX",
+          "comment": "CPUZHXS",
+          "type": "CPU总核心数（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "信息中心"
+        },
+        {
+          "name": "T_GXGZ_XXHSPXX",
+          "comment": "RJDK",
+          "type": "人均带宽（Mbps）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "信息中心"
+        },
+        {
+          "name": "T_GXGZ_XXHSPXX",
+          "comment": "NCZRL",
+          "type": "内存总容量（GB）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "信息中心"
+        },
+        {
+          "name": "T_GXGZ_XXHSPXX",
+          "comment": "CCZKJ",
+          "type": "存储总空间（TB）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "信息中心"
+        },
+        {
+          "name": "T_GXGZ_XXHSPXX",
+          "comment": "TJNF",
+          "type": "统计年份",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        },
+        {
+          "name": "T_GXGZ_XXHSPXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ010107国际化水平信息": {
+      "table_name": "GXGZ010107国际化水平信息",
+      "entity_desc": "GXGZ0101双高指标体系",
+      "data_class": "GXGZ01学校概况数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_GJHSPXX",
+          "comment": "ZRJSJBGJHYJXNLDRS",
+          "type": "专任教师具备国际汉语教学能力的人数（人）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_GJHSPXX",
+          "comment": "JYGWJXZZDZRJS",
+          "type": "具有国外教学资质的专任教师（人）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_GJHSPXX",
+          "comment": "CJGJWZYJNDSHJ",
+          "type": "参加国（境）外职业技能大赛获奖（不含世界技能大赛）（项次）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_GJHSPXX",
+          "comment": "ZGJWZZDRZWDZRJSRS",
+          "type": "在国（境）外组织担任职务的专任教师人数(人)",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_GJHSPXX",
+          "comment": "KFGJWRKDXYHZYJXBZS",
+          "type": "开发国（境）外认可的行业或专业教学标准数（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_GJHSPXX",
+          "comment": "LBGF",
+          "type": "鲁班工坊（个）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "国际处"
+        },
+        {
+          "name": "T_GXGZ_GJHSPXX",
+          "comment": "TJNF",
+          "type": "统计年份",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        },
+        {
+          "name": "T_GXGZ_GJHSPXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ010108社会效益指标信息": {
+      "table_name": "GXGZ010108社会效益指标信息",
+      "entity_desc": "GXGZ0101双高指标体系",
+      "data_class": "GXGZ01学校概况数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_SHXYZBXX",
+          "comment": "QGGDZYYXGJHZ50Q",
+          "type": "全国高等职业院校国际合作50强",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校党委办公室"
+        },
+        {
+          "name": "T_GXGZ_SHXYZBXX",
+          "comment": "QGGDZYYXXSGL50Q",
+          "type": "全国高等职业院校学生管理50强",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校党委办公室"
+        },
+        {
+          "name": "T_GXGZ_SHXYZBXX",
+          "comment": "QGGDZYYXFWGX50Q",
+          "type": "全国高等职业院校服务贡献50强",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校党委办公室"
+        },
+        {
+          "name": "T_GXGZ_SHXYZBXX",
+          "comment": "QGGDZYYXYRCX50Q",
+          "type": "全国高等职业院校育人成效50强",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校党委办公室"
+        },
+        {
+          "name": "T_GXGZ_SHXYZBXX",
+          "comment": "DKBFZYYX",
+          "type": "对口帮扶职业院校",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校党委办公室"
+        },
+        {
+          "name": "T_GXGZ_SHXYZBXX",
+          "comment": "GDSCXQXTLYXPM",
+          "type": "广东省“创新强校”同类院校排名",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校党委办公室"
+        },
+        {
+          "name": "T_GXGZ_SHXYZBXX",
+          "comment": "GDSCXQXGCKHPM",
+          "type": "广东省“创新强校工程”考核排名",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校党委办公室"
+        },
+        {
+          "name": "T_GXGZ_SHXYZBXX",
+          "comment": "YJBYSCCJYDKL",
+          "type": "应届毕业生初次就业对口率（%）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "招生就业办公室"
+        },
+        {
+          "name": "T_GXGZ_SHXYZBXX",
+          "comment": "YJBYSCCJYPJQXX",
+          "type": "应届毕业生初次就业平均起薪线 （元）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "招生就业办公室"
+        },
+        {
+          "name": "T_GXGZ_SHXYZBXX",
+          "comment": "YJBYSCCJYL",
+          "type": "应届毕业生初次就业率（%）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "招生就业办公室"
+        },
+        {
+          "name": "T_GXGZ_SHXYZBXX",
+          "comment": "LJJSJYDKE",
+          "type": "累计技术交易到款额（万元）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "科技处"
+        },
+        {
+          "name": "T_GXGZ_SHXYZBXX",
+          "comment": "WQYCZJJXY",
+          "type": "为企业创造经济效益（万元）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "科技处"
+        },
+        {
+          "name": "T_GXGZ_SHXYZBXX",
+          "comment": "GYXPXFW",
+          "type": "公益性培训服务（人日）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_SHXYZBXX",
+          "comment": "SHPXQYYGPX",
+          "type": "社会培训/企业员工培训（人日）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_SHXYZBXX",
+          "comment": "TJNF",
+          "type": "统计年份",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        },
+        {
+          "name": "T_GXGZ_SHXYZBXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "是",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ020101专业群基本信息": {
+      "table_name": "GXGZ020101专业群基本信息",
+      "entity_desc": "GXGZ0201专业数据子类",
+      "data_class": "GXGZ02教学管理数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_ZYQJBXX",
+          "comment": "ZYQBH",
+          "type": "专业群编号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYQJBXX",
+          "comment": "ZYQMC",
+          "type": "专业群名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYQJBXX",
+          "comment": "ZYQFZRGH",
+          "type": "专业群负责人工号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYQJBXX",
+          "comment": "SSXY",
+          "type": "所属学院",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYQJBXX",
+          "comment": "BHZY",
+          "type": "包含专业编号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYQJBXX",
+          "comment": "JLSJ",
+          "type": "建立时间",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYQJBXX",
+          "comment": "ZYQJB",
+          "type": "专业群级别",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_XB_DJM",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYQJBXX",
+          "comment": "MXCY",
+          "type": "面向产业",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYQJBXX",
+          "comment": "SFSYGJZDGHCY",
+          "type": "是否属于国家重点规划产业",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_GB_SFBZM",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYQJBXX",
+          "comment": "XFWH",
+          "type": "下发文号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYQJBXX",
+          "comment": "XFSJ",
+          "type": "下发时间",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYQJBXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ020301校内职业培训与技能鉴定机构信息": {
+      "table_name": "GXGZ020301校内职业培训与技能鉴定机构信息",
+      "entity_desc": "GXGZ0203技能鉴定数据子类",
+      "data_class": "GXGZ02教学管理数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_XNZYPXYJNJDJGXX",
+          "comment": "JGMC",
+          "type": "机构名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_XNZYPXYJNJDJGXX",
+          "comment": "SQDW",
+          "type": "授权单位",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_XNZYPXYJNJDJGXX",
+          "comment": "JGDZ",
+          "type": "机构地址",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_XNZYPXYJNJDJGXX",
+          "comment": "JGJBM",
+          "type": "机构级别码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_XB_DJM",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_XNZYPXYJNJDJGXX",
+          "comment": "JDGZM",
+          "type": "鉴定工种码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "DM_GB_HYGZLBM",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_XNZYPXYJNJDJGXX",
+          "comment": "JDGZZSMC",
+          "type": "鉴定工种证书名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_XNZYPXYJNJDJGXX",
+          "comment": "JDNRDJM",
+          "type": "鉴定内容等级码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_XB_DJM",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_XNZYPXYJNJDJGXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ020401专业教学标准信息": {
+      "table_name": "GXGZ020401专业教学标准信息",
+      "entity_desc": "GXGZ0204教学培养数据子类",
+      "data_class": "GXGZ02教学管理数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_ZYJXBZXX",
+          "comment": "BZBH",
+          "type": "标准编号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJXBZXX",
+          "comment": "BZMC",
+          "type": "标准名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJXBZXX",
+          "comment": "SYZY",
+          "type": "适用专业",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJXBZXX",
+          "comment": "ZYBZFZR",
+          "type": "专业标准负责人工号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJXBZXX",
+          "comment": "JLSJ",
+          "type": "建立时间",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJXBZXX",
+          "comment": "YYXX",
+          "type": "应用学校",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJXBZXX",
+          "comment": "QDXYH",
+          "type": "签订协议号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJXBZXX",
+          "comment": "QDXYMC",
+          "type": "签订协议名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJXBZXX",
+          "comment": "QDSJ",
+          "type": "签订时间",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJXBZXX",
+          "comment": "XXSZGJ",
+          "type": "学校所在国家码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJXBZXX",
+          "comment": "SFJWLBZ",
+          "type": "是否境（外）类标准",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJXBZXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ020402校内实践实训教学基地信息": {
+      "table_name": "GXGZ020402校内实践实训教学基地信息",
+      "entity_desc": "GXGZ0204教学培养数据子类",
+      "data_class": "GXGZ02教学管理数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_XNSJSXJXJDXX",
+          "comment": "XNSXJDBH",
+          "type": "校内实训基地编号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_XNSJSXJXJDXX",
+          "comment": "XNSXJDMC",
+          "type": "校内实训基地名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_XNSJSXJXJDXX",
+          "comment": "SXJDLB",
+          "type": "实训基地类别码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_XB_SJJXLXM",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_XNSJSXJXJDXX",
+          "comment": "FZRGH",
+          "type": "负责人工号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_XNSJSXJXJDXX",
+          "comment": "JSSJ",
+          "type": "建设时间",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_XNSJSXJXJDXX",
+          "comment": "ZZCL",
+          "type": "佐证材料",
+          "length": "二进制",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_XNSJSXJXJDXX",
+          "comment": "XFWH",
+          "type": "下发文号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_XNSJSXJXJDXX",
+          "comment": "XFSJ",
+          "type": "下发时间",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_XNSJSXJXJDXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ020403校外实践实训教学基地信息": {
+      "table_name": "GXGZ020403校外实践实训教学基地信息",
+      "entity_desc": "GXGZ0204教学培养数据子类",
+      "data_class": "GXGZ02教学管理数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_XWSJSXJXJDXX",
+          "comment": "XWSXJDBH",
+          "type": "校外实训基地编号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_XWSJSXJXJDXX",
+          "comment": "XWSXJDMC",
+          "type": "校外实训基地名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_XWSJSXJXJDXX",
+          "comment": "SYZY",
+          "type": "适应专业",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_XWSJSXJXJDXX",
+          "comment": "JDXNFZRGH",
+          "type": "基地校内负责人工号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_XWSJSXJXJDXX",
+          "comment": "JDSYSJ",
+          "type": "基地使用时间",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_XWSJSXJXJDXX",
+          "comment": "SFYZSTJ",
+          "type": "是否有住宿条件",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_GB_SFBZM",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_XWSJSXJXJDXX",
+          "comment": "SFFFSXBT",
+          "type": "是否发放实习补贴",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_GB_SFBZM",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_XWSJSXJXJDXX",
+          "comment": "YTDW",
+          "type": "依托单位",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_XWSJSXJXJDXX",
+          "comment": "XWSXJDJLRQ",
+          "type": "校外实训基地建立日期",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_XWSJSXJXJDXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ020404实训室运基本信息": {
+      "table_name": "GXGZ020404实训室运基本信息",
+      "entity_desc": "GXGZ0204教学培养数据子类",
+      "data_class": "GXGZ02教学管理数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_SXSYJBXXXX",
+          "comment": "SXSH",
+          "type": "实训室号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_SXSYJBXXXX",
+          "comment": "SXSMC",
+          "type": "实训室名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_SXSYJBXXXX",
+          "comment": "SSGLDWH",
+          "type": "所属管理单位号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_SXSYJBXXXX",
+          "comment": "SXSJLRQ",
+          "type": "实训室建立日期",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_SXSYJBXXXX",
+          "comment": "SYMJ",
+          "type": "使用面积",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_SXSYJBXXXX",
+          "comment": "SXSWZ",
+          "type": "实训室位置",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_SXSYJBXXXX",
+          "comment": "FZRJGH",
+          "type": "负责人教工号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_SXSYJBXXXX",
+          "comment": "ZYJNJDGZM",
+          "type": "职业技能鉴定工种码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_GB_HYGZLBM",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_SXSYJBXXXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ020405顶岗实习信息": {
+      "table_name": "GXGZ020405顶岗实习信息",
+      "entity_desc": "GXGZ0204教学培养数据子类",
+      "data_class": "GXGZ02教学管理数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "WYBS",
+          "type": "唯一标识",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "XXJJGDM",
+          "type": "学校机构代码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "XXJJGMC",
+          "type": "学校机构名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "XH",
+          "type": "学号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "XSXM",
+          "type": "学生姓名",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "ZYMC",
+          "type": "专业名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "BJMC",
+          "type": "班级名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "XZ",
+          "type": "学制",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "XQ",
+          "type": "学期",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SXSPFKS",
+          "type": "实习是否开始",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SXSPFJS",
+          "type": "实习是否结束",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SXXHY",
+          "type": "实习行业",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SPFDK",
+          "type": "是否对口",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SXAPM",
+          "type": "实习安排码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_XB_SXAPLXM",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SXXSM",
+          "type": "实习形式码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_XB_SXXSM",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SXDDSZSXJGBM",
+          "type": "实习地点所在省机构编码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SXDDSZSXJGMC",
+          "type": "实习地点所在省机构名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SXDDSZSJGBM",
+          "type": "实习地点所在市机构编码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SXDDSZSJGMC",
+          "type": "实习地点所在市机构名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SXQYMC",
+          "type": "实习企业名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SXQYXZM",
+          "type": "实习企业性质码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_GB_SHDWXZM",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SXGW",
+          "type": "实习岗位",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SXTS",
+          "type": "实习天数",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "XNZDJSGH",
+          "type": "校内指导教师工号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "XJNZDJSXM",
+          "type": "校内指导教师姓名",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "XJNZDJSDH",
+          "type": "校内指导教师电话",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "XWZDLS",
+          "type": "校外指导老师",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "XJWZDLSDH",
+          "type": "校外指导老师电话",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SXNR",
+          "type": "实习内容",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "DGKSRQ",
+          "type": "顶岗开始日期",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "DGJSRQ",
+          "type": "顶岗结束日期",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "ZFSXXSSYJBC",
+          "type": "支付实习学生生均报酬",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "XJJJDZXDH",
+          "type": "校级监督咨询电话",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SPFQDSFXY",
+          "type": "是否签订三方协议",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_GB_SFBZM",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SPFKS,XSX",
+          "type": "是否跨省实习",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_GB_SFBZM",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "SPFFGWSX",
+          "type": "是否赴国外实习",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_GB_SFBZM",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_DGSXXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ020406职业技能等级证书试点信息": {
+      "table_name": "GXGZ020406职业技能等级证书试点信息",
+      "entity_desc": "GXGZ0204教学培养数据子类",
+      "data_class": "GXGZ02教学管理数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_ZYJNDJZSSDXX",
+          "comment": "SDMC",
+          "type": "试点名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJNDJZSSDXX",
+          "comment": "SDGMRS",
+          "type": "试点规模（人数）",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJNDJZSSDXX",
+          "comment": "SDDJM",
+          "type": "试点级别码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_XB_JBM",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJNDJZSSDXX",
+          "comment": "SDJLSJ",
+          "type": "试点建立时间",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJNDJZSSDXX",
+          "comment": "FZRGH",
+          "type": "负责人工号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJNDJZSSDXX",
+          "comment": "ZYJNDJZSMC",
+          "type": "职业技能等级证书名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJNDJZSSDXX",
+          "comment": "ZSDJM",
+          "type": "证书级别码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_XB_JBM",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_ZYJNDJZSSDXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ020407高职实习保险购买情况信息": {
+      "table_name": "GXGZ020407高职实习保险购买情况信息",
+      "entity_desc": "GXGZ0204教学培养数据子类",
+      "data_class": "GXGZ02教学管理数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_GZSXBXGMQKXX",
+          "comment": "WYBS",
+          "type": "唯一标识",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_GZSXBXGMQKXX",
+          "comment": "XXJD",
+          "type": "学校代码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_GZSXBXGMQKXX",
+          "comment": "XXJMC",
+          "type": "学校名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "教务处"
+        },
+        {
+          "name": "T_GXGZ_GZSXBXGMQKXX",
+          "comment": "WYBS",
+          "type": "唯一标识",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXBXGMQKXX",
+          "comment": "XH",
+          "type": "学号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXBXGMQKXX",
+          "comment": "XM",
+          "type": "姓名",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXBXGMQKXX",
+          "comment": "BXXZCMC",
+          "type": "保险险种名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXBXGMQKXX",
+          "comment": "BSDCH",
+          "type": "保单号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXBXGMQKXX",
+          "comment": "BXFCZF",
+          "type": "保险费出资方",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXBXGMQKXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ020408高职实习违规行为情况信息": {
+      "table_name": "GXGZ020408高职实习违规行为情况信息",
+      "entity_desc": "GXGZ0204教学培养数据子类",
+      "data_class": "GXGZ02教学管理数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_GZSXWGXWQKXX",
+          "comment": "WYBS",
+          "type": "唯一标识",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXWGXWQKXX",
+          "comment": "XXJD",
+          "type": "学校代码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXWGXWQKXX",
+          "comment": "XXJMC",
+          "type": "学校名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXWGXWQKXX",
+          "comment": "XH",
+          "type": "学号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXWGXWQKXX",
+          "comment": "XM",
+          "type": "姓名",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXWGXWQKXX",
+          "comment": "SXKSSJ",
+          "type": "实习开始时间",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXWGXWQKXX",
+          "comment": "SXJSSJ",
+          "type": "实习结束时间",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXWGXWQKXX",
+          "comment": "SXDDSZSXJGBM",
+          "type": "实习地点所在省机构编码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXWGXWQKXX",
+          "comment": "SXDDSZSXJGMC",
+          "type": "实习地点所在省机构名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXWGXWQKXX",
+          "comment": "SXDDSZSJGBM",
+          "type": "实习地点所在市机构编码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXWGXWQKXX",
+          "comment": "SXDDSZSJGMC",
+          "type": "实习地点所在市机构名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXWGXWQKXX",
+          "comment": "SXQYMC",
+          "type": "实习企业名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXWGXWQKXX",
+          "comment": "WGXHW",
+          "type": "违规行为码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_XB_WFXWM",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_GZSXWGXWQKXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ030101职业教育集团（联盟）信息": {
+      "table_name": "GXGZ030101职业教育集团（联盟）信息",
+      "entity_desc": "GXGZ0301校企合作数据子类",
+      "data_class": "GXGZ03校企合作数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_ZYJYJTXX",
+          "comment": "JTMC",
+          "type": "集团名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_ZYJYJTXX",
+          "comment": "CLSJ",
+          "type": "成立时间",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_ZYJYJTXX",
+          "comment": "QTDW",
+          "type": "牵头单位",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_ZYJYJTXX",
+          "comment": "HCDW",
+          "type": "会长单位",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_ZYJYJTXX",
+          "comment": "MSCDW",
+          "type": "秘书长单位",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_ZYJYJTXX",
+          "comment": "QTDWLX",
+          "type": "牵头单位类型",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_GB_SHDWXZM",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_ZYJYJTXX",
+          "comment": "JTXFFZRGH",
+          "type": "集团校方负责人工号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_ZYJYJTXX",
+          "comment": "JTXFLXRGH",
+          "type": "集团校方联系人工号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_ZYJYJTXX",
+          "comment": "SFSFXZYJYJT",
+          "type": "是否示范性职业教育集团",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_GB_SFBZM",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_ZYJYJTXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ030102校企共建产业学院信息": {
+      "table_name": "GXGZ030102校企共建产业学院信息",
+      "entity_desc": "GXGZ0301校企合作数据子类",
+      "data_class": "GXGZ03校企合作数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_XQGJCYXYXX",
+          "comment": "XQGJCYXYMC",
+          "type": "校企共建产业学院名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_XQGJCYXYXX",
+          "comment": "JLRQ",
+          "type": "建立日期",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_XQGJCYXYXX",
+          "comment": "FZR",
+          "type": "校内负责人工号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_XQGJCYXYXX",
+          "comment": "XFSJXYBM",
+          "type": "校方实际学院编码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_XQGJCYXYXX",
+          "comment": "SJZY",
+          "type": "涉及专业",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "校企合作处"
+        },
+        {
+          "name": "T_GXGZ_XQGJCYXYXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    },
+    "GXGZ040101“双师型”教师培养培训基地信息": {
+      "table_name": "GXGZ040101“双师型”教师培养培训基地信息",
+      "entity_desc": "GXGZ0401学习进修数据子类",
+      "data_class": "GXGZ04教职工数据类",
+      "dataset": "GXGZ高职管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "T_GXGZ_SSXJSPYPXJDXX",
+          "comment": "JDMC",
+          "type": "基地名称",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "否",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_SSXJSPYPXJDXX",
+          "comment": "JDFZRGH",
+          "type": "基地负责人工号",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_SSXJSPYPXJDXX",
+          "comment": "JLSJ",
+          "type": "建立时间",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_SSXJSPYPXJDXX",
+          "comment": "JBM",
+          "type": "级别码",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "是",
+          "department": "DM_GB_JBM",
+          "security": "人事处"
+        },
+        {
+          "name": "T_GXGZ_SSXJSPYPXJDXX",
+          "comment": "TSTAMP",
+          "type": "时间戳",
+          "length": "字符串",
+          "is_pk": false,
+          "nullable": false,
+          "remark": "否",
+          "department": "",
+          "security": "信息中心"
+        }
+      ]
+    }
+  }
+}

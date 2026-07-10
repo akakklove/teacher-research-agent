@@ -1,0 +1,899 @@
+{
+  "dataset_name": "GXXY 校友数据集",
+  "table_count": 5,
+  "field_count": 77,
+  "tables": {
+    "T_GXXY_XYJBXX": {
+      "table_name": "T_GXXY_XYJBXX",
+      "entity_desc": "GXXY0101 校友基本信息",
+      "data_class": "GXXY01 校友基础数据类",
+      "dataset": "GXXY 校友数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "XYBH",
+          "comment": "校友编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XM",
+          "comment": "姓名",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "BM",
+          "comment": "别名",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "CYM",
+          "comment": "曾用名",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZXQJBH",
+          "comment": "在校期间编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JIC",
+          "comment": "级次",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JC",
+          "comment": "届次",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YXBMDM",
+          "comment": "院系部门代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZYDM",
+          "comment": "专业代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "BJDM",
+          "comment": "班级代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZJLXDM",
+          "comment": "证件类型代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZJH",
+          "comment": "证件号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "CSRQ",
+          "comment": "出生日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XBDM",
+          "comment": "性别代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "MZDM",
+          "comment": "民族代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GJDM",
+          "comment": "所在国家代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SFDM",
+          "comment": "所在省份代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "CSDM",
+          "comment": "所在城市代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GATQDM",
+          "comment": "港澳台侨代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HYZKDM",
+          "comment": "婚姻状况代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JGDM",
+          "comment": "籍贯代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HY",
+          "comment": "所属行业",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XLDM",
+          "comment": "学历代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XWDM",
+          "comment": "学位代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "CSXKDM",
+          "comment": "从事学科代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XQAH",
+          "comment": "兴趣爱好",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GZDW",
+          "comment": "工作单位",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZW",
+          "comment": "职务",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GDLXDH",
+          "comment": "固定联系电话",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YDLXDH",
+          "comment": "移动联系电话",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "QTLXDH",
+          "comment": "其他联系电话",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "DZYJ",
+          "comment": "电子邮件",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "QTDZYJ",
+          "comment": "其他电子邮件",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FXH_QQ_MSN",
+          "comment": "飞信QQ或者MSN",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TXDZ",
+          "comment": "通讯地址",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YZBM",
+          "comment": "邮政编码",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "BZSM",
+          "comment": "备注说明",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXXY_XYHXX": {
+      "table_name": "T_GXXY_XYHXX",
+      "entity_desc": "GXXY0102 校友会信息",
+      "data_class": "GXXY01 校友基础数据类",
+      "dataset": "GXXY 校友数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "XYHBH",
+          "comment": "校友会编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XYHMC",
+          "comment": "校友会名称",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SSGJDM",
+          "comment": "所属国家代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SSSFDM",
+          "comment": "所属省份代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SSCSDM",
+          "comment": "所属城市代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "CJRBHLXR",
+          "comment": "联系人",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "CJRQ",
+          "comment": "创建日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HZBHFZR人",
+          "comment": "负责人",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "BZSM",
+          "comment": "备注说明",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXXY_XYHCYXX": {
+      "table_name": "T_GXXY_XYHCYXX",
+      "entity_desc": "GXXY0103 校友会成员信息",
+      "data_class": "GXXY01 校友基础数据类",
+      "dataset": "GXXY 校友数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "XYHBH",
+          "comment": "校友会编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XYBH",
+          "comment": "校友编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "DRZW",
+          "comment": "担任职务",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JB",
+          "comment": "届别",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "RQKSRQ",
+          "comment": "任期开始日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "RQJSRQ",
+          "comment": "任期结束日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "BZSM",
+          "comment": "备注说明",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXXY_HDXX": {
+      "table_name": "T_GXXY_HDXX",
+      "entity_desc": "GXXY0104 活动信息",
+      "data_class": "GXXY01 校友基础数据类",
+      "dataset": "GXXY 校友数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "HDBH",
+          "comment": "活动编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HDZT",
+          "comment": "活动主题",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KSRI",
+          "comment": "开始日期时间",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JSRQSJ",
+          "comment": "结束日期时间",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HDDD",
+          "comment": "活动地点",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HDNR",
+          "comment": "活动内容",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZZZBH",
+          "comment": "组织者编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "LXDH",
+          "comment": "联系电话",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "LXYX",
+          "comment": "联系邮箱",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "CJRS",
+          "comment": "参加人数",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "CYR",
+          "comment": "参与人",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXXY_JZXX": {
+      "table_name": "T_GXXY_JZXX",
+      "entity_desc": "GXXY0105 捐赠信息",
+      "data_class": "GXXY01 校友基础数据类",
+      "dataset": "GXXY 校友数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "XYBH",
+          "comment": "校友编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XM",
+          "comment": "姓名",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JZRQ",
+          "comment": "捐赠日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SZDW",
+          "comment": "受赠单位",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JZJE",
+          "comment": "捐赠金额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JZXM",
+          "comment": "捐赠项目",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JZWP",
+          "comment": "捐赠物品",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "BZ",
+          "comment": "备注",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    }
+  }
+}

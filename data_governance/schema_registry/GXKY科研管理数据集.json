@@ -1,0 +1,1784 @@
+{
+  "dataset_name": "GXKY科研管理数据集",
+  "table_count": 19,
+  "field_count": 146,
+  "tables": {
+    "T_GXKY_KYJGJBXX": {
+      "table_name": "T_GXKY_KYJGJBXX",
+      "entity_desc": "GXKY0101 科研机构基本信息",
+      "data_class": "GXKY01 科研机构数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "描述科研机构的基本信息，在科研处，科研机构数据可理解为即需要与人事处组织机构一致，某些情况下（例如管理校外机构）又与人事处不一致。且科研处一般情况下对应机构的管理，会到三级，人事处一般只管理到二级，所以大部分情况下科研机构的编码与人事处编码并不一致，此时需要在实际项目上暴露出此问题，与老师共同讨论解决",
+      "fields": [
+        {
+          "name": "KYJGBH",
+          "comment": "科研机构编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "原则上校内机构需与人事处组织机构编码保持一致，但科研管理系统中可能存在校外机构与校内机构存放在一起，如有此情况，需把能区分出校内或校外单位的字段对接进来",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KYJGMC",
+          "comment": "科研机构名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "GKDWBM",
+          "comment": "挂靠单位编码",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "需与人事处组织机构编码保持一致",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "FZRGH",
+          "comment": "负责人工号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "FZRXM",
+          "comment": "负责人姓名",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XKMLM",
+          "comment": "学科门类码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "JGLBM",
+          "comment": "机构类别码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "JGJBM",
+          "comment": "机构级别码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "ZZXSM",
+          "comment": "组织形式码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "PZBM",
+          "comment": "批准部门",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "ZCXS",
+          "comment": "组成形式",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "SFSTJG",
+          "comment": "是否实体机构",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_KYJGRYXX": {
+      "table_name": "T_GXKY_KYJGRYXX",
+      "entity_desc": "GXKY0102 科研机构人员信息",
+      "data_class": "GXKY01 科研机构数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "描述科研机构人员的基本信息",
+      "fields": [
+        {
+          "name": "KYRYH",
+          "comment": "科研人员号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "原则上校内教师的工号需与人事处工号保持一致。科研人员可能会包括校内教师及校外人员，如果包含两种人员，需把能区分出校内及校外人员的标识字段对接进来",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XM",
+          "comment": "姓名",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KYJGBH",
+          "comment": "科研机构编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "需与人事处组织机构编码保持一致",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "JYSBH",
+          "comment": "教研室编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "教研室一般存储在科研机构基本信息中",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XKMLM",
+          "comment": "学科门类码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "取2位代码",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "YJXKM",
+          "comment": "一级学科码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "取4位代码",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "EJXKM",
+          "comment": "二级学科码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "取6位代码",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "YJFX",
+          "comment": "研究方向",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_KYXMJBXX": {
+      "table_name": "T_GXKY_KYXMJBXX",
+      "entity_desc": "GXKY0201 科研项目基本信息",
+      "data_class": "GXKY02 科研项目基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "记录科研项目的基本信息，需要注意关于经费数据，除了合同经费，其他经费（到账、支出、外拨、余额）在科研系统中的数据往往并不准确，准确的数据都在财务系统中存储。因为科研项目只要涉及到经费，管理部门往往是财务处，而科研处的项目数据与财务处的项目数据关联，就要靠经费卡号字段。一般财务处存储相关信息是放在财务项目明细信息中，此表中数据为一对多，即一个科研项目的所有相关财务操作，都在一张表中。可以通过财务科目编号去区分具体的操作（到账、支出、外拨等）。而如何区分，就要靠业务调研去找财务处了解相关信息，科目编号都会有相应的编码规则，一般是通过科目编号中的某几位代码来区分经费到账、支出、外拨等。",
+      "fields": [
+        {
+          "name": "KYXMBH",
+          "comment": "科研项目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "学校自编",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KYXMMC",
+          "comment": "科研项目名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XNBH",
+          "comment": "校内编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "校内编号为科研项目在学校的实际带有业务规则的编号，例如以项目类型编码开头，中间为年份，之后为顺序号。例：h2006261，h代表横向项目。校内编号与项目编号的区别为，项目编号一般为唯一编码，不带业务含义，只做为数据标识及数据关联使用；校内编号做为此项目对外发布时的项目代号，财务系统记录一般只会记录校内编号，不会记录项目编号，在对接数据时可与业务部门老师确认",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XMSSDW",
+          "comment": "项目所属单位",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "需与人事处组织机构编号保持一致",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "JYSBH",
+          "comment": "教研室编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "教研室一般存储在科研机构基本信息中",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XMLYDW",
+          "comment": "项目来源单位",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "LXIANGRQ",
+          "comment": "立项日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "项目的立项日期 YYYYMMDD",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KSRQ",
+          "comment": "开始日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "项目实际开始日期 YYYYMMDD",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "JXRQ",
+          "comment": "结项日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "项目结项日期 YYYYMMDD",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "JHWCRQ",
+          "comment": "计划完成日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "项目计划完成日期 YYYYMMDD",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XMFZRGH",
+          "comment": "项目负责人工号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "需与人事处教职工编号保持一致，项目负责人为本项目项目人员排名的第一人",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XMWTDW",
+          "comment": "项目委托单位",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XMLYM",
+          "comment": "项目来源码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "如学校实际代码情况与国标代码差异较大，可采用业务系统映射国标代码或纳入业务系统代码形成校标代码的方式来处理",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XMXZM",
+          "comment": "项目性质码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "区分纵向或横向项目,如默认代码不能覆盖或逻辑不一样，可按照学校实际情况定义此代码",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XMLBM",
+          "comment": "项目类别码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "如学校实际代码情况与国标代码差异较大，可采用业务系统映射国标代码或纳入业务系统代码形成校标代码的方式来处理",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XMJBM",
+          "comment": "项目级别码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "区分项目等级为：国家级重点、国家级重大、省部级重点等,如默认代码不能覆盖或逻辑不一样，可按照学校实际情况定义此代码",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "CGXSM",
+          "comment": "成果形式码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "如默认代码不能覆盖或逻辑不一样，可按照学校实际情况定义此代码",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "YJLBM",
+          "comment": "研究类别码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "如默认代码不能覆盖或逻辑不一样，可按照学校实际情况定义此代码",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "HZXSM",
+          "comment": "合作形式码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "如学校实际代码情况与国标代码差异较大，可采用业务系统映射国标代码或纳入业务系统代码形成校标代码的方式来处理",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "SSHYM",
+          "comment": "所属行业码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "所属国名经济行业分类",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "MJM",
+          "comment": "密级码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XKMLM",
+          "comment": "学科门类码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "取2位代码",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "YJXKM",
+          "comment": "一级学科码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "取4位代码",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "HZDW",
+          "comment": "合作单位",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "记录项目协作单位名称",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XMPZH",
+          "comment": "项目批准号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "CDDWPM",
+          "comment": "承担单位排名",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KYXMHTLXM",
+          "comment": "科研项目合同类型码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "如默认代码不能覆盖或逻辑不一样，可按照学校实际情况定义此代码",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KYXMZZXSM",
+          "comment": "科研项目组织形式码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "如默认代码不能覆盖或逻辑不一样，可按照学校实际情况定义此代码",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "HTBH",
+          "comment": "合同编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "JFKH",
+          "comment": "经费卡号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "此字段为重要字段，一般科研系统的项目与财务系统的项目经费是通过经费卡号进行数据的关联，而不是通过项目编号。因为同一个项目，科研项目编号与财务项目编号并不一致",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "HTJF",
+          "comment": "合同经费",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "PTJF",
+          "comment": "配套经费",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XMZXZTM",
+          "comment": "项目执行状态码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "项目的执行状态，例如在研、中止、结题等。如学校的执行状态大于国标，可扩展此代码，改为校标代码使用",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KYXMSHZTM",
+          "comment": "科研项目审核状态码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_KYXMRYXX": {
+      "table_name": "T_GXKY_KYXMRYXX",
+      "entity_desc": "GXKY0202 科研项目人员信息",
+      "data_class": "GXKY02 科研项目基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "记录科研项目参与人员相关信息，此表中数据为一对多的关系，如学校需要把所有人员在一行中按顺序进行排序显示，可通过oracle的listagg函数进行处理，如果只需要取项目负责人，则可以通过oracle的over partition by函数取最新一条",
+      "fields": [
+        {
+          "name": "WYBS",
+          "comment": "唯一标识",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "如源表无唯一编码或顺序号等类型的物理主键对应，但有其他类型的主键（如业务主键），可删除此主键字段并参考源表主键定义；\n如源表无任何主键，可删除此主键字段并参考业务主键：项目编号、项目人员号字段进行联合主键定义；\n如参考的业务主键还无法确定数据唯一性，可在源表中检查实际数据，扩展联合主键字段范围或与对应业务老师讨论",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KYXMBH",
+          "comment": "科研项目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "可通过此字段与科研项目基本信息关联",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XMRYH",
+          "comment": "项目人员号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "参与项目人员号（教工填写工号、学生填写学号、校外人员填写人员编号）",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XM",
+          "comment": "姓名",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "DWBM",
+          "comment": "单位编码",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "本校教职工或学生需与人事处组织机构编码保持一致",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "DWMC",
+          "comment": "单位名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KYRYLXM",
+          "comment": "科研人员类型码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "此字段非常重要，需要靠此字段判断项目参与人员属于本校教师/学生还是校外人员，如默认代码不能覆盖或逻辑不一样，可按照学校实际情况定义此代码",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KYRYJSM",
+          "comment": "科研人员角色码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "此数据为判断项目参与人的角色类型，例如科研秘书、院系领导等，如默认代码不能覆盖或逻辑不一样，可按照学校实际情况定义此代码",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "SMSX",
+          "comment": "署名顺序",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "此字段非常重要，因为一个科研项目会有多个参与人，需要靠此字段判断项目参与人在本项目中的排序，排名第一的即为项目主持人，往后顺延即为项目的第二、第三等人员的排名，此排名可视为参与人在项目中的贡献率排名，排在越前的贡献率越高，获得的项目奖金越多",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "GXL",
+          "comment": "贡献率",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "此字段为项目参与人对项目的贡献或工作量有多少",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_KYXMXZDWXX": {
+      "table_name": "T_GXKY_KYXMXZDWXX",
+      "entity_desc": "GXKY0203 科研项目协作单位信息",
+      "data_class": "GXKY02 科研项目基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "记录科研项目协作单位相关信息，此表中数据为一对多的关系，需注意调用数据时的逻辑",
+      "fields": [
+        {
+          "name": "WYBS",
+          "comment": "唯一标识",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "如源表无唯一编码或顺序号等类型的物理主键对应，但有其他类型的主键（如业务主键），可删除此主键字段并参考源表主键定义；\n如源表无任何主键，可删除此主键字段并参考业务主键：科研项目编号、协作单位名称进行联合主键定义；\n如参考的业务主键还无法确定数据唯一性，可在源表中检查实际数据，扩展联合主键字段范围或与对应业务老师讨论",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KYXMBH",
+          "comment": "科研项目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "可通过此字段与科研项目基本信息关联",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XZDWMC",
+          "comment": "协作单位名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "项目协助单位的名称",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XZDWLXM",
+          "comment": "协作单位类型码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "HJFY",
+          "comment": "合计费用",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "LXRXM",
+          "comment": "联系人姓名",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "LXRDH",
+          "comment": "联系电话",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "DZYX",
+          "comment": "电子邮箱",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "TXDZ",
+          "comment": "通讯地址",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_KYXMJFDZMXXX": {
+      "table_name": "T_GXKY_KYXMJFDZMXXX",
+      "entity_desc": "GXKY0204 科研项目经费到账明细信息",
+      "data_class": "GXKY02 科研项目基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "记录科研项目到账经费信息，注意此数据的真正源头在财务处，但如果无法对接财务系统，科研系统内也存储了相应数据，结构可能会与此不同，如遇到此情况，可按实际数据情况进行结构调整",
+      "fields": [
+        {
+          "name": "WYBS",
+          "comment": "唯一标识",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "如源表无唯一编码或顺序号等类型的物理主键对应，但有其他类型的主键（如业务主键），可删除此主键字段并参考源表主键定义；\n如源表无任何主键，可删除此主键字段并参考业务主键：财务项目编号、科目编号、凭证日期、贷金额进行联合主键定义；\n如参考的业务主键还无法确定数据唯一性，可在源表中检查实际数据，扩展联合主键字段范围或与对应业务老师讨论",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "CWXMBH",
+          "comment": "财务项目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "此数据可与科研项目基本信息中的经费卡号相关联",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XMMC",
+          "comment": "项目名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KMBH",
+          "comment": "科目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "具有编码规则的会计科目编号，如需要区分出科研项目到账经费，可去财务处调研，了解编码规则，如何把对应数据过滤出来",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KMMC",
+          "comment": "科目名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "财务科目名称",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KJND",
+          "comment": "会计年度",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYY",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "PZRQ",
+          "comment": "凭证日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD，从科研角度此字段即为金额到账时间。",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "DJE",
+          "comment": "贷金额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "此处贷金额指资产和费用的增加，如果对接的是科研系统，此处字段可以调整为到账金额",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_KYXMJFZCMXXX": {
+      "table_name": "T_GXKY_KYXMJFZCMXXX",
+      "entity_desc": "GXKY0205 科研项目经费支出明细信息",
+      "data_class": "GXKY02 科研项目基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "记录科研项目到账支出信息，注意此数据的真正源头在财务处，但如果无法对接财务系统，科研系统内也存储了相应数据，结构可能会与此不同，如遇到此情况，可按实际数据情况进行结构调整",
+      "fields": [
+        {
+          "name": "WYBS",
+          "comment": "唯一标识",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "如源表无唯一编码或顺序号等类型的物理主键对应，但有其他类型的主键（如业务主键），可删除此主键字段并参考源表主键定义；\n如源表无任何主键，可删除此主键字段并参考业务主键：财务项目编号、科目编号、凭证日期、借金额进行联合主键定义；\n如参考的业务主键还无法确定数据唯一性，可在源表中检查实际数据，扩展联合主键字段范围或与对应业务老师讨论",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "CWXMBH",
+          "comment": "财务项目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "此数据可与科研项目基本信息中的经费卡号相关联",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XMMC",
+          "comment": "项目名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KMBH",
+          "comment": "科目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "具有编码规则的会计科目编号，如需要区分出科研项目支出经费，可去财务处调研，了解编码规则，如何把对应数据过滤出来",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KMMC",
+          "comment": "科目名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "财务科目名称",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KJND",
+          "comment": "会计年度",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYY",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "PZRQ",
+          "comment": "凭证日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD，从科研角度此字段即为金额支出时间。",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "JJE",
+          "comment": "借金额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "此借金额指资产和费用的减少，如果对接的是科研系统，此处字段可以调整为支出金额",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_KYXMJFWBMXXX": {
+      "table_name": "T_GXKY_KYXMJFWBMXXX",
+      "entity_desc": "GXKY0206 科研项目经费外拨明细信息",
+      "data_class": "GXKY02 科研项目基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "记录科研项目到账外拨信息，注意此数据的真正源头在财务处，但如果无法对接财务系统，科研系统内也存储了相应数据，结构可能会与此不同，如遇到此情况，可按实际数据情况进行结构调整",
+      "fields": [
+        {
+          "name": "WYBS",
+          "comment": "唯一标识",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "如源表无唯一编码或顺序号等类型的物理主键对应，但有其他类型的主键（如业务主键），可删除此主键字段并参考源表主键定义；\n如源表无任何主键，可删除此主键字段并参考业务主键：财务项目编号、科目编号、凭证日期、借金额进行联合主键定义；\n如参考的业务主键还无法确定数据唯一性，可在源表中检查实际数据，扩展联合主键字段范围或与对应业务老师讨论",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "CWXMBH",
+          "comment": "财务项目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "此数据可与科研项目基本信息中的经费卡号相关联",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XMMC",
+          "comment": "项目名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KMBH",
+          "comment": "科目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "具有编码规则的会计科目编号，如需要区分出科研项目外拨经费，可去财务处调研，了解编码规则，如何把对应数据过滤出来",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KMMC",
+          "comment": "科目名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "财务科目名称",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KJND",
+          "comment": "会计年度",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYY",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "PZRQ",
+          "comment": "凭证日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD，从科研角度此字段即为金额外拨时间。",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "JJE",
+          "comment": "借金额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "此处借金额指资产和费用的减少，如果对接的是科研系统，此处字段可以调整为外拨金额",
+          "department": "财务处",
+          "security": "完全共享"
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_KYZZJBXX": {
+      "table_name": "T_GXKY_KYZZJBXX",
+      "entity_desc": "GXKY0301 科研著作基本信息",
+      "data_class": "GXKY03 科研成果基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "KYXMBH",
+          "comment": "科研项目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "成果相关科研项目编号，如果没有则可以不填写。",
+          "department": "图书馆",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_KYZZZZXX": {
+      "table_name": "T_GXKY_KYZZZZXX",
+      "entity_desc": "GXKY0302 科研著作作者信息",
+      "data_class": "GXKY03 科研成果基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "记录科研著作作者相关信息，此表中数据为一对多的关系，如学校需要把所有人员在一行中按顺序进行排序显示，可通过oracle的listagg函数进行处理，如果只需要取第一作者，则可以通过oracle的over partition by函数取最新一条",
+      "fields": [
+        {
+          "name": "WYBS",
+          "comment": "唯一标识",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "如源表无唯一编码或顺序号等类型的物理主键对应，但有其他类型的主键（如业务主键），可删除此主键字段并参考源表主键定义；\n如源表无任何主键，可删除此主键字段并参考业务主键：科研著作编号、作者人员号字段进行联合主键定义；\n如参考的业务主键还无法确定数据唯一性，可在源表中检查实际数据，扩展联合主键字段范围或与对应业务老师讨论",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KYZZBH",
+          "comment": "科研著作编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "ZZRYH",
+          "comment": "作者人员号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "此处填写作者的人员编号数据，教师填写工号，且与人事处工号保持一致，非本校教师填写人员编号",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "ZZXM",
+          "comment": "作者姓名",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "ZZZZLXM",
+          "comment": "著作作者类型码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "区分本校教师、校外人员等",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "DWBM",
+          "comment": "单位编码",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "本校教职工需与人事处组织机构编码保持一致",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "DWMC",
+          "comment": "单位名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "CDJS",
+          "comment": "承担角色",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "区分主编、副主编、参编等",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "GXL",
+          "comment": "贡献率",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "此字段为著作作者对著作的贡献或工作量有多少",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "SMSX",
+          "comment": "署名顺序",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "此字段非常重要，因为一个科研著作会有多人参与编著，需要靠此字段判断作者在本著作编著人员中的排序，排名第一的即为第一作者，往后顺延即为第二作者、第三作者的排名，此排名可视为作者在著作编著人员中的贡献率排名，排在越前的贡献率越高，某些业绩考核可能只会算第一作者的业绩贡献",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "KYXMBH",
+          "comment": "科研项目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "成果相关科研项目编号，如果没有则可以不填写。",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_KYZLJBXX": {
+      "table_name": "T_GXKY_KYZLJBXX",
+      "entity_desc": "GXKY0303 科研专利基本信息",
+      "data_class": "GXKY03 科研成果基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_KYZLFMRXX": {
+      "table_name": "T_GXKY_KYZLFMRXX",
+      "entity_desc": "GXKY0304 科研专利发明人信息",
+      "data_class": "GXKY03 科研成果基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_RJZZJBXX": {
+      "table_name": "T_GXKY_RJZZJBXX",
+      "entity_desc": "GXKY0305 软件著作基本信息",
+      "data_class": "GXKY03 科研成果基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_RJZZCYXX": {
+      "table_name": "T_GXKY_RJZZCYXX",
+      "entity_desc": "GXKY0306 软件著作成员信息",
+      "data_class": "GXKY03 科研成果基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_KYHJCGJBXX": {
+      "table_name": "T_GXKY_KYHJCGJBXX",
+      "entity_desc": "GXKY0307 科研获奖成果基本信息",
+      "data_class": "GXKY03 科研成果基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_KYHJCGCYXX": {
+      "table_name": "T_GXKY_KYHJCGCYXX",
+      "entity_desc": "GXKY0308 科研获奖成果成员信息",
+      "data_class": "GXKY03 科研成果基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_KJLWJBXX": {
+      "table_name": "T_GXKY_KJLWJBXX",
+      "entity_desc": "GXKY0309 科技论文基本信息",
+      "data_class": "GXKY03 科研成果基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_KJLWZZXX": {
+      "table_name": "T_GXKY_KJLWZZXX",
+      "entity_desc": "GXKY0310 科技论文作者信息",
+      "data_class": "GXKY03 科研成果基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    },
+    "T_GXKY_KYXSHYXX": {
+      "table_name": "T_GXKY_KYXSHYXX",
+      "entity_desc": "GXKY0401科研学术会议信息",
+      "data_class": "GXKY04 科研学术交流基本数据类",
+      "dataset": "GXKY 科研管理数据集",
+      "biz_desc": "学校主办、举办、协办、合办的相关学术会议基本信息，此类会议数据类通常内容较少，甚至有些学校不一定有此数据请按照学校实际情况开展标准和数据录入工作。",
+      "fields": [
+        {
+          "name": "HYBH",
+          "comment": "会议编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "HYMC",
+          "comment": "会议名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "HYYWMC",
+          "comment": "会议英文名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "HYDD",
+          "comment": "会议地点",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "HYQSRQ",
+          "comment": "会议起始日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "HYZZRQ",
+          "comment": "会议终止日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "HYDJM",
+          "comment": "会议等级码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "HYJBXSM",
+          "comment": "会议举办形式码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "ZBDWH",
+          "comment": "主办单位号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "所属单位号",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "JBDW",
+          "comment": "举办单位",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "GJDQM",
+          "comment": "国籍/地区码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "HYRS",
+          "comment": "会议人数",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "参加学术会议的人数，单位：人",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "CJDWS",
+          "comment": "参加单位数",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "TRJF",
+          "comment": "投入经费",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "人民币单位：元外币使用相应货币单位",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "ZCRGH",
+          "comment": "主持人工号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "校内主办主持人工号",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "XMJFLYM",
+          "comment": "项目经费来源码",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "LWPS",
+          "comment": "论文篇数",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "TYBGPS",
+          "comment": "特邀报告篇数",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "SFJNW",
+          "comment": "是否境内外",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "科研处",
+          "security": "完全共享"
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "信息中心",
+          "security": "完全共享"
+        }
+      ]
+    }
+  }
+}

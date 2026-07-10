@@ -1,0 +1,538 @@
+{
+  "dataset_name": "GXYKT 一卡通数据集",
+  "table_count": 4,
+  "field_count": 45,
+  "tables": {
+    "T_YKT_YKTZHXXB": {
+      "table_name": "T_YKT_YKTZHXXB",
+      "entity_desc": "GXYKT0101 一卡通账户信息表",
+      "data_class": "GGXYKT01 一卡通基础数据类",
+      "dataset": "GXYKT 一卡通数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "WLKH",
+          "comment": "物理卡号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "一卡通物理卡号",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YKTKH",
+          "comment": "一卡通卡号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YKTZHLX",
+          "comment": "一卡通账户类型",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XH/ZGH",
+          "comment": "学号/职工号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "学生：存储学号，教职工：存贮职工号",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XM",
+          "comment": "姓名",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZHYE",
+          "comment": "账户余额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KNYE",
+          "comment": "卡内余额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "LJYKCS",
+          "comment": "累计用卡次数",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XBM",
+          "comment": "性别码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "BMM",
+          "comment": "部门码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "教职工所属单位;  学生所属院系",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SFZLXM",
+          "comment": "身份证类型码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SFZJH",
+          "comment": "身份证件号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "DH",
+          "comment": "电话",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YHZH",
+          "comment": "银行帐号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZCRQ",
+          "comment": "注册日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GQRQ",
+          "comment": "过期日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZHBZ",
+          "comment": "账户标志",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_YKT_SHXXB": {
+      "table_name": "T_YKT_SHXXB",
+      "entity_desc": "GXYKT0102 商户信息表",
+      "data_class": "GGXYKT01 一卡通基础数据类",
+      "dataset": "GXYKT 一卡通数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "JYSHZH",
+          "comment": "交易商户账号",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SHMC",
+          "comment": "商户名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SHDZ",
+          "comment": "商户地址",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SHLX",
+          "comment": "商户类型",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "BMM",
+          "comment": "部门码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "LXR",
+          "comment": "联系人",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "DH",
+          "comment": "电话",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YZBM",
+          "comment": "邮政编码",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_YKT_YKTLSXXB": {
+      "table_name": "T_YKT_YKTLSXXB",
+      "entity_desc": "GXYKT0103 一卡通流水信息表",
+      "data_class": "GGXYKT01 一卡通基础数据类",
+      "dataset": "GXYKT 一卡通数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "JYLSH",
+          "comment": "交易流水号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "WLKH",
+          "comment": "物理卡号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "一卡通物理卡号",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YKTKH",
+          "comment": "一卡通卡号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JYSHZH",
+          "comment": "交易商户账号",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JYPOSZDH",
+          "comment": "交易POS终端号",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JYRQ",
+          "comment": "交易日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JYSJ",
+          "comment": "交易时间",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZHYE",
+          "comment": "账户余额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KNYE",
+          "comment": "卡内余额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JYJE",
+          "comment": "交易金额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "单位：元",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "LJYKCS",
+          "comment": "累计用卡次数",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JYLX",
+          "comment": "交易类型",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JYZT",
+          "comment": "交易状态",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JYSJM",
+          "comment": "交易事件码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_YKT_JYLX": {
+      "table_name": "T_YKT_JYLX",
+      "entity_desc": "GXYKT0104 交易类型",
+      "data_class": "GGXYKT01 一卡通基础数据类",
+      "dataset": "GXYKT 一卡通数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "JYSJM",
+          "comment": "交易事件码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JYSJMC",
+          "comment": "交易事件名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    }
+  }
+}

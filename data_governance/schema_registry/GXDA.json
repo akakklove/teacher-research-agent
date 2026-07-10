@@ -1,0 +1,1267 @@
+{
+  "dataset_name": "GXDA 档案管理数据集",
+  "table_count": 8,
+  "field_count": 108,
+  "tables": {
+    "T_GXDA_AJSJ": {
+      "table_name": "T_GXDA_AJSJ",
+      "entity_desc": "GXDA0101 案卷数据",
+      "data_class": "GXDA01 文件实体类",
+      "dataset": "GXDA 档案管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "DAGDM",
+          "comment": "档案馆代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "LDDWH",
+          "comment": "立档单位号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "DH",
+          "comment": "档号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "QZH",
+          "comment": "全宗号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ND",
+          "comment": "年度（年份、年）",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "LBH",
+          "comment": "类别号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GSBAJH",
+          "comment": "馆（室）编案卷号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JGHWT",
+          "comment": "机构或问题",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TM",
+          "comment": "题名",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZTC",
+          "comment": "主题词",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GJC",
+          "comment": "关键词",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZY",
+          "comment": "摘要",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FLH",
+          "comment": "分类号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "BGQX",
+          "comment": "保管期限",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "QSRQ",
+          "comment": "起始日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZZRQ",
+          "comment": "终止日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JS",
+          "comment": "件数",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YS",
+          "comment": "页数",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZT",
+          "comment": "状态",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FZ",
+          "comment": "附注",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXDA_DAJG": {
+      "table_name": "T_GXDA_DAJG",
+      "entity_desc": "GXDA0102 档案机构",
+      "data_class": "GXDA01 文件实体类",
+      "dataset": "GXDA 档案管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "DAGDM",
+          "comment": "档案馆代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "全国档案馆名称代码",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "DAGMC",
+          "comment": "档案馆名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "DAJGLB",
+          "comment": "档案机构类别",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "建议：1 为档案馆，2为综合档案室。其他自编",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXDA_LDDW": {
+      "table_name": "T_GXDA_LDDW",
+      "entity_desc": "GXDA0103 立档单位",
+      "data_class": "GXDA01 文件实体类",
+      "dataset": "GXDA 档案管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "LDDWH",
+          "comment": "立档单位号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "若无法引用JCTB010301，则作为内部代码，可跟据实际情况自行编制",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "LDDWMC",
+          "comment": "立档单位名称",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXDA_QZSJ": {
+      "table_name": "T_GXDA_QZSJ",
+      "entity_desc": "GXDA0104 全宗数据",
+      "data_class": "GXDA01 文件实体类",
+      "dataset": "GXDA 档案管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "QZH",
+          "comment": "全宗号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "有全宗的必选，依照DA/T 14 编制",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "QZMC",
+          "comment": "全宗名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "有全宗的必选",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXDA_WDSJ": {
+      "table_name": "T_GXDA_WDSJ",
+      "entity_desc": "GXDA0105 文档数据",
+      "data_class": "GXDA01 文件实体类",
+      "dataset": "GXDA 档案管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "WJDH",
+          "comment": "文件档号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "WDXH",
+          "comment": "文档编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "值“1”表示主要文档，依次 2、3、4……",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TM",
+          "comment": "题名",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "QWXX",
+          "comment": "全文信息",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "文档中所包含的无格式文本信息",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YWJ",
+          "comment": "源文件",
+          "type": "字符串",
+          "length": "5000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "文档的二进制数据",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "DZWJLX",
+          "comment": "电子文件类型",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZTLX",
+          "comment": "载体类型",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSZTBH",
+          "comment": "特殊载体编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "对特殊载体文件进行编号，便于管理与利用",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SJCD",
+          "comment": "时间长度",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "时间长度由数值与单位两部分组成，单位：分钟",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GG",
+          "comment": "规格",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "特殊载体文件记录的规格尺寸，特殊载体文件必选",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JQXH",
+          "comment": "机器型号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "制作文件所使用的机器名称及其型号",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GSXX",
+          "comment": "格式信息",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "建议尽可能选用本元素。使用结构化方式著录，可以是下列形式中的一种：a)格式名称，格式版本，MIME 媒体类型；b) 格式注册系统名称，注册 ID",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JSJWJM",
+          "comment": "计算机文件名",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JSJWJDX",
+          "comment": "计算机文件大小",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "自动获取，计算机文件的大小，单位：字节。",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "CJFF",
+          "comment": "创建方法",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "计算机文件生成方法有两类：数字化和程序生成方式，如果是程序生成，本元素著录程序文件名及其版本信息",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YSFS",
+          "comment": "压缩方式",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FBL",
+          "comment": "分辨率",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "本元素的值由数量和单位两部分组成，如：300dpi、720*576像素点等",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "CYPL",
+          "comment": "采样频率",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "本元素的值由数量和单位两部分组成，如：30HZ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SCMS",
+          "comment": "色彩模式",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "QMGZ",
+          "comment": "签名规则",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZSYZ",
+          "comment": "证书引证",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "QMSFBS",
+          "comment": "签名算法标识",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FZ",
+          "comment": "附注",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXDA_WJSJ": {
+      "table_name": "T_GXDA_WJSJ",
+      "entity_desc": "GXDA0105 文档数据",
+      "data_class": "GXDA01 文件实体类",
+      "dataset": "GXDA 档案管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "DH",
+          "comment": "档号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "值为空表示组件管理",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "DAGDM",
+          "comment": "档案馆代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "LDDWH",
+          "comment": "立档单位号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "WJDH",
+          "comment": "文件档号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "QZH",
+          "comment": "全宗号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ND",
+          "comment": "年度（年份、年）",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "指归档的年度",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "LBH",
+          "comment": "类别号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GSBJH",
+          "comment": "馆(室)编件号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JGHWT",
+          "comment": "机构或问题",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YH",
+          "comment": "页号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TM",
+          "comment": "题名",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "BLTM",
+          "comment": "并列题名",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "依据 DA/T 18 著录",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FTM",
+          "comment": "副题名",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "依据 DA/T 18 著录",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZTC",
+          "comment": "主题词",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GJC",
+          "comment": "关键词",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZY",
+          "comment": "摘要",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FLH",
+          "comment": "分类号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "WJBH",
+          "comment": "文件编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "依据 DA/T 18 著录",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZRZ",
+          "comment": "责任者",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "依据 DA/T 18 著录",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "QTZRZ",
+          "comment": "其他责任者",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "RM",
+          "comment": "人名",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "RQ",
+          "comment": "日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "指形成日期",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "WZ",
+          "comment": "文种",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JJCD",
+          "comment": "紧急程度",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZS",
+          "comment": "主送",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "CS",
+          "comment": "抄送",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "MJ",
+          "comment": "密级",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "BGQX",
+          "comment": "保管期限",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "BMQX",
+          "comment": "保密期限",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "单位：年。除另有规定外，绝密级不超过30 年，机密级不超过 20 年，秘密级不超过 10 年",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "WJZHLX",
+          "comment": "文件组合类型",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YS",
+          "comment": "页数",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "综合文书类必选",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YZ",
+          "comment": "语种",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "著录 GB/T 4880.2和GB/T 4881中语种的汉语名称或计算机编程语言",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GB",
+          "comment": "稿本",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XXXTMS",
+          "comment": "信息系统描述",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "著录信息系统的名称、版本、功能、开发商名称以及信息系统硬件环境的描述",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "LJDZ",
+          "comment": "逻辑地址",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "逻辑位置可以是下列形式中的一种：1）URL2）计算机名（服务器名）+盘符+路径3）国家或行业标准规定的其实标识方法",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "WLDZ",
+          "comment": "物理地址",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "非电子文件的实际存储地址",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TJZTCZ",
+          "comment": "脱机载体存址",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "电子文件脱机载体的存放位置",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZSCQSM",
+          "comment": "知识产权说明",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZT",
+          "comment": "状态",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FZ",
+          "comment": "附注",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXDA_JGXX": {
+      "table_name": "T_GXDA_JGXX",
+      "entity_desc": "GXDA0201 机构信息",
+      "data_class": "GXDA02 机构人员实体类",
+      "dataset": "GXDA 档案管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "XWJGBH",
+          "comment": "校外机构编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JGMC",
+          "comment": "机构名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXDA_RYXX": {
+      "table_name": "T_GXDA_RYXX",
+      "entity_desc": "GXDA0202 人员信息",
+      "data_class": "GXDA02 机构人员实体类",
+      "dataset": "GXDA 档案管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "RYH",
+          "comment": "人员号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "人员类别值为“1”，校内人员时必选",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "RYLB",
+          "comment": "人员类别",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "建议：1—校内人员2—校外人员",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SFZJLXM",
+          "comment": "身份证件类型码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "人员类别值为“2”，校外人员时必选",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SFZJH",
+          "comment": "身份证件号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "人员类别值为“2”，校外人员时必选",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XM",
+          "comment": "姓名",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GRZW",
+          "comment": "个人职位",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XNJGBH",
+          "comment": "校内机构编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "人员类别值为“1”，校内人员时必选",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XWJGBH",
+          "comment": "校外机构编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "学校自编，人员类别值为“2”必填",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,811 @@
+{
+  "dataset_name": "GXTS 图书数据集",
+  "table_count": 5,
+  "field_count": 69,
+  "tables": {
+    "T_GXTS_DZXXB": {
+      "table_name": "T_GXTS_DZXXB",
+      "entity_desc": "GXTS0101 读者信息表",
+      "data_class": "GXTS01 图书基础数据类",
+      "dataset": "GXTS 图书管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "ZJHM",
+          "comment": "证件号",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "XM",
+          "comment": "姓名",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "XB",
+          "comment": "性别",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "CSRQ",
+          "comment": "生日",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "BM",
+          "comment": "部门",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "DZYJ",
+          "comment": "电子邮件",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "MM",
+          "comment": "密码",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "ZCSJ",
+          "comment": "注册时间",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "SCSJ",
+          "comment": "删除时间",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "DZBZ",
+          "comment": "读者标志",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXTS_DZZJXX": {
+      "table_name": "T_GXTS_DZZJXX",
+      "entity_desc": "GXTS0102 读者证件信息",
+      "data_class": "GXTS01 图书基础数据类",
+      "dataset": "GXTS 图书管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "ZJTMH",
+          "comment": "证件条码号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "ZJH",
+          "comment": "证件号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "BZRQ",
+          "comment": "办证日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "BZYXQSRQ",
+          "comment": "办证有效起始日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "BZYXJZRQ",
+          "comment": "办证有效截止日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "SXF",
+          "comment": "手续费",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "ZJZTBS",
+          "comment": "证件状态标识",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "JSR",
+          "comment": "经手人",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXTS_TSXX": {
+      "table_name": "T_GXTS_TSXX",
+      "entity_desc": "GXTS0103 图书信息",
+      "data_class": "GXTS01 图书基础数据类",
+      "dataset": "GXTS 图书管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "TSJLH",
+          "comment": "图书记录号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "JLZT",
+          "comment": "记录状态",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "TSLX",
+          "comment": "图书类型",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "BMRY",
+          "comment": "编目人员",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "BMRQ",
+          "comment": "编目日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "YZDM",
+          "comment": "语种代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "GBDM",
+          "comment": "国别代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "WXLXDM",
+          "comment": "文献类型代码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "SSH",
+          "comment": "索书号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "SM",
+          "comment": "书名",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "ZZ",
+          "comment": "作者",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "CBS",
+          "comment": "出版社",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "CBNF",
+          "comment": "出版年份",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "ISBN",
+          "comment": "ISBN编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "CJR",
+          "comment": "创建人",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "CJRQ",
+          "comment": "创建日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXTS_TSJY": {
+      "table_name": "T_GXTS_TSJY",
+      "entity_desc": "GXTS0104 图书借阅",
+      "data_class": "GXTS01 图书基础数据类",
+      "dataset": "GXTS 图书管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "ZJH",
+          "comment": "证件号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "CCH",
+          "comment": "财产号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "JCRQ",
+          "comment": "借出日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "YHRQ",
+          "comment": "应还日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "XJRQ",
+          "comment": "续借日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "XJCS",
+          "comment": "续借次数",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "CHCS",
+          "comment": "催还次数",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "CHRQ",
+          "comment": "催还日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "JYGZ",
+          "comment": "借阅规则",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "JSR",
+          "comment": "经手人",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "GCD",
+          "comment": "馆藏地",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "FJ",
+          "comment": "附件",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "JCBS",
+          "comment": "借出标识",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXTS_JYLS": {
+      "table_name": "T_GXTS_JYLS",
+      "entity_desc": "GXTS0105 借阅历史",
+      "data_class": "GXTS01 图书基础数据类",
+      "dataset": "GXTS 图书管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "DZH",
+          "comment": "读者号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "CCBH",
+          "comment": "财产编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "GCD",
+          "comment": "馆藏地",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "JCRQ",
+          "comment": "借出日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "YHRQ",
+          "comment": "应还日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "XJRQ",
+          "comment": "续借日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "XJCS",
+          "comment": "续借次数",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "CHRQ",
+          "comment": "催还日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "CHCS",
+          "comment": "催还次数",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "JYGZ",
+          "comment": "借阅规则",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "CQTS",
+          "comment": "超期天数",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "JSR",
+          "comment": "经手人",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "HSJSR",
+          "comment": "还书经手人",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "TSBH",
+          "comment": "图书编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "SSH",
+          "comment": "索书号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "FLFBSH",
+          "comment": "分类法标识号",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "FJ",
+          "comment": "附件",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "图书馆",
+          "security": ""
+        }
+      ]
+    }
+  }
+}

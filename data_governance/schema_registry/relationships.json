@@ -1,0 +1,74 @@
+[
+  {
+    "from_table": "T_GXXX_WYHCYJBXX",
+    "from_field": "WYHBH",
+    "hint": "各类委员会编码/编号，需按照学校管理需求自行设置规则进行编制。此编号与GXXX0105保持一致。",
+    "dataset": "GXXX 学校概况数据集"
+  },
+  {
+    "from_table": "T_GXKY_KYJGJBXX",
+    "from_field": "KYJGBH",
+    "hint": "原则上校内机构需与人事处组织机构编码保持一致，但科研管理系统中可能存在校外机构与校内机构存放在一起，如有此情况，需把能区分出校内或校外单位的字段对接进来",
+    "dataset": "GXKY科研管理数据集"
+  },
+  {
+    "from_table": "T_GXKY_KYJGJBXX",
+    "from_field": "GKDWBM",
+    "hint": "需与人事处组织机构编码保持一致",
+    "dataset": "GXKY科研管理数据集"
+  },
+  {
+    "from_table": "T_GXKY_KYJGRYXX",
+    "from_field": "KYRYH",
+    "hint": "原则上校内教师的工号需与人事处工号保持一致。科研人员可能会包括校内教师及校外人员，如果包含两种人员，需把能区分出校内及校外人员的标识字段对接进来",
+    "dataset": "GXKY科研管理数据集"
+  },
+  {
+    "from_table": "T_GXKY_KYJGRYXX",
+    "from_field": "KYJGBH",
+    "hint": "需与人事处组织机构编码保持一致",
+    "dataset": "GXKY科研管理数据集"
+  },
+  {
+    "from_table": "T_GXKY_KYXMJBXX",
+    "from_field": "XMSSDW",
+    "hint": "需与人事处组织机构编号保持一致",
+    "dataset": "GXKY科研管理数据集"
+  },
+  {
+    "from_table": "T_GXKY_KYXMJBXX",
+    "from_field": "XMFZRGH",
+    "hint": "需与人事处教职工编号保持一致，项目负责人为本项目项目人员排名的第一人",
+    "dataset": "GXKY科研管理数据集"
+  },
+  {
+    "from_table": "T_GXKY_KYXMRYXX",
+    "from_field": "DWBM",
+    "hint": "本校教职工或学生需与人事处组织机构编码保持一致",
+    "dataset": "GXKY科研管理数据集"
+  },
+  {
+    "from_table": "T_GXKY_KYZZZZXX",
+    "from_field": "ZZRYH",
+    "hint": "此处填写作者的人员编号数据，教师填写工号，且与人事处工号保持一致，非本校教师填写人员编号",
+    "dataset": "GXKY科研管理数据集"
+  },
+  {
+    "from_table": "T_GXKY_KYZZZZXX",
+    "from_field": "DWBM",
+    "hint": "本校教职工需与人事处组织机构编码保持一致",
+    "dataset": "GXKY科研管理数据集"
+  },
+  {
+    "from_table": "T_GXZC_YQSBGLXX",
+    "from_field": "ZCBH",
+    "hint": "学校国有资产编号与国资处资产编号需保持一致。实现资产与设备关联。",
+    "dataset": "GXZC 资产与设备管理数据集"
+  },
+  {
+    "from_table": "T_GXGGFW_JCJLXX",
+    "from_field": "MJSBBH",
+    "hint": "与门禁设备编号保持一致",
+    "dataset": "GXGGFW高校公共服务数据集"
+  }
+]

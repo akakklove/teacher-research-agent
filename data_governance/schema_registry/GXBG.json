@@ -1,0 +1,1027 @@
+{
+  "dataset_name": "GXBG 办公管理数据集",
+  "table_count": 7,
+  "field_count": 87,
+  "tables": {
+    "T_GXBG_GWJBXX": {
+      "table_name": "T_GXBG_GWJBXX",
+      "entity_desc": "GXBG0101 公文基本信息",
+      "data_class": "GXBG01 公文处理数据类",
+      "dataset": "GXBG 办公管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "GWBH",
+          "comment": "公文编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "学校自编的公文编号",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GWBT",
+          "comment": "公文标题",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "公文的标题名称",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GWZTC",
+          "comment": "公文主题词",
+          "type": "字符串",
+          "length": "1000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "公文的主题词，多个主题词用逗号隔开",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "MJM",
+          "comment": "密级码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JJCDM",
+          "comment": "紧急程度码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GWYS",
+          "comment": "公文页数",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "公文总页数，单位：页",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "WJFLM",
+          "comment": "文件分类码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GWZW",
+          "comment": "公文正文",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "公文的具体内容",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GWFJS",
+          "comment": "公文附件数",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "公文所带附件的数量，默认为 0",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GWZTM",
+          "comment": "公文状态码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GWWH",
+          "comment": "公文文号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GWGKFSM",
+          "comment": "公文公开方式码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXBG_XXFB": {
+      "table_name": "T_GXBG_XXFB",
+      "entity_desc": "GXBG0201 信息发布",
+      "data_class": "GXBG02 网上信息发布数据类",
+      "dataset": "GXBG 办公管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "FBH",
+          "comment": "发布号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "学校自编，建议 4 位年号＋2 位类别号＋4位流水号",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XXBT",
+          "comment": "信息标题",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FBLMH",
+          "comment": "发布栏目号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FBXXNR",
+          "comment": "发布信息内容",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FJS",
+          "comment": "附件数",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FBRQ",
+          "comment": "发布日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FBSJ",
+          "comment": "发布时间",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FBDWH",
+          "comment": "发布单位号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FBRGH",
+          "comment": "发布人工号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FBFW",
+          "comment": "发布范围",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "发布范围描述",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FBPZRH",
+          "comment": "发布批准人号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XXZT",
+          "comment": "信息状态",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "如：待审批/已审批",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXBG_HY": {
+      "table_name": "T_GXBG_HY",
+      "entity_desc": "GXBG0301 会议",
+      "data_class": "GXBG03 会议管理数据类",
+      "dataset": "GXBG 办公管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "HYBH",
+          "comment": "会议编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HYDD",
+          "comment": "会议地点",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HHMC",
+          "comment": "会议名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YTLB",
+          "comment": "议题列表",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HYZT",
+          "comment": "会议主题",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HYSPRH",
+          "comment": "会议审批人号",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "会议审批人工号",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SPYJ",
+          "comment": "审批意见",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KSRQ",
+          "comment": "开始日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KSSJ",
+          "comment": "开始时间",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JSRQ",
+          "comment": "结束日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JSSJ",
+          "comment": "结束时间",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HYZL",
+          "comment": "会议种类",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "如：例会、专题会",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZCRH",
+          "comment": "主持人号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "工号",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JLRH",
+          "comment": "记录人号",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "工号",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "CXR",
+          "comment": "出席人",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "姓名列表用逗号隔开",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "LXR",
+          "comment": "列席人",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "姓名列表用逗号隔开",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXBG_HYJY": {
+      "table_name": "T_GXBG_HYJY",
+      "entity_desc": "GXBG0302 会议纪要",
+      "data_class": "GXBG03 会议管理数据类",
+      "dataset": "GXBG 办公管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "HYBH",
+          "comment": "会议编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HYMC",
+          "comment": "会议名称",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KSRQ",
+          "comment": "开始日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KSSJ",
+          "comment": "开始时间",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JSRQ",
+          "comment": "结束日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JSSJ",
+          "comment": "结束时间",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HYDD",
+          "comment": "会议地点",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZCRH",
+          "comment": "主持人号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "主持人工号",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JYNR",
+          "comment": "纪要内容",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JYFJS",
+          "comment": "纪要附件数",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "CXR",
+          "comment": "出席人",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "姓名列表用逗号隔开",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "LXR",
+          "comment": "列席人",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "姓名列表用逗号隔开",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "QXR",
+          "comment": "缺席人",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "姓名列表用逗号隔开",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JYZTM",
+          "comment": "纪要状态码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JYQCRH",
+          "comment": "纪要起草人号",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXBG_HYS": {
+      "table_name": "T_GXBG_HYS",
+      "entity_desc": "GXBG0303 会议室",
+      "data_class": "GXBG03 会议管理数据类",
+      "dataset": "GXBG 办公管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "HYSBH",
+          "comment": "会议室编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HYSM",
+          "comment": "会议室名",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HYSDD",
+          "comment": "会议室地点",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HYSRL",
+          "comment": "会议室容量",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "容纳人数",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SBPZ",
+          "comment": "设备配置",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "投影仪、音响",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZGDWH",
+          "comment": "主管单位号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "学校自编",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "LXDH",
+          "comment": "联系电话",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZT",
+          "comment": "状态",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "可用、维修",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXBG_HYSAP": {
+      "table_name": "T_GXBG_HYSAP",
+      "entity_desc": "GXBG0304 会议室安排",
+      "data_class": "GXBG03 会议管理数据类",
+      "dataset": "GXBG 办公管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "HYSBH",
+          "comment": "会议室编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HYSM",
+          "comment": "会议室名",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HYMC",
+          "comment": "会议名称",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KSRQ",
+          "comment": "开始日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KSSJ",
+          "comment": "开始时间",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JSRQ",
+          "comment": "结束日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JSSJ",
+          "comment": "结束时间",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SYZGH",
+          "comment": "使用者工号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SYZLXDH",
+          "comment": "使用者联系电话",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HYSFY",
+          "comment": "会议室费用",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "单位：元",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXBG_HYYT": {
+      "table_name": "T_GXBG_HYYT",
+      "entity_desc": "GXBG0305 会议议题",
+      "data_class": "GXBG03 会议管理数据类",
+      "dataset": "GXBG 办公管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "HYBH",
+          "comment": "会议编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TYDWH",
+          "comment": "提议单位号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "提议单位编号",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TYRGH",
+          "comment": "提议人工号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JJCDM",
+          "comment": "紧急程度码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "HYYT",
+          "comment": "会议议题",
+          "type": "字符串",
+          "length": "200",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YTZW",
+          "comment": "议题正文",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YTZTM",
+          "comment": "议题状态码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1195 @@
+{
+  "dataset_name": "GXCW 财务管理数据集",
+  "table_count": 11,
+  "field_count": 99,
+  "tables": {
+    "T_GXCW_KMDMGL": {
+      "table_name": "T_GXCW_KMDMGL",
+      "entity_desc": "GXCW0101 科目代码管理",
+      "data_class": "GXCW01 项目经费数据类",
+      "dataset": "GXCW 财务管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "KMBH",
+          "comment": "科目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KMND",
+          "comment": "科目年度",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KMMC",
+          "comment": "科目名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZKMSXM",
+          "comment": "总科目属性码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "上级科目代码",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZKMMC",
+          "comment": "总科目名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "上级科目名称",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KMJCM",
+          "comment": "科目层级",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KMLBM",
+          "comment": "科目类别码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YEFX",
+          "comment": "余额方向",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "科目的借贷方向",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KMFC",
+          "comment": "科目封存",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "科目是否封存（封存后只能查询）1 是，0 否",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXCW_PZSJZLB": {
+      "table_name": "T_GXCW_PZSJZLB",
+      "entity_desc": "GXCW0102 凭证数据子类表",
+      "data_class": "GXCW01 项目经费数据类",
+      "dataset": "GXCW 财务管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "PZBH",
+          "comment": "凭证编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FLBJM",
+          "comment": "分录标记码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FLBH",
+          "comment": "分录笔号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "PZLX",
+          "comment": "凭证类型",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "PZZY",
+          "comment": "凭证摘要",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SSDWH",
+          "comment": "所属单位号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "学校自编 JY/T 1002JCTB010301",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JZFXM",
+          "comment": "记账方向",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "PZJE",
+          "comment": "凭证金额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SCRQ",
+          "comment": "生成日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMBH",
+          "comment": "项目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZDRH",
+          "comment": "制单人号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FHRH",
+          "comment": "复核人号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "CNRH",
+          "comment": "出纳人号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXCW_XMJBXX": {
+      "table_name": "T_GXCW_XMJBXX",
+      "entity_desc": "GXCW0103 项目基本信息",
+      "data_class": "GXCW01 项目经费数据类",
+      "dataset": "GXCW 财务管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "XMBH",
+          "comment": "项目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "学校统一编写的项目编号",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KMBH",
+          "comment": "科目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "参见科目编号规范",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KJND",
+          "comment": "会计年度",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KYXMBH",
+          "comment": "科研项目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SSBMH",
+          "comment": "所属部门号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "单位号，学校自编",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMMC",
+          "comment": "项目名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "指财务部门提供的每个部门的项目名称，如是科研项目，则此名称应同 GXKY中的“项目名称”",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMLBM",
+          "comment": "项目类别码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "学校自编，可参考并扩充 GXKY010118",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KSRQ",
+          "comment": "开始日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "WCRQ",
+          "comment": "完成日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZXZTM",
+          "comment": "执行状态码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SFYXCZ",
+          "comment": "是否允许超支",
+          "type": "字符串",
+          "length": "10",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "CZXE",
+          "comment": "超支限额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMFZRH",
+          "comment": "项目负责人号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "工号",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMLXR",
+          "comment": "项目联系人",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "项目联系人及其联系方法",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMZC",
+          "comment": "项目支出",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "该项目的支出额",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMSR",
+          "comment": "项目收入",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "该项目的收入额",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YSJE",
+          "comment": "预算金额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "该项目的预算金额",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YE",
+          "comment": "余额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "该项目的余额",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMZY",
+          "comment": "项目摘要",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "该项目的摘要",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXCW_XMJFLY": {
+      "table_name": "T_GXCW_XMJFLY",
+      "entity_desc": "GXCW0104 项目经费来源",
+      "data_class": "GXCW01 项目经费数据类",
+      "dataset": "GXCW 财务管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "PZBH",
+          "comment": "凭证编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KYXMBH",
+          "comment": "科研项目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "JHJFZE",
+          "comment": "计划经费总额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMJFLYM",
+          "comment": "项目经费来源码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "BRRQ",
+          "comment": "拨入日期",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "BKS",
+          "comment": "拨款数",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZDXKJF",
+          "comment": "重点学科经费",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "ZDSYSJF",
+          "comment": "重点实验室经费",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "GCYJZXJF",
+          "comment": "工程研究中心经费",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "BFXZJF",
+          "comment": "拨付协作经费",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXCW_XMYE": {
+      "table_name": "T_GXCW_XMYE",
+      "entity_desc": "GXCW0105 项目余额",
+      "data_class": "GXCW01 项目经费数据类",
+      "dataset": "GXCW 财务管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "XMBH",
+          "comment": "项目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMRZNY",
+          "comment": "项目入账年月",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMNCYE",
+          "comment": "项目年初余额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMDYJFFSJE",
+          "comment": "项目当月借方发生金额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMDYDFFSJE",
+          "comment": "项目当月贷方发生金额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMQNJFLJJE",
+          "comment": "项目全年借方累计金额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMQNDFLJJE",
+          "comment": "项目全年贷方累计金额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMQMYE",
+          "comment": "项目期末余额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXCW_GZMX": {
+      "table_name": "T_GXCW_GZMX",
+      "entity_desc": "GXCW0201 工资明细",
+      "data_class": "GXCW02 教职工个人收入数据类",
+      "dataset": "GXCW 财务管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "ZGH",
+          "comment": "职工号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XN",
+          "comment": "学年",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "MXXMM",
+          "comment": "明细项目码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "指教职工收入或支出的项目代码，学校自编",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XMJE",
+          "comment": "项目金额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "指基本工资与职务工资等项目金额，单位：元",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXCW_GZZE": {
+      "table_name": "T_GXCW_GZZE",
+      "entity_desc": "GXCW0202 工资总额",
+      "data_class": "GXCW02 教职工个人收入数据类",
+      "dataset": "GXCW 财务管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "ZGH",
+          "comment": "职工号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XN",
+          "comment": "学年",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YFHJ",
+          "comment": "应发合计",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "单位：元",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "KKHJ",
+          "comment": "扣款合计",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "单位：元",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SFHJ",
+          "comment": "实发合计",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "单位：元",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "FGZNY",
+          "comment": "发工资年月",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": true,
+          "nullable": false,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXCW_SFXM": {
+      "table_name": "T_GXCW_SFXM",
+      "entity_desc": "GXCW0301 收费项目",
+      "data_class": "GXCW03 学生收费数据类",
+      "dataset": "GXCW 财务管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "SFXN",
+          "comment": "收费学年",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": true,
+          "nullable": false,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SFXMBH",
+          "comment": "收费项目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "学校自编",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SFXMMC",
+          "comment": "收费项目名称",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SFXMBAPWH",
+          "comment": "收费项目备案批文号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXCW_XSQF": {
+      "table_name": "T_GXCW_XSQF",
+      "entity_desc": "GXCW0302 学生欠费",
+      "data_class": "GXCW03 学生收费数据类",
+      "dataset": "GXCW 财务管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "QFXMBH",
+          "comment": "欠费项目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "XH",
+          "comment": "学号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "学号",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "QFJE",
+          "comment": "欠费金额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "学生实际欠费金额",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "QFXN",
+          "comment": "欠费学年",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": true,
+          "nullable": false,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXCW_XSYSHJ": {
+      "table_name": "T_GXCW_XSYSHJ",
+      "entity_desc": "GXCW0303 学生应收合计",
+      "data_class": "GXCW03 学生收费数据类",
+      "dataset": "GXCW 财务管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "XH",
+          "comment": "学号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "学号",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SFXN",
+          "comment": "收费学年",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": true,
+          "nullable": false,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TZHJ",
+          "comment": "调整合计",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YSHJ",
+          "comment": "应收合计",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    },
+    "T_GXCW_XSYSMX": {
+      "table_name": "T_GXCW_XSYSMX",
+      "entity_desc": "GXCW0304 学生应收明细",
+      "data_class": "GXCW03 学生收费数据类",
+      "dataset": "GXCW 财务管理数据集",
+      "biz_desc": "",
+      "fields": [
+        {
+          "name": "XH",
+          "comment": "学号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": "学号",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SFXMBH",
+          "comment": "收费项目编号",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": true,
+          "nullable": false,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "SFXN",
+          "comment": "收费学年",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": true,
+          "nullable": false,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "YSJINE",
+          "comment": "应收金额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TZJE",
+          "comment": "调整金额",
+          "type": "字符串",
+          "length": "100",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TZFSM",
+          "comment": "调整方式码",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSSM",
+          "comment": "特殊说明",
+          "type": "字符串",
+          "length": "2000",
+          "is_pk": false,
+          "nullable": true,
+          "remark": " ",
+          "department": "",
+          "security": ""
+        },
+        {
+          "name": "TSTAMP",
+          "comment": "时间戳",
+          "type": "字符串",
+          "length": "20",
+          "is_pk": false,
+          "nullable": true,
+          "remark": "YYYYMMDD HH24MISS",
+          "department": "",
+          "security": ""
+        }
+      ]
+    }
+  }
+}
