@@ -106,7 +106,19 @@
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
           <h3 style="margin:0;">📊 指标管理 <span style="font-size:12px;color:#b2bec3;" id="metric-count"></span></h3>
-          <button onclick="showMetricForm()">➕ 新增指标</button>
+          <div style="display:flex;gap:8px;">
+            <button onclick="showAiGenerate()" style="background:#8b5cf6;">🤖 AI生成</button>
+            <button onclick="showMetricForm()">➕ 手动</button>
+          </div>
+        </div>
+        <!-- AI 生成面板 -->
+        <div id="ai-panel" style="display:none;background:#f3e5f5;border:1px solid #ce93d8;border-radius:8px;padding:16px;margin-bottom:16px;">
+          <div style="font-size:13px;color:#7b1fa2;margin-bottom:8px;">🤖 用自然语言描述指标，AI 自动生成 SQL</div>
+          <div style="display:flex;gap:8px;">
+            <input id="ai-desc" style="flex:1;border:1px solid #ce93d8;border-radius:6px;padding:10px;font-size:14px;" placeholder="例如：统计教师的教材出版数量，按出版社分类">
+            <button onclick="aiSuggest()" style="background:#8b5cf6;white-space:nowrap;">🚀 生成</button>
+          </div>
+          <div id="ai-result" style="margin-top:8px;font-size:13px;display:none;"></div>
         </div>
         <div id="metric-form" style="display:none;background:#f8f9fa;border-radius:8px;padding:16px;margin-bottom:16px;">
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;font-size:13px;">
@@ -311,6 +323,58 @@ async function saveMetric() {
   });
   document.getElementById('metric-form').style.display = 'none';
   loadMetrics();
+}
+
+// ── AI 辅助生成 ──
+function showAiGenerate() {
+  document.getElementById('ai-panel').style.display = 'block';
+  document.getElementById('ai-result').style.display = 'none';
+}
+
+async function aiSuggest() {
+  const desc = document.getElementById('ai-desc').value;
+  if (!desc) { alert('请输入指标描述'); return; }
+  const r = document.getElementById('ai-result');
+  r.style.display = 'block';
+  r.innerHTML = '⏳ AI 正在分析 Schema...';
+
+  try {
+    const res = await fetch('/api/admin/metrics/suggest', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({ description: desc }),
+    });
+    const data = await res.json();
+    if (!res.ok) { r.innerHTML = `❌ ${data.detail}`; return; }
+
+    r.innerHTML = `
+      <div style="background:#e8f5e9;border:1px solid #a5d6a7;border-radius:6px;padding:10px;">
+        <b style="color:#2e7d32;">✅ AI 建议：</b>
+        <span>${data.name} (${data.metric_id}) · ${data.category} · ${data.chart_type}</span>
+        <pre style="background:#f5f6fa;padding:6px;border-radius:4px;font-size:11px;max-height:60px;overflow:auto;margin:6px 0;">${data.sql_template}</pre>
+        ${data.explanation ? `<span style="color:#636e72;">💡 ${data.explanation}</span>` : ''}
+        <div style="margin-top:6px;display:flex;gap:6px;">
+          <button onclick="confirmAiSave()">✅ 确认，去保存</button>
+          <button onclick="document.getElementById('ai-result').style.display='none'" style="background:#b2bec3;">取消</button>
+        </div>
+      </div>`;
+    window._aiSuggestion = data;
+  } catch(e) { r.innerHTML = `❌ ${e.message}`; }
+}
+
+function confirmAiSave() {
+  const d = window._aiSuggestion;
+  if (!d) return;
+  document.getElementById('m-id').value = d.metric_id;
+  document.getElementById('m-id').readOnly = true;
+  document.getElementById('m-name').value = d.name;
+  document.getElementById('m-cat').value = d.category;
+  document.getElementById('m-chart').value = d.chart_type;
+  document.getElementById('m-unit').value = d.unit;
+  document.getElementById('m-desc').value = d.description || '';
+  document.getElementById('m-sql').value = d.sql_template;
+  document.getElementById('metric-form').style.display = 'block';
+  document.getElementById('ai-result').style.display = 'none';
 }
 
 async function deleteMetric(id) {

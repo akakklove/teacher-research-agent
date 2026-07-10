@@ -931,6 +931,89 @@ def admin_delete_metric(metric_id: str, user=Depends(get_current_user)):
     raise HTTPException(status_code=404, detail="指标不存在")
 
 
+# ── v1.0: AI 辅助生成指标 ──
+
+class MetricSuggestRequest(BaseModel):
+    description: str    # 自然语言描述，如"统计教师的教材出版数量"
+
+
+@app.post("/api/admin/metrics/suggest")
+def admin_suggest_metric(req: MetricSuggestRequest, user=Depends(get_current_user)):
+    """
+    AI 辅助生成指标：用户输入自然语言 → LLM 分析 Schema → 自动填表/SQL/分类。
+
+    返回完整的指标定义，用户确认后调用 POST /api/admin/metrics 保存。
+    """
+    if user.role != "admin":
+        raise HTTPException(status_code=403, detail="需要管理员权限")
+
+    llm = get_llm()
+    if not llm:
+        raise HTTPException(status_code=503, detail="LLM 未连接")
+
+    from metric_discovery import SchemaExplorer
+    from langchain_core.prompts import ChatPromptTemplate
+    from langchain_core.output_parsers import PydanticOutputParser
+    from pydantic import BaseModel as PydanticBase
+
+    class MetricSuggestion(PydanticBase):
+        metric_id: str = ""       # 英文ID，如 book_textbook_count
+        name: str = ""            # 中文名称，如"教材出版数量"
+        category: str = "自定义"   # 分类
+        chart_type: str = "kpi_card"
+        unit: str = ""
+        sql_template: str = ""
+        description: str = ""
+        explanation: str = ""     # LLM 对推理过程的解释
+
+    parser = PydanticOutputParser(pydantic_object=MetricSuggestion)
+    explorer = SchemaExplorer()
+    schema_text = explorer.get_schema_summary()
+
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", (
+            "你是一位数据库专家，帮助管理员为教师科研系统创建新指标。\n\n"
+            "数据库 Schema（MySQL 8.0，utf8mb4）：\n"
+            "{schema}\n\n"
+            "规则：\n"
+            "1. 只生成 SELECT 语句，参数用 :teacher_id :start_date :end_date\n"
+            "2. 教师工号在 t_jzg_jbxx.gh，通过各表的 ry_gh / zzgh / fmr_gh 等字段关联\n"
+            "3. metric_id 用英文小写+下划线，如 book_textbook_count\n"
+            "4. chart_type：kpi_card(单值)|pie_chart(占比)|bar_chart(对比)|line_chart(趋势)|horizontal_bar(横向)|table(列表)\n"
+            "5. 使用 DATE_FORMAT() 处理日期\n\n"
+            "{format_instructions}"
+        )),
+        ("human", "用户需求：{description}")
+    ])
+
+    chain = prompt | llm | parser
+
+    try:
+        result = chain.invoke({
+            "description": req.description,
+            "schema": schema_text,
+            "format_instructions": parser.get_format_instructions(),
+        })
+
+        # 简单 SQL 校验
+        sql_upper = result.sql_template.strip().upper()
+        if not sql_upper.startswith("SELECT"):
+            result.sql_template = "SELECT * FROM t_jzg_jbxx LIMIT 1"
+
+        return {
+            "metric_id": result.metric_id,
+            "name": result.name,
+            "category": result.category,
+            "chart_type": result.chart_type,
+            "unit": result.unit,
+            "sql_template": result.sql_template,
+            "description": result.description,
+            "explanation": result.explanation,
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"AI 生成失败: {str(e)}")
+
+
 @app.get("/api/admin", response_class=HTMLResponse)
 def admin_page():
     """超管后台页面"""
