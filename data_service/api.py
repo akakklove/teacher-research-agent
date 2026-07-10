@@ -228,6 +228,7 @@ def get_teacher_report(
             raise HTTPException(status_code=404, detail=f"教师 {teacher_id} 不存在")
 
         # 优先使用 URL 指定的指标，其次用意图路由推荐
+        intent = None
         if metric_ids:
             mid_list = [m.strip() for m in metric_ids.split(",")]
         else:
@@ -244,7 +245,12 @@ def get_teacher_report(
         summary = {r.metric_id: r.value or len(r.rows) for r in results if r.success}
         insights = insight_engine.generate(teacher, summary, start_date, end_date)
 
-        html = composer.render(teacher, results, insights, start_date, end_date)
+        # v1.0: 根据意图选择大屏布局
+        from dashboard_layouts import get_layout
+        intent_name = intent.intent if intent else "personal_overview"
+        layout = get_layout(intent_name)
+
+        html = composer.render(teacher, results, insights, start_date, end_date, layout=layout)
         return HTMLResponse(content=html)
 
     finally:

@@ -2,9 +2,8 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>{{ teacher_name }} - 个人科研全景报告</title>
+    <title>{{ title }} - 教师科研查询器</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -31,155 +30,139 @@
             border: 1px solid rgba(245,158,11,0.2);
             border-radius: 8px;
         }
+        /* v1.0: 动态布局 */
+        .kpi-8  { grid-template-columns: repeat(8, 1fr); }
+        .kpi-7  { grid-template-columns: repeat(7, 1fr); }
+        .kpi-6  { grid-template-columns: repeat(6, 1fr); }
+        .kpi-3  { grid-template-columns: repeat(3, 1fr); }
+        .kpi-2  { grid-template-columns: repeat(2, 1fr); }
+        .kpi-1  { grid-template-columns: 1fr; max-width: 300px; }
+        .kpi-3 .kpi-card .val-text { font-size: 36px; }
+        .kpi-2 .kpi-card .val-text { font-size: 42px; }
+        .kpi-1 .kpi-card .val-text { font-size: 48px; }
+        .grid-3x2 { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr; }
+        .grid-1x3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-1x2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-1x1 { grid-template-columns: 1fr; }
     </style>
 </head>
 <body>
-    <div class="flex flex-col h-full">
+    <div class="flex flex-col h-full" style="display:flex;flex-direction:column;height:100%;">
         <!-- 顶部标题栏 -->
-        <div class="flex items-center justify-between px-8 py-3 border-b border-white/5 flex-shrink-0">
-            <div class="flex items-center gap-3">
-                <div class="w-1 h-6 bg-blue-500 rounded-full"></div>
-                <div>
-                    <h1 class="text-lg font-bold tracking-wide">🔬 {{ teacher_name }} 个人科研全景报告</h1>
-                </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 32px;border-bottom:1px solid rgba(255,255,255,0.05);flex-shrink:0;">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:4px;height:24px;background:#3B82F6;border-radius:2px;"></div>
+                <h1 style="font-size:18px;font-weight:700;">{{ title }}</h1>
             </div>
-            <div class="flex items-center gap-6 text-xs text-gray-400">
+            <div style="display:flex;align-items:center;gap:24px;font-size:12px;color:#94a3b8;">
                 <span>{{ teacher_dept }} · {{ teacher_title }}</span>
-                <span class="text-gray-600">|</span>
-                <span>📅 {{ time_range }}</span>
-                <span class="text-gray-600">|</span>
-                <span>教师科研小助手 v0.3</span>
+                <span style="color:#475569;">|</span>
+                <span>{{ time_range }}</span>
             </div>
         </div>
 
-        <!-- 主体内容区 -->
-        <div class="flex-1 px-6 py-4 flex flex-col gap-3 overflow-hidden">
+        <!-- 主体 -->
+        <div style="flex:1;padding:12px 24px;display:flex;flex-direction:column;gap:10px;overflow:hidden;">
 
             <!-- KPI 卡片行 -->
             {% if kpis %}
-            <div class="grid gap-2 flex-shrink-0" style="grid-template-columns: repeat({{ [kpis|length, 11]|max }}, 1fr);">
-                {% for kpi in kpis[:11] %}
-                <div class="kpi-card {{ ['blue','green','orange','purple','teal','blue','green','orange','purple','teal','blue'][loop.index0 % 11] }} rounded-lg py-2.5 px-2 flex flex-col items-center">
-                    <div class="text-[10px] text-gray-400 mb-0.5">{{ kpi.name }}</div>
-                    <div class="text-lg font-bold tracking-tight" style="color: {{ ['#60a5fa','#34d399','#fbbf24','#a78bfa','#2dd4bf'][loop.index0 % 5] }}">
+            <div class="{{ kpi_class }}" style="display:grid;gap:8px;flex-shrink:0;">
+                {% for kpi in kpis %}
+                <div class="kpi-card {{ ['blue','green','orange','purple','teal','blue','green','orange'][loop.index0 % 8] }}" style="border-radius:8px;padding:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                    <div style="font-size:11px;color:#94a3b8;margin-bottom:4px;">{{ kpi.name }}</div>
+                    <div class="val-text" style="font-weight:700;color:{{ ['#60a5fa','#34d399','#fbbf24','#a78bfa','#2dd4bf'][loop.index0 % 5] }};">
                         {% if kpi.value >= 10000 %}
-                            {{ "%.1f"|format(kpi.value / 10000) }}<span class="text-[10px] ml-0.5">万</span>
+                            {{ "%.1f"|format(kpi.value / 10000) }}万
                         {% else %}
                             {{ "%.0f"|format(kpi.value) }}
                         {% endif %}
                     </div>
-                    <div class="text-[9px] text-gray-500 mt-0.5">{{ kpi.unit }}</div>
+                    <div style="font-size:9px;color:#64748b;margin-top:2px;">{{ kpi.unit }}</div>
                 </div>
                 {% endfor %}
             </div>
             {% endif %}
 
-            <!-- 图表 + 洞察 区域 -->
-            <div class="flex gap-3 flex-1 min-h-0">
-                <!-- 图表面板 — 3列 -->
-                {% if charts %}
-                <div class="flex-1 grid gap-2 overflow-auto" style="grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr;">
-                    {% for chart in charts %}
-                    <div class="chart-box relative flex flex-col min-h-0">
-                        <div class="text-[10px] text-gray-400 px-3 pt-2 flex-shrink-0 flex items-center justify-between">
-                            <span>{{ chart.title }}</span>
-                            <span class="text-[9px] text-gray-600">{% if chart.chart_type == 'pie_chart' %}占比{% elif chart.chart_type == 'line_chart' %}趋势{% elif chart.chart_type == 'bar_chart' or chart.chart_type == 'horizontal_bar' %}对比{% elif chart.chart_type == 'gauge' %}指标{% endif %}</span>
-                        </div>
-                        {% if chart.chart_type == 'table' %}
-                        <div class="overflow-auto flex-1 px-3 pb-2">
-                            <table class="w-full text-[10px]">
+            <!-- 图表区 -->
+            {% if charts %}
+            <div class="{{ chart_grid }}" style="display:grid;gap:8px;flex:1;min-height:0;{% if chart_grid == 'grid-1x3' or chart_grid == 'grid-3x2' %}grid-template-columns:repeat(3,1fr);{% elif chart_grid == 'grid-1x2' %}grid-template-columns:repeat(2,1fr);{% elif chart_grid == 'grid-1x1' %}grid-template-columns:1fr;{% endif %}">
+                {% for chart in charts %}
+                <div class="chart-box" style="position:relative;display:flex;flex-direction:column;min-height:0;">
+                    <div style="font-size:11px;color:#94a3b8;padding:8px 12px 0;display:flex;align-items:center;justify-content:space-between;">
+                        <span>{{ chart.title }}</span>
+                        <span style="font-size:9px;color:#475569;">{{ chart.chart_type }}</span>
+                    </div>
+                    {% if chart.chart_type == "table" %}
+                        <div style="flex:1;overflow:auto;padding:4px 12px;">
+                            <table style="width:100%;font-size:11px;border-collapse:collapse;">
                                 <thead>
-                                    <tr class="border-b border-white/10">
-                                    {% for col in chart.option.columns %}
-                                        <th class="py-1 text-left text-gray-500">{{ col }}</th>
-                                    {% endfor %}
+                                    <tr>
+                                        {% for col in chart.option.columns %}
+                                        <th style="padding:4px 6px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.1);color:#94a3b8;">{{ col }}</th>
+                                        {% endfor %}
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for row in chart.option.rows[:8] %}
-                                    <tr class="border-b border-white/5 hover:bg-white/5">
-                                        {% for col in chart.option.columns %}
-                                        <td class="py-1 text-gray-300">{{ row[col] }}</td>
+                                    {% for row in chart.option.rows %}
+                                    <tr>
+                                        {% for cell in row %}
+                                        <td style="padding:3px 6px;border-bottom:1px solid rgba(255,255,255,0.05);">{{ cell }}</td>
                                         {% endfor %}
                                     </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
-                            {% if chart.option.rows|length > 8 %}
-                            <p class="text-[9px] text-gray-600 mt-1">... 共 {{ chart.option.rows|length }} 条</p>
-                            {% endif %}
                         </div>
-                        {% else %}
-                        <div id="{{ chart.dom_id }}" class="flex-1 w-full min-h-0"></div>
-                        {% endif %}
-                    </div>
-                    {% endfor %}
+                    {% else %}
+                        <div id="{{ chart.dom_id }}" style="flex:1;min-height:0;"></div>
+                    {% endif %}
                 </div>
-                {% endif %}
-
-                <!-- 智能洞察 -->
-                {% if insights %}
-                <div class="insight-box p-4 flex flex-col justify-center" style="width: 280px; flex-shrink: 0;">
-                    <div class="text-xs text-yellow-400 font-semibold mb-3">💡 AI 洞察</div>
-                    {% for text in insights %}
-                    <p class="text-xs text-gray-300 mb-2.5 leading-relaxed">{{ text }}</p>
-                    {% endfor %}
-                    <div class="mt-auto pt-3 border-t border-yellow-500/20">
-                        <p class="text-[10px] text-gray-500">Powered by 通义千问 qwen-max</p>
-                    </div>
-                </div>
-                {% endif %}
+                {% endfor %}
             </div>
+            {% endif %}
+
+            <!-- AI 洞察 -->
+            {% if insights %}
+            <div class="insight-box" style="flex-shrink:0;padding:12px 20px;">
+                <div style="font-size:13px;font-weight:600;color:#fbbf24;margin-bottom:6px;">💡 AI 洞察</div>
+                <div style="display:flex;gap:24px;">
+                    {% for ins in insights %}
+                    <div style="font-size:12px;color:#fcd34d;flex:1;border-right:1px solid rgba(245,158,11,0.1);padding-right:16px;{% if loop.last %}border-right:none;{% endif %}">
+                        {{ ins }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
 
-    <!-- ECharts 渲染 -->
+    <!-- ECharts 初始化 -->
     <script>
-    var chartsConfig = {{ charts_json|safe }};
-    window.addEventListener('load', function() {
-        chartsConfig.forEach(function(c) {
-            if (c.chart_type === 'table') return;
-            var dom = document.getElementById(c.dom_id);
-            if (!dom) return;
-            var chart = echarts.init(dom);
+    (function() {
+        var chartsData = {{ charts_json|safe }};
+        if (!chartsData || chartsData.length === 0) return;
 
-            // 深色主题适配
-            var option = JSON.parse(c.option);
-            if (option.tooltip !== undefined) option.tooltip.backgroundColor = 'rgba(0,0,0,0.8)';
-            if (option.xAxis) {
-                option.xAxis.axisLabel = option.xAxis.axisLabel || {};
-                option.xAxis.axisLabel.color = '#94a3b8';
-                option.xAxis.axisLine = { lineStyle: { color: '#334155' } };
-                option.xAxis.splitLine = { show: false };
-            }
-            if (option.yAxis) {
-                var ya = Array.isArray(option.yAxis) ? option.yAxis : [option.yAxis];
-                ya.forEach(function(y) {
-                    y.axisLabel = { color: '#94a3b8' };
-                    y.axisLine = { show: false };
-                    y.splitLine = { lineStyle: { color: 'rgba(255,255,255,0.06)' } };
-                });
-            }
-            if (option.series) {
-                option.series.forEach(function(s) {
-                    if (s.label) {
-                        s.label = s.label || {};
-                        if (typeof s.label.color === 'undefined') s.label.color = '#94a3b8';
-                    }
-                });
-            }
-            if (option.legend) {
-                option.legend.textStyle = option.legend.textStyle || {};
-                option.legend.textStyle.color = '#94a3b8';
-            }
-            if (option.title) {
-                option.title.show = false;
-            }
+        // 基础色板
+        var colors = ["#3B82F6","#10B981","#F59E0B","#EF4444","#8B5CF6","#EC4899","#06B6D4","#84CC16"];
+
+        chartsData.forEach(function(cfg) {
+            if (cfg.chart_type === "table") return;
+            var dom = document.getElementById(cfg.dom_id);
+            if (!dom) return;
+
+            var chart = echarts.init(dom, 'dark');
+            var option;
+
+            try { option = JSON.parse(cfg.option); }
+            catch(e) { option = cfg.option; }
+
+            // 统一设置颜色
+            if (!option.color) option.color = colors;
 
             chart.setOption(option);
-            window.addEventListener('resize', function() { chart.resize(); });
         });
-    });
+    })();
     </script>
 </body>
 </html>

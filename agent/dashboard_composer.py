@@ -1,10 +1,13 @@
 """
 大屏编排引擎 — 指标结果 → ECharts 配置 → 完整 HTML 页面
+
+v1.0：支持动态布局（A/B/C三种类型，固定指标数）
 """
 import json
 from pathlib import Path
 from decimal import Decimal
 from jinja2 import Template
+from dashboard_layouts import DashboardLayout, get_layout
 
 
 class CustomEncoder(json.JSONEncoder):
@@ -37,15 +40,33 @@ class DashboardComposer:
     def render(
         self,
         teacher: dict,
-        metrics: list,     # MetricResult 列表
+        metrics: list,
         insights: list[str] = None,
         start_date: str = "2022-01-01",
         end_date: str = "2025-12-31",
+        layout: DashboardLayout = None,   # v1.0: 动态布局
     ) -> str:
         """生成完整大屏 HTML"""
-        # 分离 KPI 卡片和图表
-        kpi_metrics = [m for m in metrics if m.chart_type == "kpi_card" and m.success]
-        chart_metrics = [m for m in metrics if m.chart_type != "kpi_card" and m.success and m.rows]
+        # 如果没有指定布局，默认使用全景布局
+        if layout is None:
+            layout = get_layout("personal_overview")
+
+        # 按布局过滤指标
+        layout_kpi_ids = set(layout.kpi_metrics)
+        layout_chart_ids = set(layout.chart_metrics)
+
+        # 分离 KPI 和图表，只保留布局中指定的
+        kpi_metrics = [
+            m for m in metrics
+            if m.metric_id in layout_kpi_ids and m.chart_type == "kpi_card" and m.success
+        ]
+        chart_metrics = [
+            m for m in metrics
+            if m.metric_id in layout_chart_ids and m.chart_type != "kpi_card" and m.success and m.rows
+        ]
+
+        # 限制洞察条数
+        filtered_insights = (insights or [])[:layout.insight_count]
 
         # 生成 ECharts 配置
         charts_config = []
@@ -58,12 +79,15 @@ class DashboardComposer:
                     "chart_type": m.chart_type,
                 }
                 if m.chart_type == "table":
-                    cfg["option"] = option  # 表格保留原始 dict
+                    cfg["option"] = option
                 else:
                     cfg["option"] = json.dumps(option, ensure_ascii=False, cls=CustomEncoder)
                 charts_config.append(cfg)
 
-        # 加载 HTML 模板
+        # 生成标题
+        title = f"{teacher.get('xm','')}老师 — {layout.title_suffix}"
+
+        # 加载模板
         template_path = Path(__file__).parent.parent / "dashboard" / "templates" / "dashboard.html"
         template = Template(template_path.read_text(encoding="utf-8"))
 
@@ -76,7 +100,11 @@ class DashboardComposer:
             kpis=kpi_metrics,
             charts=charts_config,
             charts_json=json.dumps(charts_config, ensure_ascii=False, cls=CustomEncoder) if charts_config else "[]",
-            insights=insights or [],
+            insights=filtered_insights,
+            title=title,
+            kpi_class=layout.kpi_class,
+            chart_grid=layout.chart_grid,
+            chart_height=layout.chart_height,
         )
 
     def _build_chart_option(self, metric, index: int) -> dict:
