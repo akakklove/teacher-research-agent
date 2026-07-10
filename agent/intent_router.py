@@ -59,18 +59,22 @@ class IntentRouter:
             "fund_total_arrived", "fund_total_spent",
             "fund_execution_rate", "fund_monthly_trend",
             "fund_expense_structure", "fund_yearly_comparison",
+            "fund_monthly_spent_trend",
         ],
         "paper_analysis": [
             "paper_count_total", "paper_first_author_count",
             "paper_by_level", "paper_yearly_trend", "paper_author_role",
+            "paper_journal_source", "paper_author_ranking",
         ],
         "award_query": [
             "award_count", "award_by_level", "award_timeline",
+            "award_category", "award_yearly_trend",
         ],
         "project_query": [
             "project_count_total", "project_count_leader",
             "project_by_level", "project_status_distribution",
-            "project_yearly_trend",
+            "project_yearly_trend", "project_by_source",
+            "project_fund_ranking",
         ],
         "annual_summary": [
             "project_count_leader", "project_yearly_trend",
@@ -92,13 +96,15 @@ class IntentRouter:
             "patent_count", "patent_by_type", "patent_yearly_trend",
         ],
         "book_analysis": [
-            "book_count", "book_by_type",
+            "book_count", "book_by_type", "book_by_role",
+            "book_publisher", "book_yearly_trend",
         ],
         "software_analysis": [
             "software_count", "software_yearly_trend",
         ],
         "conference_analysis": [
-            "conference_hosted",
+            "conference_hosted", "conference_total_papers",
+            "conference_by_type",
         ],
     }
 

@@ -719,3 +719,204 @@ metrics:
       WHERE r.ry_gh = :teacher_id
       ORDER BY j.jglbm
     chart_type: "table"
+
+  # ═══════════════════════════════════════════
+  # 新增指标 v1.0 — 扩充各模块图表数
+  # ═══════════════════════════════════════════
+
+  # ── 论文补充 ──
+  - id: paper_journal_source
+    name: "期刊来源分布"
+    category: "论文成果"
+    priority: 31
+    description: "发表论文的期刊/会议来源统计"
+    data_sources:
+      - table: "t_ky_lwzz"
+        role: "论文作者关联"
+      - table: "t_ky_lw"
+        role: "刊物名称"
+        join: "t_ky_lwzz.lwbh = t_ky_lw.lwbh"
+        key_field: "kwmc"
+    sql_template: |
+      SELECT p.kwmc as label,
+             COUNT(DISTINCT a.lwbh) as value
+      FROM t_ky_lwzz a
+      JOIN t_ky_lw p ON a.lwbh = p.lwbh
+      WHERE a.zzgh = :teacher_id
+        AND a.smsx = 1
+        AND p.fbn BETWEEN :start_year AND :end_year
+      GROUP BY p.kwmc
+      ORDER BY value DESC
+      LIMIT 10
+    chart_type: "horizontal_bar"
+    unit: "篇"
+
+  - id: paper_author_ranking
+    name: "作者排名分布"
+    category: "论文成果"
+    priority: 32
+    description: "教师在不同位次上发表的论文数"
+    data_sources:
+      - table: "t_ky_lwzz"
+        role: "论文作者关联"
+        key_field: "zzgh, smsx"
+    sql_template: |
+      SELECT CASE WHEN a.smsx = 1 THEN '第一作者'
+                  WHEN a.smsx = 2 THEN '第二作者'
+                  WHEN a.smsx = 3 THEN '通讯作者'
+                  ELSE '其他作者' END as label,
+             COUNT(DISTINCT a.lwbh) as value
+      FROM t_ky_lwzz a
+      JOIN t_ky_lw p ON a.lwbh = p.lwbh
+      WHERE a.zzgh = :teacher_id
+        AND p.fbn BETWEEN :start_year AND :end_year
+      GROUP BY CASE WHEN a.smsx = 1 THEN '第一作者'
+                    WHEN a.smsx = 2 THEN '第二作者'
+                    WHEN a.smsx = 3 THEN '通讯作者'
+                    ELSE '其他作者' END
+      ORDER BY value DESC
+    chart_type: "pie_chart"
+    unit: "篇"
+
+  # ── 经费补充 ──
+  - id: fund_monthly_spent_trend
+    name: "月度经费支出趋势"
+    category: "经费分析"
+    priority: 33
+    description: "按月度统计经费支出的变化趋势"
+    sql_template: |
+      SELECT DATE_FORMAT(f.pz_rq, '%Y-%m') as label,
+             SUM(f.zc_je) as value
+      FROM t_ky_xmry r
+      JOIN t_ky_jfzc f ON r.kybh = f.kybh
+      WHERE r.ry_gh = :teacher_id
+        AND r.smsx = 1
+        AND f.pz_rq BETWEEN :start_date AND :end_date
+      GROUP BY DATE_FORMAT(f.pz_rq, '%Y-%m')
+      ORDER BY label
+    chart_type: "line_chart"
+    unit: "元"
+    role_filter: true
+
+  # ── 项目补充 ──
+  - id: project_by_source
+    name: "项目来源分布"
+    category: "项目概览"
+    priority: 34
+    description: "按项目来源统计"
+    sql_template: |
+      SELECT p.xmly_bm as label,
+             COUNT(DISTINCT r.kybh) as value
+      FROM t_ky_xmry r
+      JOIN t_ky_xmjbxx p ON r.kybh = p.kybh
+      WHERE r.ry_gh = :teacher_id
+        AND r.smsx = 1
+      GROUP BY p.xmly_bm
+      ORDER BY value DESC
+    chart_type: "horizontal_bar"
+    unit: "个"
+    role_filter: true
+
+  - id: project_fund_ranking
+    name: "项目经费排序"
+    category: "项目概览"
+    priority: 35
+    description: "主持项目按经费从高到低排列"
+    sql_template: |
+      SELECT p.xmmc as label,
+             p.xmzje as value
+      FROM t_ky_xmry r
+      JOIN t_ky_xmjbxx p ON r.kybh = p.kybh
+      WHERE r.ry_gh = :teacher_id
+        AND r.smsx = 1
+        AND p.lxrq BETWEEN :start_date AND :end_date
+      ORDER BY p.xmzje DESC
+    chart_type: "horizontal_bar"
+    unit: "万元"
+    role_filter: true
+
+  # ── 获奖补充 ──
+  - id: award_category
+    name: "获奖类别分布"
+    category: "获奖荣誉"
+    priority: 36
+    description: "科技进步奖/自然科学奖的分类统计"
+    sql_template: |
+      SELECT a.hjlb_bm as label,
+             COUNT(DISTINCT r.hjbh) as value
+      FROM t_ky_hjry r
+      JOIN t_ky_hj a ON r.hjbh = a.hjbh
+      WHERE r.ry_gh = :teacher_id
+        AND a.hjrq BETWEEN :start_date AND :end_date
+      GROUP BY a.hjlb_bm
+      ORDER BY value DESC
+    chart_type: "pie_chart"
+    unit: "项"
+
+  - id: award_yearly_trend
+    name: "年度获奖趋势"
+    category: "获奖荣誉"
+    priority: 37
+    description: "按年度统计获奖数量的变化趋势"
+    sql_template: |
+      SELECT YEAR(a.hjrq) as label,
+             COUNT(DISTINCT r.hjbh) as value
+      FROM t_ky_hjry r
+      JOIN t_ky_hj a ON r.hjbh = a.hjbh
+      WHERE r.ry_gh = :teacher_id
+        AND a.hjrq BETWEEN :start_date AND :end_date
+      GROUP BY YEAR(a.hjrq)
+      ORDER BY label
+    chart_type: "line_chart"
+    unit: "项"
+
+  # ── 著作补充 ──
+  - id: book_publisher
+    name: "出版社分布"
+    category: "著作成果"
+    priority: 38
+    description: "著作出版社分布统计"
+    sql_template: |
+      SELECT b.cbs as label,
+             COUNT(DISTINCT a.zzbh) as value
+      FROM t_ky_zzzz a
+      JOIN t_ky_zz b ON a.zzbh = b.zzbh
+      WHERE a.zzryh = :teacher_id
+      GROUP BY b.cbs
+      ORDER BY value DESC
+    chart_type: "horizontal_bar"
+    unit: "本"
+
+  - id: book_yearly_trend
+    name: "年度著作出版趋势"
+    category: "著作成果"
+    priority: 39
+    description: "按出版年度统计著作数量变化"
+    sql_template: |
+      SELECT YEAR(b.cbrq) as label,
+             COUNT(DISTINCT a.zzbh) as value
+      FROM t_ky_zzzz a
+      JOIN t_ky_zz b ON a.zzbh = b.zzbh
+      WHERE a.zzryh = :teacher_id
+        AND b.cbrq BETWEEN :start_date AND :end_date
+      GROUP BY YEAR(b.cbrq)
+      ORDER BY label
+    chart_type: "line_chart"
+    unit: "本"
+
+  # ── 会议补充 ──
+  - id: conference_by_type
+    name: "会议类型分布"
+    category: "学术活动"
+    priority: 40
+    description: "会议类型分布统计"
+    sql_template: |
+      SELECT hy_zclx as label,
+             COUNT(*) as value
+      FROM t_ky_xshy
+      WHERE zcr_gh = :teacher_id
+        AND hyqsrq BETWEEN :start_date AND :end_date
+      GROUP BY hy_zclx
+      ORDER BY value DESC
+    chart_type: "pie_chart"
+    unit: "场"

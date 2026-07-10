@@ -55,11 +55,12 @@ LAYOUTS = {
         ],
         chart_metrics=[
             "paper_by_level", "paper_yearly_trend", "paper_author_role",
+            "paper_journal_source", "paper_author_ranking",
         ],
         kpi_class="kpi-2",
-        chart_grid="grid-1x3",
+        chart_grid="grid-3x2",
         insight_count=2,
-        chart_height="420px",
+        chart_height="340px",
     ),
 
     # ── 类型 B：经费分析（6 指标）──
@@ -70,12 +71,13 @@ LAYOUTS = {
             "fund_total_arrived", "fund_total_spent", "fund_execution_rate",
         ],
         chart_metrics=[
-            "fund_monthly_trend", "fund_expense_structure", "fund_yearly_comparison",
+            "fund_monthly_trend", "fund_monthly_spent_trend",
+            "fund_expense_structure", "fund_yearly_comparison",
         ],
         kpi_class="kpi-3",
-        chart_grid="grid-1x3",
+        chart_grid="grid-3x2",
         insight_count=2,
-        chart_height="420px",
+        chart_height="340px",
     ),
 
     # ── 类型 B：项目查询（4 指标）──
@@ -86,29 +88,31 @@ LAYOUTS = {
             "project_count_total", "project_count_leader",
         ],
         chart_metrics=[
-            "project_by_level", "project_status_distribution", "project_yearly_trend",
+            "project_by_level", "project_by_source",
+            "project_status_distribution", "project_yearly_trend",
+            "project_fund_ranking",
         ],
         kpi_class="kpi-2",
-        chart_grid="grid-1x3",
+        chart_grid="grid-3x2",
         insight_count=2,
         chart_height="420px",
     ),
 
     # ── 类型 C：获奖（3 指标）──
     "award_query": DashboardLayout(
-        layout_id="C",
+        layout_id="B",
         title_suffix="获奖荣誉",
         kpi_metrics=["award_count"],
-        chart_metrics=["award_by_level", "award_timeline"],
+        chart_metrics=["award_by_level", "award_category", "award_yearly_trend", "award_timeline"],
         kpi_class="kpi-1",
-        chart_grid="grid-1x2",
+        chart_grid="grid-3x2",
         insight_count=2,
-        chart_height="460px",
+        chart_height="340px",
     ),
 
     # ── 类型 C：专利（3 指标）──
     "patent_analysis": DashboardLayout(
-        layout_id="C",
+        layout_id="B",
         title_suffix="专利成果",
         kpi_metrics=["patent_count"],
         chart_metrics=["patent_by_type", "patent_yearly_trend"],
@@ -120,14 +124,14 @@ LAYOUTS = {
 
     # ── 类型 C：著作（2 指标）──
     "book_analysis": DashboardLayout(
-        layout_id="C",
+        layout_id="B",
         title_suffix="著作成果",
         kpi_metrics=["book_count"],
-        chart_metrics=["book_by_type", "book_by_role"],
+        chart_metrics=["book_by_type", "book_by_role", "book_publisher", "book_yearly_trend"],
         kpi_class="kpi-1",
-        chart_grid="grid-1x2",
+        chart_grid="grid-3x2",
         insight_count=1,
-        chart_height="460px",
+        chart_height="340px",
     ),
 
     # ── 类型 C：软著（2 指标）──
@@ -144,14 +148,14 @@ LAYOUTS = {
 
     # ── 类型 C：学术活动（1 指标）──
     "conference_analysis": DashboardLayout(
-        layout_id="C",
+        layout_id="B",
         title_suffix="学术活动",
         kpi_metrics=["conference_hosted"],
-        chart_metrics=["conference_total_papers"],
+        chart_metrics=["conference_total_papers", "conference_by_type"],
         kpi_class="kpi-1",
-        chart_grid="grid-1x1",
+        chart_grid="grid-1x2",
         insight_count=1,
-        chart_height="500px",
+        chart_height="460px",
     ),
 
     # ── 年度总结：用全景布局 ──
