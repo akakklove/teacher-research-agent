@@ -111,6 +111,23 @@
             <button onclick="showMetricForm()">➕ 手动</button>
           </div>
         </div>
+        <!-- 筛选栏 -->
+        <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+          <input id="m-search" placeholder="🔍 搜索指标名/ID..." style="flex:1;min-width:180px;border:1px solid #e0e3eb;border-radius:6px;padding:6px 10px;font-size:13px;" oninput="renderMetricTable()">
+          <select id="m-filter-cat" style="border:1px solid #e0e3eb;border-radius:6px;padding:6px 8px;font-size:12px;" onchange="renderMetricTable()">
+            <option value="">全部分类</option>
+          </select>
+          <select id="m-filter-chart" style="border:1px solid #e0e3eb;border-radius:6px;padding:6px 8px;font-size:12px;" onchange="renderMetricTable()">
+            <option value="">全部图表</option>
+            <option value="kpi_card">KPI卡片</option>
+            <option value="pie_chart">饼图</option>
+            <option value="bar_chart">柱状图</option>
+            <option value="horizontal_bar">横向柱状</option>
+            <option value="line_chart">折线图</option>
+            <option value="table">表格</option>
+            <option value="gauge">仪表盘</option>
+          </select>
+        </div>
         <!-- AI 生成面板 -->
         <div id="ai-panel" style="display:none;background:#f3e5f5;border:1px solid #ce93d8;border-radius:8px;padding:16px;margin-bottom:16px;">
           <div style="font-size:13px;color:#7b1fa2;margin-bottom:8px;">🤖 用自然语言描述指标，AI 自动生成 SQL</div>
@@ -285,28 +302,58 @@ function showMetricForm(editData) {
   }
 }
 
+// ── 图表类型中文映射 ──
+const CHART_CN = {
+  kpi_card: 'KPI卡片', pie_chart: '饼图', bar_chart: '柱状图',
+  horizontal_bar: '横向柱状', line_chart: '折线图', table: '表格', gauge: '仪表盘'
+};
+
+let _allMetrics = [];
+
 async function loadMetrics() {
   const data = await api('/api/admin/metrics');
+  _allMetrics = data.metrics || [];
+  document.getElementById('metric-count').textContent = `(共 ${_allMetrics.length} 个)`;
+
+  // 填充分类下拉
+  const cats = [...new Set(_allMetrics.map(m => m.category))].sort();
+  const catSel = document.getElementById('m-filter-cat');
+  catSel.innerHTML = '<option value="">全部分类</option>' + cats.map(c => `<option>${c}</option>`).join('');
+
+  renderMetricTable();
+}
+
+function renderMetricTable() {
+  const search = document.getElementById('m-search').value.toLowerCase();
+  const catFilter = document.getElementById('m-filter-cat').value;
+  const chartFilter = document.getElementById('m-filter-chart').value;
+
+  const filtered = _allMetrics.filter(m => {
+    if (search && !m.name.includes(search) && !m.metric_id.includes(search)) return false;
+    if (catFilter && m.category !== catFilter) return false;
+    if (chartFilter && m.chart_type !== chartFilter) return false;
+    return true;
+  });
+
   const tbody = document.querySelector('#metrics-table tbody');
-  document.getElementById('metric-count').textContent = `(共 ${data.total} 个)`;
-  if (!data.metrics || data.metrics.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" style="color:#b2bec3;">暂无指标</td></tr>';
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="color:#b2bec3;">无匹配指标</td></tr>';
     return;
   }
-  tbody.innerHTML = data.metrics.map(m => {
+  tbody.innerHTML = filtered.map(m => {
     const isCustom = m.source === '自定义';
     const actions = isCustom
-      ? `<span onclick="editMetric('${m.metric_id}')" style="cursor:pointer;color:#0984e3;margin-right:8px;">编辑</span>
+      ? `<span onclick="editMetric('${m.metric_id}')" style="cursor:pointer;color:#0984e3;margin-right:6px;">编辑</span>
          <span onclick="deleteMetric('${m.metric_id}')" style="cursor:pointer;color:#e17055;">删除</span>`
-      : `<span onclick="editBuiltin('${m.metric_id}','${m.name.replace(/'/g,"\\'")}','${m.category}','${m.chart_type}','${m.unit||''}','${(m.sql_template||'').replace(/'/g,"\\'").replace(/\n/g,' ')}')" style="cursor:pointer;color:#0984e3;">覆盖</span>`;
-    const sqlPreview = (m.sql_template || '').substring(0, 60).replace(/\n/g, ' ') + ((m.sql_template||'').length > 60 ? '...' : '');
+      : `<span onclick="editBuiltin('${m.metric_id}','${m.name.replace(/'/g,"\\'")}','${m.category}','${m.chart_type}','${m.unit||''}','${(m.sql_template||'').replace(/'/g,"\\'").replace(/\n/g,' ').replace(/"/g,'&quot;')}')" style="cursor:pointer;color:#0984e3;">覆盖</span>`;
+    const chartCn = CHART_CN[m.chart_type] || m.chart_type;
     return `<tr>
-      <td style="font-size:11px;font-family:monospace;" title="${sqlPreview}">${m.metric_id}</td>
+      <td style="font-size:11px;font-family:monospace;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${m.metric_id}</td>
       <td>${m.name}</td>
       <td>${m.category}</td>
-      <td><span class="badge ${m.chart_type==='kpi_card'?'teacher':'admin'}" style="font-size:10px;">${m.chart_type}</span></td>
+      <td><span style="font-size:11px;">${chartCn}</span></td>
       <td><span class="badge ${isCustom?'admin':'teacher'}" style="font-size:10px;">${m.source}</span></td>
-      <td>${actions}</td>
+      <td style="white-space:nowrap;">${actions}</td>
     </tr>`;
   }).join('');
 }
