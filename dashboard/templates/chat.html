@@ -1854,8 +1854,29 @@ window.doLogin = doLogin;
 window.state = state;
 
 // 页面加载完成后再补一次（兜底）
+function safeCreateIcons() {
+  if (window.lucide && window.lucide.createIcons) {
+    try { window.lucide.createIcons(); } catch(e) { console.warn('createIcons failed:', e); }
+  }
+}
+window.safeCreateIcons = safeCreateIcons;
+
+// 多种时机尝试渲染图标
 setTimeout(safeCreateIcons, 50);
-setTimeout(safeCreateIcons, 300);
+setTimeout(safeCreateIcons, 200);
+setTimeout(safeCreateIcons, 600);
+setTimeout(safeCreateIcons, 1500);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() { setTimeout(safeCreateIcons, 0); });
+} else {
+  setTimeout(safeCreateIcons, 0);
+}
+// 兜底：监听 DOM 变化自动渲染
+const _icObs = new MutationObserver(function() {
+  clearTimeout(window._icTimer);
+  window._icTimer = setTimeout(safeCreateIcons, 100);
+});
+_icObs.observe(document.body, { childList: true, subtree: true });
 
 init();
 </script>
