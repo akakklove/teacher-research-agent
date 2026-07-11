@@ -538,6 +538,82 @@
   }
   .tmpl-action-btn:hover { background: rgba(0,0,0,0.06); color: var(--primary); }
   .tmpl-action-btn.danger:hover { color: var(--error); }
+
+  /* 回答气泡内 mini 组件 */
+  .reply-section { margin-bottom: 14px; }
+  .reply-section-title {
+    font-size: 13px; font-weight: 600; color: var(--text);
+    margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+  }
+  .reply-section-title .icon { color: var(--primary); }
+  .mini-kpi-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+  }
+  .mini-kpi {
+    background: rgba(var(--primary-rgb),0.04);
+    border: 1px solid rgba(var(--primary-rgb),0.08);
+    border-radius: 12px; padding: 10px 8px;
+    text-align: center; cursor: default;
+  }
+  .mini-kpi .val {
+    font-size: 22px; font-weight: 700; color: var(--primary);
+    line-height: 1.2;
+  }
+  .mini-kpi .lbl {
+    font-size: 11px; color: var(--text-light);
+    margin-top: 2px; line-height: 1.2;
+  }
+  .rank-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px; border-radius: 20px;
+    font-size: 12px; font-weight: 600;
+  }
+  .rank-badge.top3 { background: #fef3c7; color: #d97706; }
+  .rank-badge.dept { background: rgba(var(--primary-rgb),0.08); color: var(--primary); }
+  .dist-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .dist-tag {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 3px 10px; border-radius: 14px;
+    font-size: 11px; color: #555; background: rgba(0,0,0,0.04);
+  }
+  .dist-tag .count { font-weight: 700; }
+  .dist-tag.major { background: rgba(var(--primary-rgb),0.08); color: var(--primary); }
+  .mini-trend {
+    display: flex; gap: 6px; align-items: flex-end; padding: 4px 0;
+  }
+  .mini-trend-item {
+    text-align: center; font-size: 10px;
+    color: var(--text-light);
+  }
+  .mini-trend-item .bar {
+    width: 20px; background: var(--primary);
+    border-radius: 3px 3px 0 0; margin: 0 auto 2px;
+    min-height: 3px;
+  }
+  .expand-table-wrap {
+    margin-top: 8px; border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden;
+    max-height: 0; overflow: hidden; transition: max-height 0.3s;
+  }
+  .expand-table-wrap.open { max-height: 400px; overflow-y: auto; }
+  .expand-table-toggle {
+    cursor: pointer; font-size: 12px; color: var(--primary);
+    padding: 4px 0; display: inline-flex; align-items: center; gap: 4px;
+  }
+  .expand-table-toggle:hover { opacity: 0.8; }
+  .detail-table {
+    width: 100%; border-collapse: collapse; font-size: 11px;
+  }
+  .detail-table th {
+    background: rgba(0,0,0,0.03); padding: 6px 8px;
+    text-align: left; font-weight: 600; white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+  }
+  .detail-table td {
+    padding: 5px 8px; border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+  .detail-table tr:hover td { background: rgba(var(--primary-rgb),0.03); }
 </style>
 </head>
 <body>
@@ -1662,21 +1738,140 @@ function renderAssistantReply(data) {
     bubble.appendChild(document.createElement('br'));
   }
 
-  const textSpan = document.createElement('span');
-  textSpan.innerHTML = data.reply.replace(/\n/g, '<br>');
-  bubble.appendChild(textSpan);
+  // ── v3.0: 从 data.metrics 按 chart_type 渲染结构化回复 ──
+  const metrics = data.metrics || [];
+  const kpiCards = metrics.filter(m => m.chart_type === 'kpi_card' && m.value != null);
+  const rankings = metrics.filter(m => m.chart_type === 'kpi_card' && (m.metric_id.includes('rank') || m.metric_id.includes('percentile')));
+  const distributions = metrics.filter(m => (m.chart_type === 'pie_chart' || m.chart_type === 'bar_chart') && m.rows && m.rows.length > 0);
+  const trends = metrics.filter(m => m.chart_type === 'line_chart' && m.rows && m.rows.length > 0);
+  const tables = metrics.filter(m => m.chart_type === 'table' && m.rows && m.rows.length > 0);
 
-  const kpiMetrics = (data.metrics || []).filter(m => m.chart_type === 'kpi_card' && m.value != null).slice(0, 6);
-  if (kpiMetrics.length > 0) {
-    const cards = document.createElement('div');
-    cards.className = 'metric-cards';
-    kpiMetrics.forEach(m => {
+  // 区分 KPI 和排名
+  const pureKpis = kpiCards.filter(m => !rankings.includes(m));
+  const rankItems = kpiCards.filter(m => rankings.includes(m));
+
+  // 添加教师问候
+  if (state.teacherName) {
+    const greeting = document.createElement('div');
+    greeting.style.cssText = 'font-weight:600;font-size:14px;margin-bottom:10px;';
+    greeting.textContent = `${state.teacherName}老师，查询结果如下：`;
+    bubble.appendChild(greeting);
+  }
+
+  // ── KPI 迷你卡片 ──
+  if (pureKpis.length > 0) {
+    const section = document.createElement('div');
+    section.className = 'reply-section';
+    section.innerHTML = '<div class="reply-section-title"><span class="icon">▸</span>核心指标</div>';
+    const grid = document.createElement('div');
+    grid.className = 'mini-kpi-grid';
+    pureKpis.forEach(m => {
       const card = document.createElement('div');
-      card.className = 'metric-card';
+      card.className = 'mini-kpi';
       card.innerHTML = `<div class="val">${formatValue(m.value, m.unit)}</div><div class="lbl">${m.name}</div>`;
-      cards.appendChild(card);
+      grid.appendChild(card);
     });
-    bubble.appendChild(cards);
+    section.appendChild(grid);
+    bubble.appendChild(section);
+  }
+
+  // ── 排名徽章 ──
+  if (rankItems.length > 0) {
+    const section = document.createElement('div');
+    section.className = 'reply-section';
+    rankItems.forEach(m => {
+      const badge = document.createElement('span');
+      const rankVal = parseInt(m.value);
+      const cls = rankVal <= 3 ? 'rank-badge top3' : 'rank-badge dept';
+      badge.className = cls;
+      badge.innerHTML = `🏆 ${m.name}: <b>第${m.value}名</b>`;
+      badge.style.marginRight = '8px';
+      section.appendChild(badge);
+    });
+    bubble.appendChild(section);
+  }
+
+  // ── 分布标签 ──
+  if (distributions.length > 0) {
+    const section = document.createElement('div');
+    section.className = 'reply-section';
+    section.innerHTML = '<div class="reply-section-title"><span class="icon">▸</span>分布分析</div>';
+    const tags = document.createElement('div');
+    tags.className = 'dist-tags';
+    const allRows = distributions.flatMap(d =>
+      (d.rows || []).map(r => ({ metric: d.name || d.metric_id, label: r.label, value: r.value }))
+    );
+    allRows.slice(0, 12).forEach(r => {
+      const tag = document.createElement('span');
+      tag.className = 'dist-tag';
+      tag.innerHTML = `${r.label} <span class="count">×${r.value}</span>`;
+      tags.appendChild(tag);
+    });
+    section.appendChild(tags);
+    bubble.appendChild(section);
+  }
+
+  // ── 趋势迷你展示 ──
+  if (trends.length > 0) {
+    const section = document.createElement('div');
+    section.className = 'reply-section';
+    section.innerHTML = '<div class="reply-section-title"><span class="icon">▸</span>年度趋势</div>';
+    trends.forEach(t => {
+      const name = document.createElement('div');
+      name.style.cssText = 'font-size:11px;color:var(--text-light);margin-bottom:4px;';
+      name.textContent = t.name || t.metric_id;
+      section.appendChild(name);
+      const trend = document.createElement('div');
+      trend.className = 'mini-trend';
+      const rows = (t.rows || []).slice(-8);
+      const maxVal = Math.max(...rows.map(r => r.value || 0), 1);
+      rows.forEach(r => {
+        const h = Math.max(3, Math.round((r.value || 0) / maxVal * 40));
+        trend.innerHTML += `<div class="mini-trend-item"><div class="bar" style="height:${h}px;"></div>${r.label}</div>`;
+      });
+      section.appendChild(trend);
+    });
+    bubble.appendChild(section);
+  }
+
+  // ── 明细表格 (可折叠) ──
+  if (tables.length > 0) {
+    tables.forEach((t, ti) => {
+      const section = document.createElement('div');
+      section.className = 'reply-section';
+      const toggleId = 'detail-tbl-' + ti + '-' + Date.now();
+      const toggle = document.createElement('div');
+      toggle.className = 'expand-table-toggle';
+      toggle.innerHTML = `<i data-lucide="chevron-down" style="width:12px;height:12px;"></i> ${t.name || '查看明细'}（${(t.rows||[]).length}条）`;
+      toggle.onclick = function() {
+        const wrap = document.getElementById(toggleId);
+        const icon = toggle.querySelector('i');
+        if (wrap) {
+          const isOpen = wrap.classList.toggle('open');
+          icon.setAttribute('data-lucide', isOpen ? 'chevron-up' : 'chevron-down');
+          if (isOpen) wrap.scrollIntoView({behavior:'smooth',block:'nearest'});
+          safeCreateIcons();
+        }
+      };
+      section.appendChild(toggle);
+      const wrap = document.createElement('div');
+      wrap.id = toggleId;
+      wrap.className = 'expand-table-wrap';
+      const rows = t.rows || [];
+      if (rows.length > 0) {
+        const cols = Object.keys(rows[0]);
+        wrap.innerHTML = `<table class="detail-table"><thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(c=>`<td>${r[c]!=null?r[c]:'-'}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+        section.appendChild(wrap);
+        bubble.appendChild(section);
+      }
+    });
+  }
+
+  // 如果没有任何可视化组件，回退到纯文本
+  if (pureKpis.length === 0 && rankItems.length === 0 && distributions.length === 0 && trends.length === 0) {
+    const textSpan = document.createElement('span');
+    textSpan.innerHTML = (data.reply || '查询完成').replace(/\n/g, '<br>');
+    bubble.appendChild(textSpan);
   }
 
   if (data.insights && data.insights.length > 0) {
