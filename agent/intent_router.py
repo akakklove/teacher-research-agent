@@ -37,89 +37,139 @@ class IntentRouter:
         result = router.route_with_context("那论文呢？", context=context)
     """
 
-    # 意图 → 推荐指标组合
+    # 意图 → 推荐指标组合 (v3.0: 按总览→分析→明细四段式)
     INTENT_METRICS_MAP = {
         "chitchat": [],   # 闲聊/问候：不查询任何指标
         "personal_overview": [
-            # KPI 卡片
+            # 总览 KPI
             "project_count_leader", "project_count_total",
-            "fund_total_arrived", "fund_total_spent",
+            "fund_total_arrived", "fund_total_spent", "fund_execution_rate",
             "paper_count_total", "paper_first_author_count",
             "patent_count", "book_count",
-            "software_count", "award_count",
-            "conference_hosted",
-            # 排名
+            "software_count", "award_count", "conference_hosted",
+            # 排名对比
             "paper_rank_dept", "project_rank_dept", "fund_rank_dept",
             "composite_output_score", "department_percentile",
-            # 图表
+            # 图表分布
             "project_by_level", "project_status_distribution", "project_yearly_trend",
-            "fund_monthly_trend", "fund_yearly_inout", "fund_execution_rate",
+            "fund_monthly_trend", "fund_yearly_inout",
             "paper_by_level", "paper_yearly_trend", "paper_by_year_level",
             "patent_by_type", "patent_yearly_trend",
-            "award_by_level", "award_yearly_category",
-            "book_by_type", "software_yearly_trend",
-            "achievement_yearly_table",
-        ],
-        "funding_detail": [
-            "fund_total_arrived", "fund_total_spent",
-            "fund_execution_rate", "fund_monthly_trend",
-            "fund_yearly_inout", "fund_yearly_comparison",
-            "fund_monthly_spent_trend", "fund_rank_dept",
-            "fund_rank_school",
-        ],
-        "paper_analysis": [
-            "paper_count_total", "paper_first_author_count",
-            "paper_by_level", "paper_yearly_trend", "paper_author_role",
-            "paper_journal_source", "paper_author_ranking",
-            "paper_by_year_level", "paper_rank_dept", "paper_rank_school",
-        ],
-        "award_query": [
-            "award_count", "award_by_level", "award_timeline",
-            "award_category", "award_yearly_trend",
-            "award_by_year_category",
+            "award_by_level", "award_yearly_trend",
+            "book_by_type", "book_by_role",
+            "software_yearly_trend",
+            # 明细表
+            "achievement_yearly_table", "teacher_profile_summary",
+            "project_detail_list",
+            # 综合
+            "output_by_year_radar",
         ],
         "project_query": [
+            # 总览
             "project_count_total", "project_count_leader",
-            "project_by_level", "project_status_distribution",
-            "project_yearly_trend", "project_by_source",
-            "project_fund_ranking", "project_rank_dept",
-            "project_by_year_level",
+            "project_count_national", "project_active_count", "project_completed_count",
+            "project_rank_dept",
+            # 分析维度
+            "project_by_level", "project_by_source", "project_by_nature",
+            "project_status_distribution", "project_yearly_trend",
+            "project_by_year_level", "project_duration_distribution",
+            "project_fund_ranking", "project_fund_avg_per_project",
+            "fund_total_arrived", "fund_arrival_by_project",
+            # 派生指标
+            "project_completion_rate", "project_leader_ratio",
+            "project_national_ratio", "project_lateral_ratio",
+            # 明细
+            "project_detail_list",
         ],
-        "annual_summary": [
-            "project_count_leader", "project_yearly_trend",
-            "fund_total_arrived", "fund_execution_rate",
-            "paper_first_author_count",
-            "patent_yearly_trend",
-            "award_count", "award_timeline",
-            "achievement_yearly_table", "composite_output_score",
-            "department_percentile",
+        "funding_detail": [
+            # 总览
+            "fund_total_arrived", "fund_total_spent", "fund_total_outbound",
+            "fund_net_balance", "fund_execution_rate",
+            "fund_rank_dept", "fund_rank_school",
+            # 趋势
+            "fund_monthly_trend", "fund_monthly_spent_trend",
+            "fund_yearly_inout", "fund_yearly_comparison",
+            # 结构
+            "fund_expense_structure", "fund_income_structure",
+            "fund_arrival_by_project",
+            # 派生
+            "fund_avg_annual_arrived", "fund_yoy_growth",
+            "fund_spent_ratio", "fund_per_project_avg_arrived",
+            "fund_max_single_arrival",
         ],
-        "title_evaluation": [
-            "project_count_leader", "project_by_level",
-            "fund_total_arrived",
-            "paper_count_total", "paper_by_level",
-            "patent_count", "patent_by_type",
-            "book_count", "software_count",
-            "award_count", "award_by_level",
-            "composite_output_score", "paper_rank_school",
-            "project_rank_school",
+        "paper_analysis": [
+            # 总览
+            "paper_count_total", "paper_first_author_count",
+            "paper_corresponding_count",
+            "paper_sci_count", "paper_ei_count", "paper_core_count",
+            "paper_international_count", "paper_rank_dept", "paper_rank_school",
+            # 分布
+            "paper_by_level", "paper_yearly_trend", "paper_author_role",
+            "paper_by_source", "paper_author_ranking", "paper_by_year_level",
+            # 派生
+            "paper_first_author_ratio", "paper_avg_annual",
+            "paper_journal_count", "paper_level_ratio",
+            "paper_solo_or_first_ratio", "paper_collaboration_ratio",
+            "paper_avg_authors",
+            # 明细
+            "paper_detail_list", "paper_detail_sci_list",
         ],
-        # v0.4 追问专用意图
         "patent_analysis": [
-            "patent_count", "patent_by_type", "patent_yearly_trend",
-            "patent_rank_dept", "patent_rank_school",
+            "patent_count", "patent_invention_count", "patent_utility_count",
+            "patent_first_inventor_count", "patent_rank_dept", "patent_rank_school",
+            "patent_by_type", "patent_by_status", "patent_yearly_trend",
+            "patent_invention_ratio", "patent_grant_rate",
+            "patent_detail_list",
+        ],
+        "award_query": [
+            "award_count", "award_national_count", "award_provincial_count",
+            "award_first_count", "award_top_prize_count",
+            "award_by_level", "award_by_category", "award_yearly_trend",
+            "award_timeline", "award_by_year_category",
+            "award_institution_count", "award_first_ratio",
+            "award_detail_list",
         ],
         "book_analysis": [
-            "book_count", "book_by_type", "book_by_role",
-            "book_publisher", "book_yearly_trend",
+            "book_count", "book_monograph_count", "book_textbook_count",
+            "book_editor_count", "book_total_words", "book_avg_words_per_book",
+            "book_by_type", "book_by_role", "book_publisher",
+            "book_yearly_trend", "book_publisher_count",
+            "book_detail_list",
         ],
         "software_analysis": [
-            "software_count", "software_yearly_trend",
-            "software_by_type",
+            "software_count", "software_as_first_count",
+            "software_yearly_trend", "software_by_right_type",
+            "software_avg_per_year", "software_first_ratio",
+            "software_registration_count",
+            "software_detail_list",
         ],
         "conference_analysis": [
             "conference_hosted", "conference_total_papers",
-            "conference_by_type", "institution_by_type",
+            "conference_international_count", "conference_domestic_count",
+            "conference_total_participants", "conference_avg_participants",
+            "conference_keynote_count", "conference_total_days",
+            "conference_by_type", "conference_yearly_trend",
+            "institution_membership",
+            "conference_detail_list", "institution_detail_list",
+        ],
+        "annual_summary": [
+            "project_count_leader", "project_completion_rate",
+            "fund_total_arrived", "fund_execution_rate", "fund_avg_annual_arrived",
+            "paper_count_total", "paper_first_author_count", "paper_avg_annual",
+            "patent_count", "award_count",
+            "achievement_yearly_table", "composite_output_score",
+            "department_percentile", "annual_summary_scorecard",
+            "output_by_year_radar",
+        ],
+        "title_evaluation": [
+            "project_count_leader", "project_by_level", "project_count_national",
+            "fund_total_arrived", "fund_rank_school",
+            "paper_count_total", "paper_by_level", "paper_sci_count",
+            "patent_count", "patent_by_type", "patent_invention_count",
+            "book_count", "software_count",
+            "award_count", "award_by_level", "award_national_count",
+            "composite_output_score", "paper_rank_school", "project_rank_school",
+            "scholar_impact_score",
         ],
     }
 
