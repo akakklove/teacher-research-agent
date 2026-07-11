@@ -150,6 +150,7 @@
     <a onclick="showSection('users', this)"><i data-lucide="users"></i> 用户管理</a>
     <a onclick="showSection('datasource', this)"><i data-lucide="database"></i> 数据源</a>
     <a onclick="showSection('metrics', this)"><i data-lucide="bar-chart-2"></i> 指标管理</a>
+    <a onclick="showSection('logs', this)"><i data-lucide="scroll-text"></i> 系统日志</a>
     <a onclick="showSection('sync', this)"><i data-lucide="refresh-cw"></i> 同步任务</a>
   </div>
 
@@ -260,6 +261,33 @@
               <button onclick="jumpToPage()" style="padding:6px 10px;">GO</button>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 系统日志 -->
+    <div class="section" id="section-logs">
+      <div class="card">
+        <h3>系统日志
+          <span style="font-size:12px;color:var(--text-light);font-weight:normal;margin-left:8px;">最近 500 条，实时刷新</span>
+        </h3>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+          <select id="log-level" onchange="refreshLogs()" style="padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;">
+            <option value="DEBUG">DEBUG</option>
+            <option value="INFO" selected>INFO</option>
+            <option value="WARNING">WARNING</option>
+            <option value="ERROR">ERROR</option>
+          </select>
+          <input type="text" id="log-search" placeholder="搜索关键词..." onkeyup="if(event.key==='Enter')refreshLogs()" style="padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;flex:1;min-width:200px;">
+          <button onclick="refreshLogs()" style="padding:6px 14px;background:var(--primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:12px;">刷新</button>
+          <button onclick="toggleAutoRefresh()" id="btn-auto" style="padding:6px 14px;background:var(--success);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:12px;">自动刷新 ON</button>
+          <button onclick="clearLogs()" style="padding:6px 14px;background:#fff;color:var(--error);border:1px solid var(--error);border-radius:8px;cursor:pointer;font-size:12px;">清空</button>
+        </div>
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:8px;">
+          共 <span id="log-total">0</span> 条，显示 <span id="log-shown">0</span> 条
+        </div>
+        <div id="logs-container" style="background:#1e1e1e;color:#ddd;padding:14px;border-radius:8px;max-height:560px;overflow-y:auto;font-family:Consolas,monospace;font-size:11px;line-height:1.6;">
+          <div style="color:#888;">加载中...</div>
         </div>
       </div>
     </div>
@@ -380,6 +408,10 @@ function showSection(name, el) {
   if (name === 'users') loadUsers();
   if (name === 'datasource') loadDS();
   if (name === 'metrics') loadMetrics();
+  if (name === 'logs') {
+    refreshLogs();
+    if (!_logAutoTimer) toggleAutoRefresh();  // 默认开启自动刷新
+  }
 }
 
 // ── 指标管理 ──
@@ -611,6 +643,58 @@ async function deleteMetric(id) {
   if (!confirm('确定删除此指标？')) return;
   await fetch(`/api/admin/metrics/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
   loadMetrics();
+}
+
+// ── 系统日志 ──
+let _logAutoTimer = null;
+async function refreshLogs() {
+  const level = document.getElementById('log-level').value;
+  const search = document.getElementById('log-search').value;
+  try {
+    const res = await fetch(`/api/admin/logs?level=${level}&limit=500${search ? '&search='+encodeURIComponent(search) : ''}`,
+      { headers: { 'Authorization': `Bearer ${token}` } });
+    const data = await res.json();
+    document.getElementById('log-total').textContent = data.total;
+    document.getElementById('log-shown').textContent = data.returned;
+    const container = document.getElementById('logs-container');
+    if (data.logs.length === 0) {
+      container.innerHTML = '<div style="color:#888;">暂无日志</div>';
+      return;
+    }
+    const colorMap = { DEBUG:'#888', INFO:'#4ade80', WARNING:'#fbbf24', ERROR:'#f87171', CRITICAL:'#ef4444' };
+    const html = data.logs.map(l => {
+      const time = l.time;
+      const levelColor = colorMap[l.level] || '#ddd';
+      return `<div style="margin-bottom:2px;"><span style="color:#888;">[${time}]</span> <span style="color:${levelColor};font-weight:600;">[${l.level}]</span> <span style="color:#60a5fa;">[${l.logger}]</span> ${l.message.replace(/</g,'&lt;')}</div>`;
+    }).join('');
+    container.innerHTML = html;
+    container.scrollTop = container.scrollHeight;
+  } catch (e) {
+    document.getElementById('logs-container').innerHTML = '<div style="color:#f87171;">加载失败: ' + e.message + '</div>';
+  }
+}
+
+function toggleAutoRefresh() {
+  const btn = document.getElementById('btn-auto');
+  if (_logAutoTimer) {
+    clearInterval(_logAutoTimer);
+    _logAutoTimer = null;
+    btn.textContent = '自动刷新 OFF';
+    btn.style.background = '#fff';
+    btn.style.color = 'var(--text-light)';
+    btn.style.border = '1px solid var(--border)';
+  } else {
+    _logAutoTimer = setInterval(refreshLogs, 3000);
+    btn.textContent = '自动刷新 ON';
+    btn.style.background = 'var(--success)';
+    btn.style.color = '#fff';
+  }
+}
+
+async function clearLogs() {
+  if (!confirm('清空内存日志？')) return;
+  await fetch('/api/admin/logs/clear', { method: 'POST', headers: { 'Authorization': `Bearer ${token}` } });
+  refreshLogs();
 }
 </script>
 <script>lucide.createIcons();</script>

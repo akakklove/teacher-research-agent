@@ -1037,6 +1037,103 @@ def admin_page():
     return HTMLResponse(content=template_path.read_text(encoding="utf-8"))
 
 
+# ── v2.0: 实时日志查看 ──
+import logging
+import io
+from collections import deque
+from datetime import datetime
+
+# 内存日志（最近 500 条）
+_memory_log_buffer = deque(maxlen=500)
+_log_handler_id = None
+
+class _MemoryLogHandler(logging.Handler):
+    """捕获所有 logger 输出到内存"""
+    def emit(self, record):
+        try:
+            msg = self.format(record)
+            _memory_log_buffer.append({
+                "time": datetime.now().strftime("%H:%M:%S.%f")[:-3],
+                "level": record.levelname,
+                "logger": record.name,
+                "message": msg,
+            })
+        except Exception:
+            pass
+
+# 安装 handler（仅一次）
+def _install_log_handler():
+    global _log_handler_id
+    if _log_handler_id is not None:
+        return
+    handler = _MemoryLogHandler()
+    handler.setLevel(logging.INFO)
+    handler.setFormatter(logging.Formatter('%(message)s'))
+    root_logger = logging.getLogger()
+    root_logger.addHandler(handler)
+    root_logger.setLevel(logging.INFO)
+    # 同步捕获 uvicorn 的 access log
+    for name in ("uvicorn", "uvicorn.access", "uvicorn.error"):
+        lg = logging.getLogger(name)
+        lg.addHandler(handler)
+        lg.setLevel(logging.INFO)
+    _log_handler_id = id(handler)
+
+
+_install_log_handler()
+
+
+# ── 请求日志中间件：记录所有 API 调用 ──
+from fastapi import Request as _Request
+@app.middleware("http")
+async def _log_requests(request: _Request, call_next):
+    import time
+    start = time.time()
+    response = await call_next(request)
+    elapsed = (time.time() - start) * 1000
+    path = request.url.path
+    if not path.startswith('/favicon'):
+        logging.info(f"{request.method} {path} → {response.status_code} ({elapsed:.0f}ms)")
+    return response
+
+
+@app.get("/api/admin/logs")
+def get_logs(level: str = "INFO", limit: int = 200, search: Optional[str] = None):
+    """获取最近的内存日志"""
+    logs = list(_memory_log_buffer)
+    if search:
+        logs = [l for l in logs if search.lower() in l["message"].lower()]
+    level_order = {"DEBUG": 0, "INFO": 1, "WARNING": 2, "ERROR": 3, "CRITICAL": 4}
+    min_level = level_order.get(level.upper(), 1)
+    logs = [l for l in logs if level_order.get(l["level"], 1) >= min_level]
+    logs = logs[-limit:]
+    return {
+        "total": len(_memory_log_buffer),
+        "returned": len(logs),
+        "logs": logs,
+    }
+
+
+@app.post("/api/admin/logs/clear")
+def clear_logs():
+    """清空内存日志"""
+    _memory_log_buffer.clear()
+    return {"message": "日志已清空"}
+
+
+@app.get("/api/admin/logs/download")
+def download_logs():
+    """下载完整日志"""
+    buf = io.StringIO()
+    for l in _memory_log_buffer:
+        buf.write(f"[{l['time']}] [{l['level']}] [{l['logger']}] {l['message']}\n")
+    content = buf.getvalue()
+    return HTMLResponse(
+        content=f"<pre style='background:#1e1e1e;color:#ddd;padding:20px;font-size:11px;line-height:1.6;'>{content or '（暂无日志）'}</pre>",
+        status=200,
+    )
+
+
 @app.get("/api/chat", response_class=HTMLResponse)
 def chat_page():
     """聊天对话界面"""
